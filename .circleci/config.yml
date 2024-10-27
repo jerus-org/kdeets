@@ -1,0 +1,108 @@
+version: 2.1
+
+parameters:
+  min-rust-version:
+    type: string
+    default: "1.74"
+  fingerprint:
+    type: string
+    default: SHA256:OkxsH8Z6Iim6WDJBaII9eTT9aaO1f3eDc6IpsgYYPVg
+  validation-flag:
+    type: boolean
+    default: false
+    description: "If true, the validation pipeline will be executed."
+  success-flag:
+    type: boolean
+    default: false
+    description: "If true, the success pipeline will be executed."
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@1.14.0
+
+executors:
+  rust-env:
+    docker:
+      - image: jerusdp/ci-rust:<<pipeline.parameters.min-rust-version>>
+  base-env:
+    docker:
+      - image: jerusdp/ci-rust:base
+
+workflows:
+  check_last_commit:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+
+    jobs:
+      - toolkit/choose_pipeline:
+          name: choose pipeline based on committer
+          context: bot-check
+
+  validation:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - not: << pipeline.parameters.success-flag >>
+        - << pipeline.parameters.validation-flag >>
+    jobs:
+      - toolkit/label:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          context: pcu-app
+          filters:
+            branches:
+              only:
+                - main
+      - toolkit/required_builds:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/optional_builds:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/test_doc_build:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/common_tests:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/idiomatic_rust:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/security:
+          context: SonarCloud
+      - toolkit/update_changelog:
+          requires:
+            - toolkit/common_tests
+            - toolkit/required_builds
+            - toolkit/test_doc_build
+            - toolkit/idiomatic_rust
+            - toolkit/security
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
+  on_success:
+    when:
+      and:
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+
+    jobs:
+      - toolkit/end_success
+
+  release:
+    when:
+      and:
+        - equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        - equal: ["release check", << pipeline.schedule.name >>]
+        - not: << pipeline.parameters.success-flag >>
+        - not: << pipeline.parameters.validation-flag >>
+    jobs:
+      - toolkit/make_release:
+          context:
+            - release
+            - bot-check
+          ssh_fingerprint: << pipeline.parameters.fingerprint >>
+          min_rust_version: << pipeline.parameters.min-rust-version >>
