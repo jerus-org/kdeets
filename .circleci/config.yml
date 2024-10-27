@@ -27,6 +27,121 @@ executors:
     docker:
       - image: jerusdp/ci-rust:base
 
+jobs:
+  update_changelog:
+    executor: rust-env
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "The minimum version of the rust compiler to use"
+      ssh_fingerprint:
+        type: string
+        description: |
+          The fingerprint of the ssh key to use
+      gpg_key:
+        type: env_var_name
+        default: BOT_GPG_KEY
+        description: "The base64 encoded GPG key"
+      gpg_trust:
+        type: env_var_name
+        default: BOT_TRUST
+        description: "The trust associated with the GPG key"
+      user_email:
+        type: env_var_name
+        default: BOT_USER_EMAIL
+        description: "The user email associated with the GPG key"
+      user_name:
+        type: env_var_name
+        default: BOT_USER_NAME
+        description: "The user name associated with the GPG key"
+      sign_key:
+        type: env_var_name
+        default: BOT_SIGN_KEY
+        description: "The GPG key id associated with the GPG key"
+      pcu_verbosity:
+        type: string
+        default: "-vv"
+        description: "The verbosity of the pcu command"
+      pcu_halt_signal:
+        type: string
+        default: "halt"
+        description: "The verbosity of the pcu command"
+      update_log_option:
+        type: enum
+        enum: ["halt", "pipeline"]
+        default: "pipeline"
+        description: "The option to halt or continue with new pipeline when a change log does not need to be updated"
+      update_pcu:
+        type: boolean
+        default: false
+        description: "Update pcu to the latest code from the git repo"
+      label_option:
+        type: boolean
+        default: false
+        description: "Apply a label to the oldest open PR created by the specified author"
+      pcu_author:
+        type: string
+        default: ""
+        description: "Custom pull request author."
+      pcu_label:
+        type: string
+        default: ""
+        description: "Custom pull request label."
+      pcu_desc:
+        type: string
+        default: ""
+        description: "Custom pull request description."
+      pcu_colour:
+        type: string
+        default: ""
+        description: "Custom pull request colour."
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - <<parameters.ssh_fingerprint>>
+      - run:
+          name: Remove original SSH key from agent
+          command: |
+            ssh-add -l
+            ssh-add -d ~/.ssh/id_rsa.pub
+            ssh-add -l
+      - toolkit/gpg_key
+      - toolkit/git_config
+      - when:
+          condition: << parameters.update_pcu >>
+          steps:
+            - toolkit/install_latest_pcu
+      - run:
+          name: pcu version
+          command: |
+            pcu --version
+      - when:
+          condition:
+            equal: [halt, << parameters.update_log_option >>]
+          steps:
+            - toolkit/update_log:
+                pcu_verbosity: <<parameters.pcu_verbosity>>
+                pcu_halt_signal: <<parameters.pcu_halt_signal>>
+      - when:
+          condition:
+            equal: [true, << parameters.label_option >>]
+          steps:
+            - toolkit/label_pr:
+                pcu_verbosity: <<parameters.pcu_verbosity>>
+                pcu_author: <<parameters.pcu_author>>
+                pcu_label: <<parameters.pcu_label>>
+                pcu_desc: <<parameters.pcu_desc>>
+                pcu_colour: <<parameters.pcu_colour>>
+      - when:
+          condition:
+            equal: [pipeline, << parameters.update_log_option >>]
+          steps:
+            - toolkit/pipeline_pcu_check:
+                pcu_verbosity: <<parameters.pcu_verbosity>>
+                pcu_halt_signal: <<parameters.pcu_halt_signal>>
+
 workflows:
   check_last_commit:
     when:
@@ -66,7 +181,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/security:
           context: SonarCloud
-      - toolkit/update_changelog:
+      - update_changelog:
           requires:
             - toolkit/common_tests
             - toolkit/required_builds
