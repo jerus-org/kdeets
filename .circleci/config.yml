@@ -98,15 +98,15 @@ jobs:
         description: "Custom pull request colour."
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - <<parameters.ssh_fingerprint>>
-      - run:
-          name: Remove original SSH key from agent
-          command: |
-            ssh-add -l
-            ssh-add -d ~/.ssh/id_rsa.pub
-            ssh-add -l
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - <<parameters.ssh_fingerprint>>
+      # - run:
+      #     name: Remove original SSH key from agent
+      #     command: |
+      #       ssh-add -l
+      #       ssh-add -d ~/.ssh/id_rsa.pub
+      #       ssh-add -l
       - toolkit/gpg_key
       - toolkit/git_config
       - when:
