@@ -2,6 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboard": true,
   "rangeStrategy": "bump",
+  "hostRules": [
+    {
+      "matchHost": "circleci.com",
+      "authType": "Token-Only"
+    }
+  ],
   "packageRules": [
     {
       "packagePatterns": [
