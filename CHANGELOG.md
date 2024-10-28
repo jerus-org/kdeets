@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- add host rules for CircleCI in renovate configuration(pr [#4])
+
 ### Changed
 
 - chore-add sonar-project properties file for SonarQube integration(pr [#2])
@@ -14,3 +18,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#2]: https://github.com/jerus-org/kdeets/pull/2
 [#1]: https://github.com/jerus-org/kdeets/pull/1
+[#4]: https://github.com/jerus-org/kdeets/pull/4
