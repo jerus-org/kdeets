@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - add host rules for CircleCI in renovate configuration(pr [#4])
+- add command-line interface with logging and verbosity options(pr [#5])
 
 ### Changed
 
@@ -19,3 +20,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#2]: https://github.com/jerus-org/kdeets/pull/2
 [#1]: https://github.com/jerus-org/kdeets/pull/1
 [#4]: https://github.com/jerus-org/kdeets/pull/4
+[#5]: https://github.com/jerus-org/kdeets/pull/5
