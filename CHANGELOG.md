@@ -17,7 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-add sonar-project properties file for SonarQube integration(pr [#2])
 - Configure Renovate(pr [#1])
 
+### Security
+
+- Dependencies: update dependency toolkit to v1.15.0(pr [#6])
+
 [#2]: https://github.com/jerus-org/kdeets/pull/2
 [#1]: https://github.com/jerus-org/kdeets/pull/1
 [#4]: https://github.com/jerus-org/kdeets/pull/4
 [#5]: https://github.com/jerus-org/kdeets/pull/5
+[#6]: https://github.com/jerus-org/kdeets/pull/6
