@@ -20,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-add sonar-project properties file for SonarQube integration(pr [#2])
 - Configure Renovate(pr [#1])
 - Prepare for first release(pr [#11])
-- 12-user-argumnent-not-option-for-crate(pr [#13])
 
 ### Security
 
@@ -35,4 +34,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#8]: https://github.com/jerus-org/kdeets/pull/8
 [#9]: https://github.com/jerus-org/kdeets/pull/9
 [#11]: https://github.com/jerus-org/kdeets/pull/11
-[#13]: https://github.com/jerus-org/kdeets/pull/13
