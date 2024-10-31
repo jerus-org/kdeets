@@ -27,19 +27,18 @@ struct Cli {
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Query crates.io for information about a crate
-    #[clap(name = "krate")]
-    Krate(Krate),
+    #[clap(name = "crate")]
+    Crate_(Crate_),
 }
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
-struct Krate {
+struct Crate_ {
     #[clap(flatten)]
     logging: Verbosity,
 
     /// The name of the crate
-    #[clap(short = 'c', long = "krate")]
-    krate: String,
+    crate_: String,
 
     /// First version ever published. May be yanked.
     #[clap(short = 'e', long = "earliest")]
@@ -71,12 +70,12 @@ fn main() {
     builder.init();
 
     match args.command {
-        Commands::Krate(args) => {
-            log::info!("Getting details for crate: {}", args.krate);
+        Commands::Crate_(args) => {
+            log::info!("Getting details for crate: {}", args.crate_);
 
-            let krate_name = KrateName::crates_io(&args.krate)
+            let crate_name = KrateName::crates_io(&args.crate_)
                 .map_err(|_| {
-                    log::error!("Invalid crate name: {}", args.krate);
+                    log::error!("Invalid crate name: {}", args.crate_);
                     exit(101)
                 })
                 .unwrap();
@@ -91,7 +90,7 @@ fn main() {
 
             let lock = FileLock::unlocked();
             let req = index
-                .make_remote_request(krate_name, None, &lock)
+                .make_remote_request(crate_name, None, &lock)
                 .map_err(|_| {
                     log::error!("Failed to make remote request");
                     exit(103)
@@ -157,8 +156,8 @@ fn main() {
                 .map_err(|e| tame_index::Error::from(tame_index::error::HttpError::from(e)))
                 .unwrap();
 
-            let index_krate = index
-                .parse_remote_response(krate_name, response, false, &lock)
+            let index_crate = index
+                .parse_remote_response(crate_name, response, false, &lock)
                 .map_err(|_| {
                     log::error!("Failed to parse remote response");
                     exit(109)
@@ -168,8 +167,8 @@ fn main() {
 
             if args.earliest | args.all | args.key {
                 println!(
-                    "Index krate - earliest version: {}!",
-                    index_krate.earliest_version().version
+                    "Earliest version: {}!",
+                    index_crate.earliest_version().version
                 );
             };
 
@@ -177,8 +176,8 @@ fn main() {
                 println!(
                     "{}",
                     format!(
-                        "Index krate - highest normal version: {}!",
-                        index_krate.highest_normal_version().unwrap().version
+                        "Highest normal version: {}!",
+                        index_crate.highest_normal_version().unwrap().version
                     )
                     .blue()
                 );
@@ -188,8 +187,8 @@ fn main() {
                 println!(
                     "{}",
                     format!(
-                        "Index krate - highest version: {}!",
-                        index_krate.highest_version().version
+                        "Highest version: {}!",
+                        index_crate.highest_version().version
                     )
                     .green()
                 );
@@ -199,18 +198,18 @@ fn main() {
                 println!(
                     "{}",
                     format!(
-                        "Index krate - most recent version: {}!",
-                        index_krate.most_recent_version().version
+                        "Most recent version: {}!",
+                        index_crate.most_recent_version().version
                     )
                     .yellow()
                 );
             };
 
             if args.list | args.all {
-                println!("Versions of crate {}\n", index_krate.name(),);
+                println!("Versions of crate {}\n", index_crate.name(),);
 
                 println!("Yanked  Version");
-                for v in index_krate.versions.iter() {
+                for v in index_crate.versions.iter() {
                     let version = v.version.clone();
                     let yanked = if v.yanked {
                         " Yes".red()

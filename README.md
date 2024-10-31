@@ -54,11 +54,11 @@ Display the key versions for the crate. The `--krate` flag is required.
 
 ```sh
 
-$ kdeets krate --krate nextsv -k
-Index krate - earliest version: 0.1.0!
-Index krate - highest normal version: 0.9.2!
-Index krate - highest version: 9.0.2!
-Index krate - most recent version: 0.9.2!
+$ kdeets crate -k nextsv
+Earliest version: 0.1.0!
+Highest normal version: 0.9.2!
+Highest version: 9.0.2!
+Most recent version: 0.9.2!
 
 ```
 
