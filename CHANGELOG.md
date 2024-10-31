@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configure Renovate(pr [#1])
 - Prepare for first release(pr [#11])
 - refactor(cli)-rename Krate to Crate_ for consistency with command name(pr [#13])
+- docs-update README to remove outdated --krate flag reference(pr [#14])
 
 ### Security
 
@@ -36,3 +37,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#9]: https://github.com/jerus-org/kdeets/pull/9
 [#11]: https://github.com/jerus-org/kdeets/pull/11
 [#13]: https://github.com/jerus-org/kdeets/pull/13
+[#14]: https://github.com/jerus-org/kdeets/pull/14
