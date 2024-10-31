@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add host rules for CircleCI in renovate configuration(pr [#4])
 - add command-line interface with logging and verbosity options(pr [#5])
 - add subcommand support for querying crate information(pr [#7])
+- add colorful crate for enhanced console output(pr [#8])
 
 ### Changed
 
@@ -28,3 +29,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#5]: https://github.com/jerus-org/kdeets/pull/5
 [#6]: https://github.com/jerus-org/kdeets/pull/6
 [#7]: https://github.com/jerus-org/kdeets/pull/7
+[#8]: https://github.com/jerus-org/kdeets/pull/8
