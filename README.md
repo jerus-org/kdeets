@@ -50,7 +50,7 @@ kdeets 0.9.2
 
 ### Versions for a crate
 
-Display the key versions for the crate. The `--krate` flag is required.
+Display the key versions for the crate.
 
 ```sh
 
