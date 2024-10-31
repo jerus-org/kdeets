@@ -2,6 +2,7 @@ use std::process::exit;
 
 use clap::{Parser, Subcommand};
 use clap_verbosity::Verbosity;
+use colorful::Colorful;
 use tame_index::{
     external::{
         http::{request::Parts, Response},
@@ -191,16 +192,19 @@ fn main() {
             };
 
             if args.list | args.all {
-                println!(
-                    "Versions of crate {}: {}",
-                    index_krate.name(),
-                    index_krate
-                        .versions
-                        .iter()
-                        .map(|c| c.version.to_string())
-                        .collect::<Vec<String>>()
-                        .join(", ")
-                );
+                println!("Versions of crate {}\n", index_krate.name(),);
+
+                println!("Yanked  Version");
+                for v in index_krate.versions.iter() {
+                    let version = v.version.clone();
+                    let yanked = if v.yanked {
+                        " Yes".red()
+                    } else {
+                        "  No".green()
+                    };
+
+                    println!("{}     {}", yanked, version);
+                }
             }
         }
     };
