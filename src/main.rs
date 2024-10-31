@@ -38,7 +38,7 @@ struct Krate {
     logging: Verbosity,
 
     /// The name of the crate
-    #[clap(short = 'k', long = "krate")]
+    #[clap(short = 'c', long = "krate")]
     krate: String,
 
     /// First version ever published. May be yanked.
@@ -56,6 +56,9 @@ struct Krate {
     /// List all versions of the crate
     #[clap(short = 'l', long = "list")]
     list: bool,
+    /// List key values (equivalent to -entr)
+    #[clap(short = 'k', long = "key")]
+    key: bool,
     /// List all versions and key values (equivalent to -entrl)
     #[clap(short = 'a', long = "all")]
     all: bool,
@@ -163,31 +166,43 @@ fn main() {
                 .unwrap()
                 .unwrap();
 
-            if args.earliest | args.all {
+            if args.earliest | args.all | args.key {
                 println!(
-                    "Index krate - earliest version: {:#?}!",
+                    "Index krate - earliest version: {}!",
                     index_krate.earliest_version().version
                 );
             };
 
-            if args.normal | args.all {
+            if args.normal | args.all | args.key {
                 println!(
-                    "Index krate - highest normal version: {:#?}!",
-                    index_krate.highest_normal_version().unwrap().version
+                    "{}",
+                    format!(
+                        "Index krate - highest normal version: {}!",
+                        index_krate.highest_normal_version().unwrap().version
+                    )
+                    .blue()
                 );
             };
 
-            if args.highest | args.all {
+            if args.highest | args.all | args.key {
                 println!(
-                    "Index krate - highest version: {:#?}!",
-                    index_krate.highest_version().version
+                    "{}",
+                    format!(
+                        "Index krate - highest version: {}!",
+                        index_krate.highest_version().version
+                    )
+                    .green()
                 );
             };
 
-            if args.recent | args.all {
+            if args.recent | args.all | args.key {
                 println!(
-                    "Index krate - most recent version: {:#?}!",
-                    index_krate.most_recent_version().version
+                    "{}",
+                    format!(
+                        "Index krate - most recent version: {}!",
+                        index_krate.most_recent_version().version
+                    )
+                    .yellow()
                 );
             };
 
@@ -208,7 +223,6 @@ fn main() {
             }
         }
     };
-    println!("Hello, world!");
 }
 
 fn get_logging(level: log::LevelFilter) -> env_logger::Builder {
