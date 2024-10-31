@@ -2,6 +2,11 @@
 name = "kdeets"
 version = "0.1.0"
 edition = "2021"
+description = "Query crates.io for information about a crate."
+license = "MIT"
+documentation = "https://docs.rs/kdeets"
+repository = "https://github.com/jerus-org/kdeets"
+
 
 [dependencies]
 clap = { version = "4.5.20", features = ["derive"] }
