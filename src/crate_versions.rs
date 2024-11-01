@@ -1,8 +1,8 @@
-use std::process::exit;
-
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
+use kdeets_lib::Error;
+use std::process::exit;
 use tame_index::{
     external::{
         http::{request::Parts, Response},
@@ -44,15 +44,15 @@ pub struct CrateVersions {
     all: bool,
 }
 
-pub fn run(args: CrateVersions) {
+pub fn run(args: CrateVersions) -> Result<(), Error> {
     log::info!("Getting details for crate: {}", args.crate_);
 
-    let crate_name = KrateName::crates_io(&args.crate_)
-        .map_err(|_| {
-            log::error!("Invalid crate name: {}", args.crate_);
-            exit(101)
-        })
-        .unwrap();
+    let crate_name = KrateName::crates_io(&args.crate_)?;
+    // .map_err(|e| {
+    //     log::error!("Invalid crate name: {}", args.crate_);
+    //     e
+    // })?;
+    // .unwrap();
 
     let il = IndexLocation::new(IndexUrl::CratesIoSparse);
     let index = SparseIndex::new(il)
@@ -194,4 +194,6 @@ pub fn run(args: CrateVersions) {
             println!("{}     {}", yanked, version);
         }
     }
+
+    Ok(())
 }
