@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add subcommand support for querying crate information(pr [#7])
 - add colorful crate for enhanced console output(pr [#8])
 - add key flag for listing key values and colorize output(pr [#9])
+- add error handling with thiserror and create new library module(pr [#16])
 
 ### Changed
 
@@ -40,3 +41,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#13]: https://github.com/jerus-org/kdeets/pull/13
 [#14]: https://github.com/jerus-org/kdeets/pull/14
 [#15]: https://github.com/jerus-org/kdeets/pull/15
+[#16]: https://github.com/jerus-org/kdeets/pull/16
