@@ -16,10 +16,8 @@ use tame_index::{
 pub struct CrateVersions {
     #[clap(flatten)]
     logging: Verbosity,
-
     /// The name of the crate
     crate_: String,
-
     /// First version ever published. May be yanked.
     #[clap(short = 'e', long = "earliest")]
     earliest: bool,
