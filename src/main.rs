@@ -1,5 +1,9 @@
+use std::error::Error;
+
 use clap::{Parser, Subcommand};
 use crate_versions::CrateVersions;
+
+mod crate_versions;
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -18,16 +22,28 @@ enum Commands {
     CrateVersions(CrateVersions),
 }
 
-mod crate_versions;
-
 fn main() {
     let args = Cli::parse();
 
     let mut builder = get_logging(args.logging.log_level_filter());
     builder.init();
 
-    match args.command {
+    let result = match args.command {
         Commands::CrateVersions(args) => crate_versions::run(args),
+    };
+
+    match result {
+        Ok(()) => {}
+        Err(e) => {
+            if let Some(src) = e.source() {
+                log::error!("{}: {}", e, src);
+                eprintln!("{}: {}", e, src);
+            } else {
+                log::error!("{}", e);
+                eprintln!("{}", e);
+            }
+            std::process::exit(1);
+        }
     };
 }
 

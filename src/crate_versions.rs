@@ -1,8 +1,7 @@
-use std::process::exit;
-
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
+use kdeets_lib::Error;
 use tame_index::{
     external::{
         http::{request::Parts, Response},
@@ -17,10 +16,8 @@ use tame_index::{
 pub struct CrateVersions {
     #[clap(flatten)]
     logging: Verbosity,
-
     /// The name of the crate
     crate_: String,
-
     /// First version ever published. May be yanked.
     #[clap(short = 'e', long = "earliest")]
     earliest: bool,
@@ -44,32 +41,16 @@ pub struct CrateVersions {
     all: bool,
 }
 
-pub fn run(args: CrateVersions) {
+pub fn run(args: CrateVersions) -> Result<(), Error> {
     log::info!("Getting details for crate: {}", args.crate_);
 
-    let crate_name = KrateName::crates_io(&args.crate_)
-        .map_err(|_| {
-            log::error!("Invalid crate name: {}", args.crate_);
-            exit(101)
-        })
-        .unwrap();
+    let crate_name = KrateName::crates_io(&args.crate_)?;
 
     let il = IndexLocation::new(IndexUrl::CratesIoSparse);
-    let index = SparseIndex::new(il)
-        .map_err(|_| {
-            log::error!("Failed to create sparse index");
-            exit(102)
-        })
-        .unwrap();
+    let index = SparseIndex::new(il)?;
 
     let lock = FileLock::unlocked();
-    let req = index
-        .make_remote_request(crate_name, None, &lock)
-        .map_err(|_| {
-            log::error!("Failed to make remote request");
-            exit(103)
-        })
-        .unwrap();
+    let req = index.make_remote_request(crate_name, None, &lock)?;
 
     log::debug!("Constructed remote request: {:?}!", req);
 
@@ -86,33 +67,14 @@ pub fn run(args: CrateVersions) {
 
     let builder = ClientBuilder::new();
     let builder = builder.tls_built_in_root_certs(true);
-    let client = builder
-        .build()
-        .map_err(|_| {
-            log::error!("Failed to build client");
-            exit(104)
-        })
-        .unwrap();
+    let client = builder.build()?;
 
     let mut req = client.request(method, uri.to_string());
     req = req.version(version);
     req = req.headers(headers);
     log::info!("Remote request for reqwest: {:#?}!", req);
 
-    let resp = client
-        .execute(
-            req.build()
-                .map_err(|_| {
-                    log::error!("Failed to build request");
-                    exit(107)
-                })
-                .unwrap(),
-        )
-        .map_err(|_| {
-            log::error!("Failed to execute request");
-            exit(108)
-        })
-        .unwrap();
+    let resp = client.execute(req.build()?)?;
     log::info!("Response: {:#?}!", resp);
 
     let mut builder = Response::builder()
@@ -125,19 +87,11 @@ pub fn run(args: CrateVersions) {
         .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
 
     let body = resp.bytes().unwrap();
-    let response = builder
-        .body(body.to_vec())
-        .map_err(|e| tame_index::Error::from(tame_index::error::HttpError::from(e)))
-        .unwrap();
+    let response = builder.body(body.to_vec())?;
 
-    let index_crate = index
-        .parse_remote_response(crate_name, response, false, &lock)
-        .map_err(|_| {
-            log::error!("Failed to parse remote response");
-            exit(109)
-        })
-        .unwrap()
-        .unwrap();
+    let Some(index_crate) = index.parse_remote_response(crate_name, response, false, &lock)? else {
+        return Err(Error::CrateNotFoundonIndex);
+    };
 
     if args.earliest | args.all | args.key {
         println!(
@@ -194,4 +148,6 @@ pub fn run(args: CrateVersions) {
             println!("{}     {}", yanked, version);
         }
     }
+
+    Ok(())
 }
