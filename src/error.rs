@@ -1,4 +1,4 @@
-//! Error types for nextsv
+//! Error types for kdeets
 
 // use std::ffi::OsString;
 
@@ -15,64 +15,16 @@ use thiserror::Error;
 #[non_exhaustive]
 #[derive(Error, Debug)]
 pub enum Error {
-    // /// The tag provided is not a version tag as it does not
-    // /// start with the provided prefix string.
-    // #[error("Version tags must start with \"{0}\" but tag is {1}")]
-    // NotVersionTag(String, String),
-    // /// Too many components found.
-    // #[error("Version must have three components but at least {0} were found")]
-    // TooManyComponents(usize),
-    // /// Too few components found.
-    // #[error("Version must have three components but only {0} found")]
-    // TooFewComponents(usize),
-    // /// The component must be a digit
-    // #[error("Version must be a number but found {0}")]
-    // MustBeNumber(String),
-    // /// No valid version tag was found in the repository
-    // #[error("No valid version tag found in the repository")]
-    // NoVersionTag,
-    // /// The first production release (1.0.0) has already been made
-    // #[error("First production release already deployed. Current major version: {0}")]
-    // MajorAlreadyUsed(String),
-    // /// No conventional commits in the VersionCalculator struct
-    // #[error("No conventional commits have been loaded into the VersionCalculator struct. May have been called before `commits`.")]
-    // NoConventionalCommits,
-    // /// Missing required file found.
-    // #[error("Missing the required file(s): {0:?}.")]
-    // MissingRequiredFile(Vec<OsString>),
-    // /// Not a valid Type Hierachy name.
-    // #[error("{0} is not a valid type hierarchy namne.")]
-    // NotTypeHierachyName(String),
-    // /// Corrupt version check regex. Check the `prefix` value.
-    // #[error("Version check regex error {0}. Check the `prefix` value.")]
-    // CorruptVersionRegex(regex::Error),
-    // /// List of files has not been generated yet (or there are no commits). Call `commits`
-    // /// to generate the list by walking back to the current version tag.
-    // #[error("No files have been listed. May have been called before `commits`.")]
-    // NoFilesListed,
-    // //
-    // // TODO: make use of these codes again by providing an option to use exit codes in the
-    // // CLI and to enable the use of the exit codes as an alternative to "breaking" a dependant
-    // // programme by providing an output that it cannot understand ("none")
-    // //
-    // // /// The minimum change level set for check has been met.
-    // // #[error("Minimum change Level has been met.")]
-    // // MinimumChangeLevelMet,
-    // // /// The minimum change level set for check has not been met.
-    // // #[error("Minimum change level has not been met.")]
-    // // MinimumChangeLevelNotMet,
-    // /// Error passed up from git2
-    // #[error("0:?")]
-    // Git2(#[from] git2::Error),
-    // /// Error passed up from convert TryFrom
-    // #[error("0:?")]
-    // TryFromIntError(#[from] std::num::TryFromIntError),
-    // /// Error passed up from cargo_toml
-    // #[error("cargo_toml error says: {0:?}")]
-    // Toml(#[from] cargo_toml::Error),
-    /// Error passed up from tame_index
+    #[error("The crate was not found on crates.io")]
+    CrateNotFoundonIndex,
     #[error("tame_index error says: {0:?}")]
     TameIndex(#[from] tame_index::Error),
+    /// Error passed up from reqwest
+    #[error("reqwest error says: {0:?}")]
+    Reqwest(#[from] tame_index::external::reqwest::Error),
+    /// Error passed up from http
+    #[error("http error says: {0:?}")]
+    Http(#[from] tame_index::external::http::Error),
 }
 
 // impl From<Error> for Exit {
