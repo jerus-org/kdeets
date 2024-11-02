@@ -33,7 +33,9 @@ fn main() {
     };
 
     match result {
-        Ok(()) => {}
+        Ok(output) => {
+            println!("{}", output);
+        }
         Err(e) => {
             if let Some(src) = e.source() {
                 log::error!("{}: {}", e, src);

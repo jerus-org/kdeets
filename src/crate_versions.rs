@@ -41,7 +41,7 @@ pub struct CrateVersions {
     all: bool,
 }
 
-pub fn run(args: CrateVersions) -> Result<(), Error> {
+pub fn run(args: CrateVersions) -> Result<String, Error> {
     log::info!("Getting details for crate: {}", args.crate_);
 
     let crate_name = KrateName::crates_io(&args.crate_)?;
@@ -93,18 +93,35 @@ pub fn run(args: CrateVersions) -> Result<(), Error> {
         return Err(Error::CrateNotFoundonIndex);
     };
 
+    let mut output = format!(
+        "\n {}",
+        format!("Crate versions for {}.", index_crate.name().cyan()).bold()
+    );
+
+    let mut i = 0;
+    let mut line = String::from(" ");
+
+    while i < 20 + index_crate.name().len() {
+        line.push('🭶');
+        i += 1;
+    }
+
+    output = format!("{}\n{}\n", output, line);
+
     if args.earliest | args.all | args.key {
-        println!(
-            "Earliest version: {}!",
+        output = format!(
+            "{}   Earliest version: {}\n",
+            output,
             index_crate.earliest_version().version
         );
     };
 
     if args.normal | args.all | args.key {
-        println!(
-            "{}",
+        output = format!(
+            "{}   {}",
+            output,
             format!(
-                "Highest normal version: {}!",
+                "Highest normal version: {}\n",
                 index_crate.highest_normal_version().unwrap().version
             )
             .blue()
@@ -112,10 +129,11 @@ pub fn run(args: CrateVersions) -> Result<(), Error> {
     };
 
     if args.highest | args.all | args.key {
-        println!(
-            "{}",
+        output = format!(
+            "{}   {}",
+            output,
             format!(
-                "Highest version: {}!",
+                "Highest version: {}\n",
                 index_crate.highest_version().version
             )
             .green()
@@ -123,10 +141,11 @@ pub fn run(args: CrateVersions) -> Result<(), Error> {
     };
 
     if args.recent | args.all | args.key {
-        println!(
-            "{}",
+        output = format!(
+            "{}   {}",
+            output,
             format!(
-                "Most recent version: {}!",
+                "Most recent version: {}\n",
                 index_crate.most_recent_version().version
             )
             .yellow()
@@ -134,20 +153,14 @@ pub fn run(args: CrateVersions) -> Result<(), Error> {
     };
 
     if args.list | args.all {
-        println!("Versions of crate {}\n", index_crate.name(),);
-
-        println!("Yanked  Version");
+        output = format!("{}\n   {}\n", output, "Yanked  Version   ".underlined());
         for v in index_crate.versions.iter() {
             let version = v.version.clone();
-            let yanked = if v.yanked {
-                " Yes".red()
-            } else {
-                "  No".green()
-            };
+            let yanked = if v.yanked { "Yes".red() } else { " No".green() };
 
-            println!("{}     {}", yanked, version);
+            output = format!("  {}     {}     {}\n", output, yanked, version);
         }
     }
 
-    Ok(())
+    Ok(output)
 }
