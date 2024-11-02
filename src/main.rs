@@ -1,9 +1,7 @@
 use std::error::Error;
 
 use clap::{Parser, Subcommand};
-use crate_versions::CrateVersions;
-
-mod crate_versions;
+use kdeets_lib::CrateVersions;
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -29,7 +27,7 @@ fn main() {
     builder.init();
 
     let result = match args.command {
-        Commands::CrateVersions(args) => crate_versions::run(args),
+        Commands::CrateVersions(crate_versions) => crate_versions.run(),
     };
 
     match result {
