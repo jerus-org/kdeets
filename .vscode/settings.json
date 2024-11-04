@@ -2,5 +2,6 @@
     "cSpell.words": [
         "colorful",
         "krate"
-    ]
+    ],
+    "rustTestExplorer.logpanel": true
 }
