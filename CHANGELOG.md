@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor-extract crate version handling logic into separate module(pr [#15])
 - refactor(crate_versions)-change run function to return formatted string instead of printing directly(pr [#17])
 - Output-string-from-crate-versions-run(pr [#19])
+- ci(circleci)-add sonarcloud integration and security audit job(pr [#21])
 
 ### Security
 
@@ -50,3 +51,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#19]: https://github.com/jerus-org/kdeets/pull/19
 [#18]: https://github.com/jerus-org/kdeets/pull/18
 [#20]: https://github.com/jerus-org/kdeets/pull/20
+[#21]: https://github.com/jerus-org/kdeets/pull/21
