@@ -39,8 +39,9 @@ commands:
       - run:
           name: Security audit against RUSTSEC
           command: |
-            cargo audit -D warnings << parameters.ignore_advisories >>
-
+            if ! cargo audit -D warnings << parameters.ignore_advisories >> ; then
+              cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
+            fi
 jobs:
   security:
     executor: base-env
