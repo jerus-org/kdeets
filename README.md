@@ -44,7 +44,7 @@ Run in your project directory and check the version
 
 ```console
 $ kdeets --version
-kdeets 0.9.2
+kdeets 0.1.0
 
 ```
 

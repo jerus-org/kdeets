@@ -1,108 +1,58 @@
 ```console
 $ kdeets --help
-Next semantic version calculator
+Query crates.io for information about a crate.
 
-Usage: nextsv [OPTIONS] <COMMAND>
+Usage: kdeets [OPTIONS] <COMMAND>
 
 Commands:
-  calculate  Calculate the next version number
-  force      Force the bump level
-  require    Require the listed files to be updated before making a release with the specified change level
-  help       Print this message or the help of the given subcommand(s)
+  crate  Query crates.io for information about a crate
+  help   Print this message or the help of the given subcommand(s)
 
 Options:
-  -v, --verbose...
-          Increase logging verbosity
-
-  -q, --quiet...
-          Decrease logging verbosity
-
-  -b, --no-bump
-          Do not report version bump
-
-  -n, --number
-          Report the version number
-
-  -c, --check <CHECK>
-          Check level meets minimum for setting
-          
-          This option can be used to check the calculated level meets a minimum before applying an update. Bump is reported as "none" if the required level is not met.
-
-          Possible values:
-          - other:    Other variant represents other changes
-          - fix:      Fix variant represents fixes
-          - feature:  Feature variant represents new features
-          - breaking: Breaking variant represents breaking changes
-
-  -h, --help
-          Print help (see a summary with '-h')
-
-  -V, --version
-          Print version
+  -v, --verbose...  Increase logging verbosity
+  -q, --quiet...    Decrease logging verbosity
+  -h, --help        Print help
+  -V, --version     Print version
 
 ```
 
 ```console
 $ kdeets -h
-Next semantic version calculator
+Query crates.io for information about a crate.
 
-Usage: nextsv [OPTIONS] <COMMAND>
+Usage: kdeets [OPTIONS] <COMMAND>
 
 Commands:
-  calculate  Calculate the next version number
-  force      Force the bump level
-  require    Require the listed files to be updated before making a release with the specified change level
-  help       Print this message or the help of the given subcommand(s)
+  crate  Query crates.io for information about a crate
+  help   Print this message or the help of the given subcommand(s)
 
 Options:
-  -v, --verbose...     Increase logging verbosity
-  -q, --quiet...       Decrease logging verbosity
-  -b, --no-bump        Do not report version bump
-  -n, --number         Report the version number
-  -c, --check <CHECK>  Check level meets minimum for setting [possible values: other, fix, feature, breaking]
-  -h, --help           Print help (see more with '--help')
-  -V, --version        Print version
-
-```
-
-```console
-$ nextsv calculate --help
-Calculate the next version number
-
-Usage: nextsv calculate [OPTIONS]
-
-Options:
-  -p, --prefix <PREFIX>    Prefix string to identify version number tags [default: v]
-  -v, --verbose...         Increase logging verbosity
-  -q, --quiet...           Decrease logging verbosity
-  -s, --subdir <SUBDIR>    Filter to commits in the specified sub directory only
-  -k, --package <PACKAGE>  Set subdir filter based on specific workspace package (takes priority over --subdir)
-  -h, --help               Print help
-  -V, --version            Print version
+  -v, --verbose...  Increase logging verbosity
+  -q, --quiet...    Decrease logging verbosity
+  -h, --help        Print help
+  -V, --version     Print version
 
 ```
 
 ```console
 $ kdeets crate --help
-Force the bump level
+Query crates.io for information about a crate
 
-Usage: nextsv force [OPTIONS] <COMMAND>
+Usage: kdeets crate [OPTIONS] <CRATE>
 
-Commands:
-  major    Bump the major version component
-  minor    Bump the major version component
-  patch    Bump the major version component
-  first    Release first production (1.0.0) version
-  release  Remove the pre-release version component if present
-  rc       Bump or create the rc pre-release version component
-  beta     Bump or create the beta pre-release version component
-  alpha    Bump or create the alpha pre-release version component
-  help     Print this message or the help of the given subcommand(s)
+Arguments:
+  <CRATE>  The name of the crate
 
 Options:
-  -v, --verbose...  Increase logging verbosity
-  -q, --quiet...    Decrease logging verbosity
-  -f, --first       First flag to set first version and pre-release in the same transaction
+  -v, --verbose...  More output per occurrence
+  -q, --quiet...    Less output per occurrence
+  -e, --earliest    First version ever published. May be yanked
+  -n, --normal      Returns crate version with the highest version number according to semver, but excludes pre-release and yanked versions
+  -t, --top         The highest version as per semantic versioning specification
+  -r, --recent      The last release by date, even if it’s yanked or less than highest version
+  -l, --list        List all versions of the crate
+  -k, --key         List key values (equivalent to -entr)
+  -a, --all         List all versions and key values (equivalent to -entrl)
   -h, --help        Print help
   -V, --version     Print version
 
