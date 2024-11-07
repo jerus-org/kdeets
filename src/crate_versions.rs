@@ -34,10 +34,10 @@ pub struct CrateVersions {
     /// List all versions of the crate
     #[clap(short = 'l', long = "list")]
     list: bool,
-    /// List key values (equivalent to -entr)
+    /// List key values (equivalent to `-entr`)
     #[clap(short = 'k', long = "key")]
     key: bool,
-    /// List all versions and key values (equivalent to -entrl)
+    /// List all versions and key values (equivalent to `-entrl`)
     #[clap(short = 'a', long = "all")]
     all: bool,
 }

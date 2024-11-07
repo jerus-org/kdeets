@@ -51,8 +51,8 @@ Options:
   -t, --top         The highest version as per semantic versioning specification
   -r, --recent      The last release by date, even if it’s yanked or less than highest version
   -l, --list        List all versions of the crate
-  -k, --key         List key values (equivalent to -entr)
-  -a, --all         List all versions and key values (equivalent to -entrl)
+  -k, --key         List key values (equivalent to `-entr`)
+  -a, --all         List all versions and key values (equivalent to `-entrl`)
   -h, --help        Print help
   -V, --version     Print version
 
