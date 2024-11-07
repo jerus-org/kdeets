@@ -205,7 +205,7 @@ For more information, try '--help'.
 ```console
 $ kdeets crate -a some_not_existing_crate
 ? 1
-[2024-11-07T14:52:30Z ERROR kdeets] The crate was not found on crates.io
+[[..] ERROR kdeets] The crate was not found on crates.io
 The crate was not found on crates.io
 
 ```
