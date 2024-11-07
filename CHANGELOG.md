@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor(crate_versions)-change run function to return formatted string instead of printing directly(pr [#17])
 - Output-string-from-crate-versions-run(pr [#19])
 - ci(circleci)-add sonarcloud integration and security audit job(pr [#21])
+- chore(circleci)-update toolkit orb to version 1.17.0 and add code coverage step(pr [#25])
 
 ### Security
 
@@ -56,3 +57,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#21]: https://github.com/jerus-org/kdeets/pull/21
 [#22]: https://github.com/jerus-org/kdeets/pull/22
 [#23]: https://github.com/jerus-org/kdeets/pull/23
+[#25]: https://github.com/jerus-org/kdeets/pull/25
