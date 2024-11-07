@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-add sonarcloud integration and security audit job(pr [#21])
 - chore(circleci)-update toolkit orb to version 1.17.0 and add code coverage step(pr [#25])
 - chore-update CircleCI toolkit orb to version 1.18.0(pr [#26])
+- test(cli)-add CLI tests using trycmd for command cases(pr [#28])
 
 ### Security
 
@@ -60,3 +61,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#23]: https://github.com/jerus-org/kdeets/pull/23
 [#25]: https://github.com/jerus-org/kdeets/pull/25
 [#26]: https://github.com/jerus-org/kdeets/pull/26
+[#28]: https://github.com/jerus-org/kdeets/pull/28
