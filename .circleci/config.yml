@@ -101,7 +101,6 @@ workflows:
               only:
                 - main
       - toolkit/code_coverage:
-          context: Codecov
           filters:
             branches:
               ignore:
