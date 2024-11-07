@@ -188,3 +188,24 @@ $ kdeets crate --all some_crate
 
 
 ```
+
+```console
+$ kdeets crate --yanked some_crate
+? 2
+error: unexpected argument '--yanked' found
+
+  tip: to pass '--yanked' as a value, use '-- --yanked'
+
+Usage: kdeets crate [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets crate -a some_not_existing_crate
+? 1
+[2024-11-07T14:52:30Z ERROR kdeets] The crate was not found on crates.io
+The crate was not found on crates.io
+
+```
