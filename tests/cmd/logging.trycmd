@@ -1,0 +1,399 @@
+```console
+$ kdeets crate --all -q some_crate
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```
+
+```console
+$ kdeets crate --all -v some_crate
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```
+
+```console
+$ kdeets crate --all -vv some_crate
+[[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
+[[..] INFO  kdeets_lib::crate_versions] Remote request for reqwest: RequestBuilder {
+        client: Client,
+        request: Ok(
+            Request {
+                method: GET,
+                url: Url {
+                    scheme: "https",
+                    cannot_be_a_base: false,
+                    username: "",
+                    password: None,
+                    host: Some(
+                        Domain(
+                            "index.crates.io",
+                        ),
+                    ),
+                    port: None,
+                    path: "/so/me/some_crate",
+                    query: None,
+                    fragment: None,
+                },
+                headers: {
+                    "cargo-protocol": "version=1",
+                    "accept": "text/plain",
+                    "accept-encoding": "gzip",
+                },
+            },
+        ),
+    }!
+[[..] INFO  kdeets_lib::crate_versions] Response: Response {
+        url: "https://index.crates.io/so/me/some_crate",
+        status: 200,
+        headers: {
+            "content-type": "text/plain",
+            "content-length": "604",
+            "last-modified": "Fri, 20 Sep 2024 10:24:26 GMT",
+            "x-amz-server-side-encryption": "AES256",
+            "x-amz-version-id": "[..]",
+            "accept-ranges": "bytes",
+            "server": "AmazonS3",
+            "date": "[..]",
+            "cache-control": "public,max-age=600",
+            "etag": "/"[..]/"",
+            "vary": "accept-encoding",
+            "x-cache": "Hit from cloudfront",
+            "via": "[..] (CloudFront)",
+            "x-amz-cf-pop": "[..]",
+            "x-amz-cf-id": "[..]",
+...
+        },
+    }!
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```
+
+```console
+$ kdeets crate --all -vvv some_crate
+[[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
+[[..] DEBUG kdeets_lib::crate_versions] Constructed remote request: Request { method: GET, uri: https://index.crates.io/so/me/some_crate, version: HTTP/1.1, headers: {"cargo-protocol": "version=1", "accept": "text/plain", "accept-encoding": "gzip"}, body: () }!
+[[..] INFO  kdeets_lib::crate_versions] Remote request for reqwest: RequestBuilder {
+        client: Client,
+        request: Ok(
+            Request {
+                method: GET,
+                url: Url {
+                    scheme: "https",
+                    cannot_be_a_base: false,
+                    username: "",
+                    password: None,
+                    host: Some(
+                        Domain(
+                            "index.crates.io",
+                        ),
+                    ),
+                    port: None,
+                    path: "/so/me/some_crate",
+                    query: None,
+                    fragment: None,
+                },
+                headers: {
+                    "cargo-protocol": "version=1",
+                    "accept": "text/plain",
+                    "accept-encoding": "gzip",
+                },
+            },
+        ),
+    }!
+[[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
+[[..] INFO  kdeets_lib::crate_versions] Response: Response {
+        url: "https://index.crates.io/so/me/some_crate",
+        status: 200,
+        headers: {
+            "content-type": "text/plain",
+            "content-length": "604",
+            "last-modified": "Fri, 20 Sep 2024 10:24:26 GMT",
+            "x-amz-server-side-encryption": "AES256",
+            "x-amz-version-id": "[..]",
+            "accept-ranges": "bytes",
+            "server": "AmazonS3",
+            "date": "[..]",
+            "cache-control": "public,max-age=600",
+            "etag": "/"[..]/"",
+            "vary": "accept-encoding",
+            "x-cache": "Hit from cloudfront",
+            "via": "1.1 [..].cloudfront.net (CloudFront)",
+            "x-amz-cf-pop": "[..]",
+            "x-amz-cf-id": "[..]",
+...
+        },
+    }!
+[[..] DEBUG kdeets_lib::crate_versions] Rows: [
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.3",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.2.1",
+    ]!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.0`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.3`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.2.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Max row length: 17!
+[[..] DEBUG kdeets_lib::crate_versions] Output: 
+     Crate versions for some_crate.
+     🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+       Earliest version: 0.1.0
+       Highest normal version: 0.2.1
+       Highest version: 0.2.1
+       Most recent version: 0.2.1
+    !
+[[..] DEBUG kdeets_lib::crate_versions] Header:  Yanked  Version !
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```
+
+```console
+$ kdeets crate --all -vvvv some_crate
+[[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
+[[..] DEBUG kdeets_lib::crate_versions] Constructed remote request: Request { method: GET, uri: https://index.crates.io/so/me/some_crate, version: HTTP/1.1, headers: {"cargo-protocol": "version=1", "accept": "text/plain", "accept-encoding": "gzip"}, body: () }!
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park without timeout
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) start runtime::block_on
+[[..] INFO  kdeets_lib::crate_versions] Remote request for reqwest: RequestBuilder {
+        client: Client,
+        request: Ok(
+            Request {
+                method: GET,
+                url: Url {
+                    scheme: "https",
+                    cannot_be_a_base: false,
+                    username: "",
+                    password: None,
+                    host: Some(
+                        Domain(
+                            "index.crates.io",
+                        ),
+                    ),
+                    port: None,
+                    path: "/so/me/some_crate",
+                    query: None,
+                    fragment: None,
+                },
+                headers: {
+                    "cargo-protocol": "version=1",
+                    "accept": "text/plain",
+                    "accept-encoding": "gzip",
+                },
+            },
+        ),
+    }!
+[[..] TRACE reqwest::blocking::wait] wait at most 30s
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]
+[[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
+[[..] INFO  kdeets_lib::crate_versions] Response: Response {
+        url: "https://index.crates.io/so/me/some_crate",
+        status: 200,
+        headers: {
+            "content-type": "text/plain",
+            "content-length": "604",
+            "last-modified": "Fri, 20 Sep 2024 10:24:26 GMT",
+            "x-amz-server-side-encryption": "AES256",
+            "x-amz-version-id": "[..]",
+            "accept-ranges": "bytes",
+            "server": "AmazonS3",
+            "date": "[..]",
+            "cache-control": "public,max-age=600",
+            "etag": "/"[..]/"",
+            "vary": "accept-encoding",
+            "x-cache": "Hit from cloudfront",
+            "via": "1.1 [..].cloudfront.net (CloudFront)",
+            "x-amz-cf-pop": "[..]",
+            "x-amz-cf-id": "[..]",
+...
+        },
+    }!
+[[..] TRACE reqwest::blocking::wait] wait at most 30s
+[[..] DEBUG kdeets_lib::crate_versions] Rows: [
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.3",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.2.1",
+    ]!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.0`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.3`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.2.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Max row length: 17!
+[[..] DEBUG kdeets_lib::crate_versions] Output: 
+     Crate versions for some_crate.
+     🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+       Earliest version: 0.1.0
+       Highest normal version: 0.2.1
+       Highest version: 0.2.1
+       Most recent version: 0.2.1
+    !
+[[..] DEBUG kdeets_lib::crate_versions] Header:  Yanked  Version !
+[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
+[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```
+
+```console
+$ kdeets crate --all -vvvvv some_crate
+[[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
+[[..] DEBUG kdeets_lib::crate_versions] Constructed remote request: Request { method: GET, uri: https://index.crates.io/so/me/some_crate, version: HTTP/1.1, headers: {"cargo-protocol": "version=1", "accept": "text/plain", "accept-encoding": "gzip"}, body: () }!
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park without timeout
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) start runtime::block_on
+[[..] INFO  kdeets_lib::crate_versions] Remote request for reqwest: RequestBuilder {
+        client: Client,
+        request: Ok(
+            Request {
+                method: GET,
+                url: Url {
+                    scheme: "https",
+                    cannot_be_a_base: false,
+                    username: "",
+                    password: None,
+                    host: Some(
+                        Domain(
+                            "index.crates.io",
+                        ),
+                    ),
+                    port: None,
+                    path: "/so/me/some_crate",
+                    query: None,
+                    fragment: None,
+                },
+                headers: {
+                    "cargo-protocol": "version=1",
+                    "accept": "text/plain",
+                    "accept-encoding": "gzip",
+                },
+            },
+        ),
+    }!
+[[..] TRACE reqwest::blocking::wait] wait at most 30s
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]
+[[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
+[[..] INFO  kdeets_lib::crate_versions] Response: Response {
+        url: "https://index.crates.io/so/me/some_crate",
+        status: 200,
+        headers: {
+            "content-type": "text/plain",
+            "content-length": "604",
+            "last-modified": "Fri, 20 Sep 2024 10:24:26 GMT",
+            "x-amz-server-side-encryption": "AES256",
+            "x-amz-version-id": "[..]",
+            "accept-ranges": "bytes",
+            "server": "AmazonS3",
+            "date": "[..]",
+            "cache-control": "public,max-age=600",
+            "etag": "/"[..]/"",
+            "vary": "accept-encoding",
+            "x-cache": "Hit from cloudfront",
+            "via": "1.1 [..].cloudfront.net (CloudFront)",
+            "x-amz-cf-pop": "[..]",
+            "x-amz-cf-id": "[..]==",
+...
+        },
+    }!
+[[..] TRACE reqwest::blocking::wait] wait at most 30s
+[[..] DEBUG kdeets_lib::crate_versions] Rows: [
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.3",
+        "   /u{1b}[38;5;2m No/u{1b}[0m     0.2.1",
+    ]!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.0`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.1.3`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Line: `    No     0.2.1`, len: `29`!
+[[..] DEBUG kdeets_lib::crate_versions] Max row length: 17!
+[[..] DEBUG kdeets_lib::crate_versions] Output: 
+     Crate versions for some_crate.
+     🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+       Earliest version: 0.1.0
+       Highest normal version: 0.2.1
+       Highest version: 0.2.1
+       Most recent version: 0.2.1
+    !
+[[..] DEBUG kdeets_lib::crate_versions] Header:  Yanked  Version !
+[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
+[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
+
+```

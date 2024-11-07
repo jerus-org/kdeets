@@ -1,0 +1,59 @@
+```console
+$ kdeets --help
+Query crates.io for information about a crate.
+
+Usage: kdeets [OPTIONS] <COMMAND>
+
+Commands:
+  crate  Query crates.io for information about a crate
+  help   Print this message or the help of the given subcommand(s)
+
+Options:
+  -v, --verbose...  Increase logging verbosity
+  -q, --quiet...    Decrease logging verbosity
+  -h, --help        Print help
+  -V, --version     Print version
+
+```
+
+```console
+$ kdeets -h
+Query crates.io for information about a crate.
+
+Usage: kdeets [OPTIONS] <COMMAND>
+
+Commands:
+  crate  Query crates.io for information about a crate
+  help   Print this message or the help of the given subcommand(s)
+
+Options:
+  -v, --verbose...  Increase logging verbosity
+  -q, --quiet...    Decrease logging verbosity
+  -h, --help        Print help
+  -V, --version     Print version
+
+```
+
+```console
+$ kdeets crate --help
+Query crates.io for information about a crate
+
+Usage: kdeets crate [OPTIONS] <CRATE>
+
+Arguments:
+  <CRATE>  The name of the crate
+
+Options:
+  -v, --verbose...  More output per occurrence
+  -q, --quiet...    Less output per occurrence
+  -e, --earliest    First version ever published. May be yanked
+  -n, --normal      Returns crate version with the highest version number according to semver, but excludes pre-release and yanked versions
+  -t, --top         The highest version as per semantic versioning specification
+  -r, --recent      The last release by date, even if it’s yanked or less than highest version
+  -l, --list        List all versions of the crate
+  -k, --key         List key values (equivalent to `-entr`)
+  -a, --all         List all versions and key values (equivalent to `-entrl`)
+  -h, --help        Print help
+  -V, --version     Print version
+
+```
