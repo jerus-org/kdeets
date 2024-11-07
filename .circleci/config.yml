@@ -120,6 +120,7 @@ workflows:
             # - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/idiomatic_rust
+            - toolkit/code_coverage
             - security
           context:
             - release

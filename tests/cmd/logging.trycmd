@@ -84,7 +84,7 @@ $ kdeets crate --all -vv some_crate
             "via": "[..] (CloudFront)",
             "x-amz-cf-pop": "[..]",
             "x-amz-cf-id": "[..]",
-            "age": "[..]",
+...
         },
     }!
 
@@ -155,7 +155,7 @@ $ kdeets crate --all -vvv some_crate
             "via": "1.1 [..].cloudfront.net (CloudFront)",
             "x-amz-cf-pop": "[..]",
             "x-amz-cf-id": "[..]",
-            "age": "[..]",
+...
         },
     }!
 [[..] DEBUG kdeets_lib::crate_versions] Rows: [
@@ -250,7 +250,7 @@ $ kdeets crate --all -vvvv some_crate
             "via": "1.1 [..].cloudfront.net (CloudFront)",
             "x-amz-cf-pop": "[..]",
             "x-amz-cf-id": "[..]",
-            "age": "[..]",
+...
         },
     }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
@@ -352,7 +352,7 @@ $ kdeets crate --all -vvvvv some_crate
             "via": "1.1 [..].cloudfront.net (CloudFront)",
             "x-amz-cf-pop": "[..]",
             "x-amz-cf-id": "[..]==",
-            "age": "[..]",
+...
         },
     }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
