@@ -886,6 +886,7 @@ dependencies = [
  "env_logger",
  "log",
  "rstest",
+ "semver",
  "tame-index",
  "thiserror 2.0.0",
  "trycmd",

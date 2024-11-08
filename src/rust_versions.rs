@@ -3,13 +3,14 @@ use crate::Error;
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
+use semver::{Version, VersionReq};
 use tame_index::{
     external::{
         http::{request::Parts, Response},
         reqwest::blocking::ClientBuilder,
     },
     index::FileLock,
-    IndexLocation, IndexUrl, KrateName, SparseIndex,
+    IndexKrate, IndexLocation, IndexUrl, KrateName, SparseIndex,
 };
 
 #[derive(Parser, Debug, Default)]
@@ -30,50 +31,7 @@ impl RustVersions {
         let il = IndexLocation::new(IndexUrl::CratesIoSparse);
         let index = SparseIndex::new(il)?;
 
-        let lock = FileLock::unlocked();
-        let req = index.make_remote_request(crate_name, None, &lock)?;
-
-        log::debug!("Constructed remote request: {:?}!", req);
-
-        let (
-            Parts {
-                method,
-                uri,
-                version,
-                headers,
-                ..
-            },
-            _,
-        ) = req.into_parts();
-
-        let builder = ClientBuilder::new();
-        let builder = builder.tls_built_in_root_certs(true);
-        let client = builder.build()?;
-
-        let mut req = client.request(method, uri.to_string());
-        req = req.version(version);
-        req = req.headers(headers);
-        log::info!("Remote request for reqwest: {:#?}!", req);
-
-        let resp = client.execute(req.build()?)?;
-        log::info!("Response: {:#?}!", resp);
-
-        let mut builder = Response::builder()
-            .status(resp.status())
-            .version(resp.version());
-
-        builder
-            .headers_mut()
-            .unwrap()
-            .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
-
-        let body = resp.bytes().unwrap();
-        let response = builder.body(body.to_vec())?;
-
-        let Some(index_crate) = index.parse_remote_response(crate_name, response, false, &lock)?
-        else {
-            return Err(Error::CrateNotFoundonIndex);
-        };
+        let index_crate = get_index_crate(&index, crate_name)?;
 
         let mut output = format!(
             "\n {}",
@@ -90,8 +48,98 @@ impl RustVersions {
 
         output = format!("{}\n{}\n", output, line);
 
+        output = format!(
+            "{}   {}\n",
+            output,
+            format!(
+                "Most recent version: {} (Rust version: {})",
+                index_crate.most_recent_version().version,
+                if let Some(rv) = &index_crate.most_recent_version().rust_version {
+                    rv.to_string()
+                } else {
+                    "not specified".to_string()
+                }
+            )
+            .yellow()
+        );
+
+        for dep in index_crate.most_recent_version().dependencies() {
+            output = format!(
+                "{}    {}   {}  {}\n",
+                output,
+                dep.crate_name(),
+                dep.version_requirement(),
+                get_rust_version(&index, dep.crate_name(), dep.version_requirement(),)?,
+            );
+        }
+
         Ok(output)
     }
+}
+
+fn get_index_crate(index: &SparseIndex, name: KrateName) -> Result<IndexKrate, Error> {
+    let lock = FileLock::unlocked();
+    let req = index.make_remote_request(name, None, &lock)?;
+    let (
+        Parts {
+            method,
+            uri,
+            version,
+            headers,
+            ..
+        },
+        _,
+    ) = req.into_parts();
+    let builder = ClientBuilder::new();
+    let builder = builder.tls_built_in_root_certs(true);
+    let client = builder.build()?;
+    let mut req = client.request(method, uri.to_string());
+    req = req.version(version);
+    req = req.headers(headers);
+    log::info!("Remote request for reqwest: {:#?}!", req);
+
+    let resp = client.execute(req.build()?)?;
+    log::info!("Response: {:#?}!", resp);
+
+    let mut builder = Response::builder()
+        .status(resp.status())
+        .version(resp.version());
+
+    builder
+        .headers_mut()
+        .unwrap()
+        .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
+
+    let body = resp.bytes().unwrap();
+    let response = builder.body(body.to_vec())?;
+
+    let Some(index_crate) = index.parse_remote_response(name, response, false, &lock)? else {
+        return Err(Error::CrateNotFoundonIndex);
+    };
+
+    Ok(index_crate)
+}
+
+fn get_rust_version(
+    index: &SparseIndex,
+    name: &str,
+    version_reference: VersionReq,
+) -> Result<String, Error> {
+    let crate_name = KrateName::crates_io(name)?;
+    let mut rust_version = String::from("not specified");
+
+    let index_crate = get_index_crate(index, crate_name)?;
+
+    for version in index_crate.versions {
+        if version_reference.matches(&Version::parse(&version.version)?) {
+            if let Some(rv) = &version.rust_version {
+                rust_version = rv.to_string();
+            }
+            break;
+        }
+    }
+
+    Ok(rust_version)
 }
 
 #[cfg(test)]
