@@ -118,7 +118,7 @@ workflows:
           context: SonarCloud
       - toolkit/update_changelog:
           requires:
-            # - toolkit/common_tests
+            - toolkit/common_tests
             - toolkit/required_builds
             - toolkit/idiomatic_rust
             - toolkit/code_coverage
