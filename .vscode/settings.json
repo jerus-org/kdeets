@@ -3,7 +3,8 @@
         "colorful",
         "entr",
         "entrl",
-        "krate"
+        "krate",
+        "msome",
     ],
     "rustTestExplorer.logpanel": true
 }
