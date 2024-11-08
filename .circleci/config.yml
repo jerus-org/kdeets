@@ -101,6 +101,7 @@ workflows:
               only:
                 - main
       - toolkit/code_coverage:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
           filters:
             branches:
               ignore:
@@ -109,8 +110,8 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      # - toolkit/common_tests:
-      #     min_rust_version: << pipeline.parameters.min-rust-version >>
+      - toolkit/common_tests:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - security:
