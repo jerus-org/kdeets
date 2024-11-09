@@ -4,14 +4,8 @@ use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
 use semver::{Version, VersionReq};
-use tame_index::{
-    external::{
-        http::{request::Parts, Response},
-        reqwest::blocking::ClientBuilder,
-    },
-    index::FileLock,
-    IndexKrate, IndexLocation, IndexUrl, KrateName, SparseIndex,
-};
+use smol_str::SmolStr;
+use tame_index::{KrateName, SparseIndex};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -26,12 +20,8 @@ impl RustVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
 
-        let crate_name = KrateName::crates_io(&self.crate_)?;
-
-        let il = IndexLocation::new(IndexUrl::CratesIoSparse);
-        let index = SparseIndex::new(il)?;
-
-        let index_crate = get_index_crate(&index, crate_name)?;
+        let index = crate::get_sparce_index()?;
+        let index_crate = crate::get_index_crate(&index, KrateName::crates_io(&self.crate_)?)?;
 
         let mut output = format!(
             "\n {}",
@@ -60,87 +50,66 @@ impl RustVersions {
                     "not specified".to_string()
                 }
             )
-            .yellow()
+            .blue()
+            .bold()
         );
 
-        for dep in index_crate.most_recent_version().dependencies() {
+        let mut rust_versions = vec![];
+
+        let deps = index_crate.most_recent_version().dependencies();
+        for dep in deps {
+            let rust_version =
+                get_rust_version(&index, dep.crate_name(), dep.version_requirement())?;
+            rust_versions.push(rust_version.clone());
             output = format!(
-                "{}    {}   {}  {}\n",
+                "{}    {}   {}  {:?}\n",
                 output,
                 dep.crate_name(),
                 dep.version_requirement(),
-                get_rust_version(&index, dep.crate_name(), dep.version_requirement(),)?,
+                rust_version,
             );
         }
 
+        let minimum_rust = rust_versions
+            .iter()
+            .filter_map(|rv_opt| rv_opt.as_ref())
+            .max();
+        output = format!("{}    Minimum Rust version: {:?}", output, minimum_rust);
+
+        let any_none = rust_versions.iter().any(|rv| rv.is_none());
+        if any_none {
+            output = format!(
+                "{} ({})",
+                output,
+                "WARNING: Some dependencies do not specify a Rust version".yellow(),
+            );
+        }
+        output = format!("{}\n", output);
+
         Ok(output)
     }
-}
-
-fn get_index_crate(index: &SparseIndex, name: KrateName) -> Result<IndexKrate, Error> {
-    let lock = FileLock::unlocked();
-    let req = index.make_remote_request(name, None, &lock)?;
-    let (
-        Parts {
-            method,
-            uri,
-            version,
-            headers,
-            ..
-        },
-        _,
-    ) = req.into_parts();
-    let builder = ClientBuilder::new();
-    let builder = builder.tls_built_in_root_certs(true);
-    let client = builder.build()?;
-    let mut req = client.request(method, uri.to_string());
-    req = req.version(version);
-    req = req.headers(headers);
-    log::info!("Remote request for reqwest: {:#?}!", req);
-
-    let resp = client.execute(req.build()?)?;
-    log::info!("Response: {:#?}!", resp);
-
-    let mut builder = Response::builder()
-        .status(resp.status())
-        .version(resp.version());
-
-    builder
-        .headers_mut()
-        .unwrap()
-        .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
-
-    let body = resp.bytes().unwrap();
-    let response = builder.body(body.to_vec())?;
-
-    let Some(index_crate) = index.parse_remote_response(name, response, false, &lock)? else {
-        return Err(Error::CrateNotFoundonIndex);
-    };
-
-    Ok(index_crate)
 }
 
 fn get_rust_version(
     index: &SparseIndex,
     name: &str,
     version_reference: VersionReq,
-) -> Result<String, Error> {
+) -> Result<Option<SmolStr>, Error> {
     let crate_name = KrateName::crates_io(name)?;
-    let mut rust_version = String::from("not specified");
 
-    let index_crate = get_index_crate(index, crate_name)?;
+    let index_crate = crate::get_index_crate(index, crate_name)?;
 
     for version in index_crate.versions {
         if version_reference.matches(&Version::parse(&version.version)?) {
-            if let Some(rv) = &version.rust_version {
-                rust_version = rv.to_string();
-            }
-            break;
+            return Ok(version.rust_version);
         }
     }
 
-    Ok(rust_version)
+    Ok(None)
 }
+
+// Forestry - single dependency with rust_version specified
+// walkdir - No dependency has rust_version specified
 
 #[cfg(test)]
 mod tests {
