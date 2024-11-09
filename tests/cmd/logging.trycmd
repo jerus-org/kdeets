@@ -197,7 +197,7 @@ $ kdeets crate --all -vvvv some_crate
         ),
     }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
-[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout 29.999995839s
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]s
 [[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
 [[..] INFO  kdeets_lib] Response: Response {
         url: "https://index.crates.io/so/me/some_crate",
@@ -284,7 +284,7 @@ $ kdeets crate --all -vvvvv some_crate
         ),
     }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
-[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout 29.99999841s
+[[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]s
 [[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
 [[..] INFO  kdeets_lib] Response: Response {
         url: "https://index.crates.io/so/me/some_crate",
