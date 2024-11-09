@@ -26,5 +26,6 @@ name = "kdeets_lib"
 path = "src/lib.rs"
 
 [dev-dependencies]
+pretty_assertions = "1.4.1"
 rstest = "0.23.0"
 trycmd = "0.15.8"

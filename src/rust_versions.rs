@@ -1,11 +1,13 @@
-use crate::Error;
+use std::fmt::Display;
+
+use crate::{Error, HEADER, LINE_CHAR};
 
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
 use semver::{Version, VersionReq};
 use smol_str::SmolStr;
-use tame_index::{KrateName, SparseIndex};
+use tame_index::{IndexKrate, KrateName, SparseIndex};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -23,70 +25,13 @@ impl RustVersions {
         let index = crate::get_sparce_index()?;
         let index_crate = crate::get_index_crate(&index, KrateName::crates_io(&self.crate_)?)?;
 
-        let mut output = format!(
-            "\n {}",
-            format!("Crate versions for {}.", index_crate.name().cyan()).bold()
-        );
+        let mut output = RustVersionOutput::new(&index_crate);
 
-        let mut i = 0;
-        let mut line = String::from(" ");
+        output.set_rust_version(&index_crate)?;
 
-        while i < 20 + index_crate.name().len() {
-            line.push('🭶');
-            i += 1;
-        }
+        output.set_minimum_rust_version_required(&index_crate, &index)?;
 
-        output = format!("{}\n{}\n", output, line);
-
-        output = format!(
-            "{}   {}\n",
-            output,
-            format!(
-                "Most recent version: {} (Rust version: {})",
-                index_crate.most_recent_version().version,
-                if let Some(rv) = &index_crate.most_recent_version().rust_version {
-                    rv.to_string()
-                } else {
-                    "not specified".to_string()
-                }
-            )
-            .blue()
-            .bold()
-        );
-
-        let mut rust_versions = vec![];
-
-        let deps = index_crate.most_recent_version().dependencies();
-        for dep in deps {
-            let rust_version =
-                get_rust_version(&index, dep.crate_name(), dep.version_requirement())?;
-            rust_versions.push(rust_version.clone());
-            output = format!(
-                "{}    {}   {}  {:?}\n",
-                output,
-                dep.crate_name(),
-                dep.version_requirement(),
-                rust_version,
-            );
-        }
-
-        let minimum_rust = rust_versions
-            .iter()
-            .filter_map(|rv_opt| rv_opt.as_ref())
-            .max();
-        output = format!("{}    Minimum Rust version: {:?}", output, minimum_rust);
-
-        let any_none = rust_versions.iter().any(|rv| rv.is_none());
-        if any_none {
-            output = format!(
-                "{} ({})",
-                output,
-                "WARNING: Some dependencies do not specify a Rust version".yellow(),
-            );
-        }
-        output = format!("{}\n", output);
-
-        Ok(output)
+        Ok(output.to_string())
     }
 }
 
@@ -108,55 +53,118 @@ fn get_rust_version(
     Ok(None)
 }
 
-// Forestry - single dependency with rust_version specified
-// walkdir - No dependency has rust_version specified
+#[derive(Debug, Default)]
+struct RustVersionOutput {
+    header: String,
+    rust_version: Option<String>,
+    minimum_required_rust: Option<String>,
+}
 
-#[cfg(test)]
-mod tests {
-
-    use colorful::Colorful;
-    use rstest::fixture;
-
-    #[fixture]
-    fn header(#[default("some_crate")] name: &str) -> String {
-        let output = format!(
-            "\n {}",
-            format!("Crate versions for {}.", name.cyan()).bold()
-        );
-
+impl RustVersionOutput {
+    fn new(index_crate: &IndexKrate) -> Self {
+        let mut header = String::from("\n  ");
+        header.push_str(HEADER);
+        header.push(' ');
+        header.push_str(index_crate.name().cyan().to_string().as_str());
+        header.push('.');
+        header.push_str("\n  ");
         let mut i = 0;
-        let mut line = String::from(" ");
-
-        while i < 20 + name.len() {
-            line.push('🭶');
+        while i < HEADER.len() + 2 + index_crate.name().len() {
+            header.push(LINE_CHAR);
             i += 1;
         }
+        header.push('\n');
 
-        format!("{}\n{}\n", output, line)
+        Self {
+            header,
+            ..Default::default()
+        }
     }
 
-    #[fixture]
-    fn earliest() -> String {
-        "   Earliest version: 0.1.0\n".to_string()
+    fn set_rust_version(&mut self, index_crate: &IndexKrate) -> Result<(), Error> {
+        let mut rust_version = String::from("    Most recent version: ");
+        rust_version.push_str(
+            index_crate
+                .most_recent_version()
+                .version
+                .to_string()
+                .as_str(),
+        );
+        rust_version.push_str(" (Rust version: ");
+        let rv = if let Some(rv) = &index_crate.most_recent_version().rust_version {
+            rv.to_string()
+        } else {
+            "not specified".to_string()
+        }
+        .blue()
+        .bold()
+        .to_string();
+        rust_version.push_str(&rv);
+        rust_version.push_str(")\n");
+
+        self.rust_version = Some(rust_version);
+
+        Ok(())
     }
 
-    #[fixture]
-    fn highest_normal() -> String {
-        format!("   {}\n", "Highest normal version: 0.2.1".blue())
-    }
+    fn set_minimum_rust_version_required(
+        &mut self,
+        index_crate: &IndexKrate,
+        index: &SparseIndex,
+    ) -> Result<(), Error> {
+        let mut rust_versions = vec![];
 
-    #[fixture]
-    fn highest() -> String {
-        format!("   {}\n", "Highest version: 0.2.1".green())
-    }
+        let deps = index_crate.most_recent_version().dependencies();
+        for dep in deps {
+            let rust_version =
+                get_rust_version(index, dep.crate_name(), dep.version_requirement())?;
+            rust_versions.push(rust_version.clone());
+            log::debug!(
+                "    {}   {}  {:?}\n",
+                dep.crate_name(),
+                dep.version_requirement(),
+                rust_version,
+            );
+        }
 
-    #[fixture]
-    fn recent() -> String {
-        format!("   {}\n", "Most recent version: 0.2.1".yellow())
-    }
+        let minimum_rust = rust_versions
+            .iter()
+            .filter_map(|rv_opt| rv_opt.as_ref())
+            .max();
 
-    #[fixture]
-    fn list() -> String {
-        "   \u{1b}[4m Yanked  Version \u{1b}[0m\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.0\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.1\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.3\n      \u{1b}[38;5;2m No\u{1b}[0m     0.2.1\n".to_string()
+        let mut minimum_required_rust = String::from("    Minimum Rust version: ");
+        minimum_required_rust.push_str(minimum_rust.unwrap().to_string().as_str());
+
+        if rust_versions.iter().any(|rv| rv.is_none()) {
+            minimum_required_rust.push_str(" (");
+            minimum_required_rust.push_str(
+                " (WARNING: Some dependencies do not specify a Rust version)"
+                    .yellow()
+                    .to_string()
+                    .as_str(),
+            );
+            minimum_required_rust.push(')');
+        }
+        minimum_required_rust.push('\n');
+
+        self.minimum_required_rust = Some(minimum_required_rust);
+
+        Ok(())
     }
 }
+
+impl Display for RustVersionOutput {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.header)?;
+        if let Some(rust_version) = &self.rust_version {
+            write!(f, "{}", rust_version)?;
+        }
+        if let Some(minimum_required_rust) = &self.minimum_required_rust {
+            write!(f, "{}", minimum_required_rust)?;
+        }
+        Ok(())
+    }
+}
+
+// Forestry - single dependency with rust_version specified
+// walkdir - No dependency has rust_version specified

@@ -1,3 +1,6 @@
+const HEADER: &str = "Crate versions for";
+const LINE_CHAR: char = '🭶';
+
 mod crate_versions;
 mod error;
 mod rust_versions;
@@ -39,10 +42,10 @@ pub(crate) fn get_index_crate(index: &SparseIndex, name: KrateName) -> Result<In
     let mut req = client.request(method, uri.to_string());
     req = req.version(version);
     req = req.headers(headers);
-    log::info!("Remote request for reqwest: {:#?}!", req);
+    log::trace!("Remote request for reqwest: {:#?}!", req);
 
     let resp = client.execute(req.build()?)?;
-    log::info!("Response: {:#?}!", resp);
+    log::trace!("Response: {:#?}!", resp);
 
     let mut builder = Response::builder()
         .status(resp.status())
