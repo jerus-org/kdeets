@@ -887,6 +887,7 @@ dependencies = [
  "log",
  "rstest",
  "semver",
+ "smol_str",
  "tame-index",
  "thiserror 2.0.0",
  "trycmd",
