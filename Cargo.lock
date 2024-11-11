@@ -1520,12 +1520,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
-name = "static_assertions"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
-
-[[package]]
 name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1570,9 +1564,9 @@ dependencies = [
 
 [[package]]
 name = "tame-index"
-version = "0.14.0"
+version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c46e79ebf09a3740c583fc8df63b1b8b5844bf756074c6bf5d392d5a2b708269"
+checksum = "2e84f5c909182129ef064424ed6eeef4210db99c35b9bd2dc36c230c1544ec66"
 dependencies = [
  "camino",
  "crossbeam-channel",
@@ -1791,13 +1785,9 @@ dependencies = [
 
 [[package]]
 name = "twox-hash"
-version = "1.6.3"
+version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97fee6b57c6a41524a810daee9286c02d7752c4253064d0b05472833a438f675"
-dependencies = [
- "cfg-if",
- "static_assertions",
-]
+checksum = "a6db6856664807f43c17fbaf2718e2381ac1476a449aa104f5f64622defa1245"
 
 [[package]]
 name = "unicode-ident"
