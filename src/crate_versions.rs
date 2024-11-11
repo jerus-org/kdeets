@@ -3,7 +3,7 @@ use crate::Error;
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
-use tame_index::KrateName;
+use tame_index::{index::FileLock, KrateName};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -38,9 +38,13 @@ pub struct CrateVersions {
 impl CrateVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
-
+        let lock = FileLock::unlocked();
         let index = crate::get_sparce_index()?;
-        let index_crate = crate::get_index_crate(&index, KrateName::crates_io(&self.crate_)?)?;
+        let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
+
+        let Some(index_crate) = index_crate else {
+            return Err(Error::CrateNotFoundOnIndex);
+        };
 
         let mut output = format!(
             "\n {}",
