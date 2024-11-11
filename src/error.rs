@@ -7,7 +7,7 @@ use thiserror::Error;
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("The crate was not found on crates.io")]
-    CrateNotFoundonIndex,
+    CrateNotFoundOnIndex,
     #[error("tame_index error says: {0:?}")]
     TameIndex(#[from] tame_index::Error),
     /// Error passed up from reqwest
