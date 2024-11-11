@@ -7,7 +7,10 @@ use clap_verbosity::Verbosity;
 use colorful::Colorful;
 use semver::{Version, VersionReq};
 use smol_str::SmolStr;
-use tame_index::{IndexKrate, KrateName, SparseIndex};
+use tame_index::{
+    index::{ComboIndex, FileLock},
+    IndexKrate, KrateName,
+};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -21,9 +24,13 @@ pub struct RustVersions {
 impl RustVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
-
+        let lock = FileLock::unlocked();
         let index = crate::get_sparce_index()?;
-        let index_crate = crate::get_index_crate(&index, KrateName::crates_io(&self.crate_)?)?;
+        let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
+
+        let Some(index_crate) = index_crate else {
+            return Err(Error::CrateNotFoundOnIndex);
+        };
 
         let mut output = RustVersionOutput::new(&index_crate);
 
@@ -36,13 +43,17 @@ impl RustVersions {
 }
 
 fn get_rust_version(
-    index: &SparseIndex,
+    index: &ComboIndex,
     name: &str,
     version_reference: VersionReq,
 ) -> Result<Option<SmolStr>, Error> {
     let crate_name = KrateName::crates_io(name)?;
+    let lock = FileLock::unlocked();
+    let index_crate = index.krate(crate_name, true, &lock)?;
 
-    let index_crate = crate::get_index_crate(index, crate_name)?;
+    let Some(index_crate) = index_crate else {
+        return Err(Error::CrateNotFoundOnIndex);
+    };
 
     for version in index_crate.versions {
         if version_reference.matches(&Version::parse(&version.version)?) {
@@ -110,7 +121,7 @@ impl RustVersionOutput {
     fn set_minimum_rust_version_required(
         &mut self,
         index_crate: &IndexKrate,
-        index: &SparseIndex,
+        index: &ComboIndex,
     ) -> Result<(), Error> {
         let mut rust_versions = vec![];
 
@@ -168,3 +179,41 @@ impl Display for RustVersionOutput {
 
 // Forestry - single dependency with rust_version specified
 // walkdir - No dependency has rust_version specified
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_with_empty_crate_name() {
+        let index_crate = IndexKrate::new("").unwrap();
+        let rust_versions = RustVersionOutput::new(&index_crate);
+        assert!(rust_versions.header.contains("\n  "));
+        assert!(rust_versions.header.contains("─"));
+    }
+
+    #[test]
+    fn test_new_with_long_crate_name() {
+        let index_crate = IndexKrate::new("very_long_crate_name_test").unwrap();
+        let rust_versions = RustVersionOutput::new(&index_crate);
+        assert!(rust_versions.header.contains("very_long_crate_name_test"));
+        assert!(rust_versions.header.ends_with('\n'));
+    }
+
+    #[test]
+    fn test_new_header_formatting() {
+        let index_crate = IndexKrate::new("test_crate").unwrap();
+        let rust_versions = RustVersionOutput::new(&index_crate);
+        let expected_length = "\n  Rust versions for ".len() + "test_crate".len() + ".\n  ".len();
+        assert!(rust_versions.header.len() > expected_length);
+    }
+
+    #[test]
+    fn test_new_colored_output() {
+        let index_crate = IndexKrate::new("colored_test").unwrap();
+        let rust_versions = RustVersionOutput::new(&index_crate);
+        assert!(rust_versions
+            .header
+            .contains(&"colored_test".cyan().to_string()));
+    }
+}
