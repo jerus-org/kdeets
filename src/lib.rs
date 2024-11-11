@@ -8,60 +8,50 @@ mod rust_versions;
 pub use crate_versions::CrateVersions;
 pub use error::Error;
 pub use rust_versions::RustVersions;
+use tame_index::external::reqwest::blocking::ClientBuilder;
+use tame_index::index::{ComboIndex, RemoteSparseIndex};
 
-use tame_index::{
-    external::{
-        http::{request::Parts, Response},
-        reqwest::blocking::ClientBuilder,
-    },
-    index::FileLock,
-    IndexKrate, IndexLocation, IndexUrl, KrateName, SparseIndex,
-};
+use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
-pub(crate) fn get_sparce_index() -> Result<SparseIndex, tame_index::error::Error> {
+pub(crate) fn get_sparce_index() -> Result<ComboIndex, tame_index::error::Error> {
     let il = IndexLocation::new(IndexUrl::CratesIoSparse);
-    SparseIndex::new(il)
-}
+    let index = SparseIndex::new(il)?;
 
-pub(crate) fn get_index_crate(index: &SparseIndex, name: KrateName) -> Result<IndexKrate, Error> {
-    let lock = FileLock::unlocked();
-    let req = index.make_remote_request(name, None, &lock)?;
-    let (
-        Parts {
-            method,
-            uri,
-            version,
-            headers,
-            ..
-        },
-        _,
-    ) = req.into_parts();
     let builder = ClientBuilder::new();
     let builder = builder.tls_built_in_root_certs(true);
     let client = builder.build()?;
-    let mut req = client.request(method, uri.to_string());
-    req = req.version(version);
-    req = req.headers(headers);
-    log::trace!("Remote request for reqwest: {:#?}!", req);
 
-    let resp = client.execute(req.build()?)?;
-    log::trace!("Response: {:#?}!", resp);
+    let remote_index = RemoteSparseIndex::new(index, client);
 
-    let mut builder = Response::builder()
-        .status(resp.status())
-        .version(resp.version());
+    Ok(ComboIndex::from(remote_index))
+}
 
-    builder
-        .headers_mut()
-        .unwrap()
-        .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
+#[cfg(test)]
+mod tests {
 
-    let body = resp.bytes().unwrap();
-    let response = builder.body(body.to_vec())?;
+    use crate::get_sparce_index;
+    use tame_index::index::ComboIndex;
 
-    let Some(index_crate) = index.parse_remote_response(name, response, false, &lock)? else {
-        return Err(Error::CrateNotFoundonIndex);
-    };
+    #[test]
+    fn test_get_sparse_index_success() {
+        let result = get_sparce_index();
+        assert!(result.is_ok());
+        let index = result.unwrap();
+        assert!(matches!(index, ComboIndex::Sparse(_)));
+    }
 
-    Ok(index_crate)
+    #[test]
+    fn test_get_sparse_index_type() {
+        let result = get_sparce_index();
+        assert!(matches!(result, Ok(ComboIndex::Sparse(_))));
+    }
+
+    #[test]
+    fn test_sparse_index_error_handling() {
+        let result = get_sparce_index();
+        match result {
+            Ok(_) => (),
+            Err(e) => panic!("Expected Ok, got Err: {:?}", e),
+        }
+    }
 }
