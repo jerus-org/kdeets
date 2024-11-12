@@ -32,11 +32,11 @@ impl RustVersions {
             return Err(Error::CrateNotFoundOnIndex);
         };
 
-        let mut output = RustVersionOutput::new(&index_crate);
+        let mut output = RustVersionOutput::new(index_crate);
 
-        output.set_rust_version(&index_crate)?;
+        output.set_rust_version()?;
 
-        output.set_minimum_rust_version_required(&index_crate, &index)?;
+        output.set_minimum_rust_version_required(&index)?;
 
         Ok(output.to_string())
     }
@@ -64,15 +64,16 @@ fn get_rust_version(
     Ok(None)
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct RustVersionOutput {
+    index_crate: IndexKrate,
     header: String,
     rust_version: Option<String>,
     minimum_required_rust: Option<String>,
 }
 
 impl RustVersionOutput {
-    fn new(index_crate: &IndexKrate) -> Self {
+    fn new(index_crate: IndexKrate) -> Self {
         let mut header = String::from("\n  ");
         header.push_str(HEADER);
         header.push(' ');
@@ -87,22 +88,24 @@ impl RustVersionOutput {
         header.push('\n');
 
         Self {
+            index_crate,
             header,
-            ..Default::default()
+            rust_version: None,
+            minimum_required_rust: None,
         }
     }
 
-    fn set_rust_version(&mut self, index_crate: &IndexKrate) -> Result<(), Error> {
+    fn set_rust_version(&mut self) -> Result<(), Error> {
         let mut rust_version = String::from("    Most recent version: ");
         rust_version.push_str(
-            index_crate
+            self.index_crate
                 .most_recent_version()
                 .version
                 .to_string()
                 .as_str(),
         );
         rust_version.push_str(" (Rust version: ");
-        let rv = if let Some(rv) = &index_crate.most_recent_version().rust_version {
+        let rv = if let Some(rv) = &self.index_crate.most_recent_version().rust_version {
             rv.to_string()
         } else {
             "not specified".to_string()
@@ -118,14 +121,10 @@ impl RustVersionOutput {
         Ok(())
     }
 
-    fn set_minimum_rust_version_required(
-        &mut self,
-        index_crate: &IndexKrate,
-        index: &ComboIndex,
-    ) -> Result<(), Error> {
+    fn set_minimum_rust_version_required(&mut self, index: &ComboIndex) -> Result<(), Error> {
         let mut rust_versions = vec![];
 
-        let deps = index_crate.most_recent_version().dependencies();
+        let deps = self.index_crate.most_recent_version().dependencies();
         for dep in deps {
             let rust_version =
                 get_rust_version(index, dep.crate_name(), dep.version_requirement())?;
@@ -144,7 +143,11 @@ impl RustVersionOutput {
             .max();
 
         let mut minimum_required_rust = String::from("    Minimum Rust version: ");
-        minimum_required_rust.push_str(minimum_rust.unwrap().to_string().as_str());
+        if let Some(minimum_rust) = minimum_rust {
+            minimum_required_rust.push_str(minimum_rust.to_string().as_str());
+        } else {
+            minimum_required_rust.push_str("not specified");
+        }
 
         if rust_versions.iter().any(|rv| rv.is_none()) {
             minimum_required_rust.push_str(" (");
@@ -182,38 +185,75 @@ impl Display for RustVersionOutput {
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
 
     #[test]
-    fn test_new_with_empty_crate_name() {
-        let index_crate = IndexKrate::new("").unwrap();
-        let rust_versions = RustVersionOutput::new(&index_crate);
-        assert!(rust_versions.header.contains("\n  "));
-        assert!(rust_versions.header.contains("─"));
+    fn test_add_crate_and_set_header() {
+        let expected = "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n";
+
+        let lock = FileLock::unlocked();
+        let index = crate::tests::get_test_index().unwrap();
+        let index_crate = index
+            .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
+            .unwrap()
+            .unwrap();
+
+        let output = RustVersionOutput::new(index_crate);
+
+        assert_eq!(output.to_string(), expected);
     }
 
     #[test]
-    fn test_new_with_long_crate_name() {
-        let index_crate = IndexKrate::new("very_long_crate_name_test").unwrap();
-        let rust_versions = RustVersionOutput::new(&index_crate);
-        assert!(rust_versions.header.contains("very_long_crate_name_test"));
-        assert!(rust_versions.header.ends_with('\n'));
+    fn test_set_rust_version_output_with_specified_version() {
+        let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Most recent version: 1.4.1 (Rust version: \u{1b}[38;5;4;1mnot specified\u{1b}[0m)\n";
+
+        let lock = FileLock::unlocked();
+        let index = crate::tests::get_test_index().unwrap();
+        let index_crate = index
+            .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
+            .unwrap()
+            .unwrap();
+
+        let mut output = RustVersionOutput::new(index_crate);
+        output.set_rust_version().unwrap();
+
+        assert_eq!(output.to_string(), expected);
     }
 
     #[test]
-    fn test_new_header_formatting() {
-        let index_crate = IndexKrate::new("test_crate").unwrap();
-        let rust_versions = RustVersionOutput::new(&index_crate);
-        let expected_length = "\n  Rust versions for ".len() + "test_crate".len() + ".\n  ".len();
-        assert!(rust_versions.header.len() > expected_length);
+    fn test_set_rust_version_output_with_minimum_rust() {
+        let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Minimum Rust version: not specified (\u{1b}[38;5;3m (WARNING: Some dependencies do not specify a Rust version)\u{1b}[0m)\n";
+
+        let lock = FileLock::unlocked();
+        let index = crate::tests::get_test_index().unwrap();
+        let index_crate = index
+            .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
+            .unwrap()
+            .unwrap();
+
+        let mut output = RustVersionOutput::new(index_crate);
+
+        output.set_minimum_rust_version_required(&index).unwrap();
+
+        assert_eq!(output.to_string(), expected);
     }
 
     #[test]
-    fn test_new_colored_output() {
-        let index_crate = IndexKrate::new("colored_test").unwrap();
-        let rust_versions = RustVersionOutput::new(&index_crate);
-        assert!(rust_versions
-            .header
-            .contains(&"colored_test".cyan().to_string()));
+    fn test_set_rust_version_output_with_specified_version_and_minimum_rust() {
+        let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Most recent version: 1.4.1 (Rust version: \u{1b}[38;5;4;1mnot specified\u{1b}[0m)\n    Minimum Rust version: not specified (\u{1b}[38;5;3m (WARNING: Some dependencies do not specify a Rust version)\u{1b}[0m)\n";
+
+        let lock = FileLock::unlocked();
+        let index = crate::tests::get_test_index().unwrap();
+        let index_crate = index
+            .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
+            .unwrap()
+            .unwrap();
+
+        let mut output = RustVersionOutput::new(index_crate);
+        output.set_rust_version().unwrap();
+        output.set_minimum_rust_version_required(&index).unwrap();
+
+        assert_eq!(output.to_string(), expected);
     }
 }
