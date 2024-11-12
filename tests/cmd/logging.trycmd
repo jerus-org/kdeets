@@ -37,41 +37,6 @@ $ kdeets crate --all -v some_crate
 ```console
 $ kdeets crate --all -vv some_crate
 [[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
-[[..] INFO  kdeets_lib] Remote request for reqwest: RequestBuilder {
-        client: Client,
-        request: Ok(
-            Request {
-                method: GET,
-                url: Url {
-                    scheme: "https",
-                    cannot_be_a_base: false,
-                    username: "",
-                    password: None,
-                    host: Some(
-                        Domain(
-                            "index.crates.io",
-                        ),
-                    ),
-                    port: None,
-                    path: "/so/me/some_crate",
-                    query: None,
-                    fragment: None,
-                },
-                headers: {
-                    "cargo-protocol": "version=1",
-                    "accept": "text/plain",
-                    "accept-encoding": "gzip",
-                },
-            },
-        ),
-    }!
-[[..] INFO  kdeets_lib] Response: Response {
-        url: "https://index.crates.io/so/me/some_crate",
-        status: 200,
-        headers: {
-...
-        },
-    }!
 
  [1mCrate versions for [38;5;6msome_crate[0m.[0m
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
@@ -91,42 +56,7 @@ $ kdeets crate --all -vv some_crate
 ```console
 $ kdeets crate --all -vvv some_crate
 [[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
-[[..] INFO  kdeets_lib] Remote request for reqwest: RequestBuilder {
-        client: Client,
-        request: Ok(
-            Request {
-                method: GET,
-                url: Url {
-                    scheme: "https",
-                    cannot_be_a_base: false,
-                    username: "",
-                    password: None,
-                    host: Some(
-                        Domain(
-                            "index.crates.io",
-                        ),
-                    ),
-                    port: None,
-                    path: "/so/me/some_crate",
-                    query: None,
-                    fragment: None,
-                },
-                headers: {
-                    "cargo-protocol": "version=1",
-                    "accept": "text/plain",
-                    "accept-encoding": "gzip",
-                },
-            },
-        ),
-    }!
 [[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
-[[..] INFO  kdeets_lib] Response: Response {
-        url: "https://index.crates.io/so/me/some_crate",
-        status: 200,
-        headers: {
-...
-        },
-    }!
 [[..] DEBUG kdeets_lib::crate_versions] Rows: [
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
@@ -168,52 +98,10 @@ $ kdeets crate --all -vvvv some_crate
 [[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
 [[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park without timeout
 [[..] TRACE reqwest::blocking::client] (ThreadId(2)) start runtime::block_on
-[[..] INFO  kdeets_lib] Remote request for reqwest: RequestBuilder {
-        client: Client,
-        request: Ok(
-            Request {
-                method: GET,
-                url: Url {
-                    scheme: "https",
-                    cannot_be_a_base: false,
-                    username: "",
-                    password: None,
-                    host: Some(
-                        Domain(
-                            "index.crates.io",
-                        ),
-                    ),
-                    port: None,
-                    path: "/so/me/some_crate",
-                    query: None,
-                    fragment: None,
-                },
-                headers: {
-                    "cargo-protocol": "version=1",
-                    "accept": "text/plain",
-                    "accept-encoding": "gzip",
-                },
-            },
-        ),
-    }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
 [[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]s
 [[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
-[[..] INFO  kdeets_lib] Response: Response {
-        url: "https://index.crates.io/so/me/some_crate",
-        status: 200,
-        headers: {
-            "content-type": "text/plain",
-...
-        },
-    }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
-[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
-[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
-[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
 [[..] DEBUG kdeets_lib::crate_versions] Rows: [
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
@@ -234,6 +122,12 @@ $ kdeets crate --all -vvvv some_crate
        Most recent version: 0.2.1
     !
 [[..] DEBUG kdeets_lib::crate_versions] Header:  Yanked  Version !
+[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
+[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
 
  [1mCrate versions for [38;5;6msome_crate[0m.[0m
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
@@ -255,52 +149,10 @@ $ kdeets crate --all -vvvvv some_crate
 [[..] INFO  kdeets_lib::crate_versions] Getting details for crate: some_crate
 [[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park without timeout
 [[..] TRACE reqwest::blocking::client] (ThreadId(2)) start runtime::block_on
-[[..] INFO  kdeets_lib] Remote request for reqwest: RequestBuilder {
-        client: Client,
-        request: Ok(
-            Request {
-                method: GET,
-                url: Url {
-                    scheme: "https",
-                    cannot_be_a_base: false,
-                    username: "",
-                    password: None,
-                    host: Some(
-                        Domain(
-                            "index.crates.io",
-                        ),
-                    ),
-                    port: None,
-                    path: "/so/me/some_crate",
-                    query: None,
-                    fragment: None,
-                },
-                headers: {
-                    "cargo-protocol": "version=1",
-                    "accept": "text/plain",
-                    "accept-encoding": "gzip",
-                },
-            },
-        ),
-    }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
 [[..] TRACE reqwest::blocking::wait] (ThreadId(1)) park timeout [..]s
 [[..] DEBUG reqwest::connect] starting new connection: https://index.crates.io/
-[[..] INFO  kdeets_lib] Response: Response {
-        url: "https://index.crates.io/so/me/some_crate",
-        status: 200,
-        headers: {
-            "content-type": "text/plain",
-...
-        },
-    }!
 [[..] TRACE reqwest::blocking::wait] wait at most 30s
-[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
-[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
-[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
-[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
 [[..] DEBUG kdeets_lib::crate_versions] Rows: [
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.0",
         "   /u{1b}[38;5;2m No/u{1b}[0m     0.1.1",
@@ -321,6 +173,12 @@ $ kdeets crate --all -vvvvv some_crate
        Most recent version: 0.2.1
     !
 [[..] DEBUG kdeets_lib::crate_versions] Header:  Yanked  Version !
+[[..] TRACE reqwest::blocking::client] closing runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] signaled close for runtime thread (ThreadId(2))
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) Receiver is shutdown
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) end runtime::block_on
+[[..] TRACE reqwest::blocking::client] (ThreadId(2)) finished
+[[..] TRACE reqwest::blocking::client] closed runtime thread (ThreadId(2))
 
  [1mCrate versions for [38;5;6msome_crate[0m.[0m
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
