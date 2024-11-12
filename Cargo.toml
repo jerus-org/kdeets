@@ -6,6 +6,7 @@ description = "Query crates.io for information about a crate."
 license = "MIT"
 documentation = "https://docs.rs/kdeets"
 repository = "https://github.com/jerus-org/kdeets"
+rust-version = "1.81"
 
 
 [dependencies]
