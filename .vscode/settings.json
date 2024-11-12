@@ -1,10 +1,13 @@
 {
     "cSpell.words": [
+        "cksum",
+        "colored",
         "colorful",
         "entr",
         "entrl",
         "krate",
         "msome",
+        "vers"
     ],
     "rustTestExplorer.logpanel": true
 }
