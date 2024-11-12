@@ -30,7 +30,16 @@ pub(crate) fn get_sparce_index() -> Result<ComboIndex, tame_index::error::Error>
 mod tests {
 
     use crate::get_sparce_index;
-    use tame_index::index::ComboIndex;
+    use tame_index::{
+        index::{ComboIndex, LocalRegistry},
+        PathBuf,
+    };
+
+    pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
+        let local_registry = LocalRegistry::open(PathBuf::from("tests/registry"), true)?;
+
+        Ok(ComboIndex::from(local_registry))
+    }
 
     #[test]
     fn test_get_sparse_index_success() {
