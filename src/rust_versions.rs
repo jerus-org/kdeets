@@ -188,6 +188,39 @@ mod tests {
 
     use super::*;
 
+    use crate::rust_versions::RustVersions;
+    use clap::Parser;
+
+    #[test]
+    fn test_rust_versions_new() {
+        let rust_versions = RustVersions::parse_from(["program", "test-crate"]);
+        assert_eq!(rust_versions.crate_, "test-crate");
+    }
+
+    #[test]
+    fn test_rust_versions_empty_crate() {
+        let result = RustVersions::try_parse_from(["program"]);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_rust_versions_with_verbose() {
+        let rust_versions = RustVersions::parse_from(["program", "-v", "test-crate"]);
+        assert_eq!(rust_versions.crate_, "test-crate");
+    }
+
+    #[test]
+    fn test_rust_versions_with_quiet() {
+        let rust_versions = RustVersions::parse_from(["program", "-q", "test-crate"]);
+        assert_eq!(rust_versions.crate_, "test-crate");
+    }
+
+    #[test]
+    fn test_rust_versions_with_multiple_flags() {
+        let rust_versions = RustVersions::parse_from(["program", "-vv", "test-crate"]);
+        assert_eq!(rust_versions.crate_, "test-crate");
+    }
+
     #[test]
     fn test_add_crate_and_set_header() {
         let expected = "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n";
