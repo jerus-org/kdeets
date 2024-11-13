@@ -310,3 +310,4 @@ workflows:
           when_cargo_release: false
           when_pcu_push: true
           pcu_semver: true
+          pcu_update_changelog: true
