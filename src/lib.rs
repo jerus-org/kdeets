@@ -1,16 +1,19 @@
 const HEADER: &str = "Crate versions for";
+const SETUP_HEADER: &str = "Setting up local registry for";
 const LINE_CHAR: char = '🭶';
 
 mod crate_versions;
 mod error;
 mod rust_versions;
+mod setup;
 
 pub use crate_versions::CrateVersions;
 pub use error::Error;
 pub use rust_versions::RustVersions;
+pub use setup::Setup;
+
 use tame_index::external::reqwest::blocking::ClientBuilder;
 use tame_index::index::{ComboIndex, RemoteSparseIndex};
-
 use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
 pub(crate) fn get_sparce_index() -> Result<ComboIndex, tame_index::error::Error> {

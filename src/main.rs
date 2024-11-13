@@ -1,7 +1,7 @@
 use std::error::Error;
 
 use clap::{Parser, Subcommand};
-use kdeets_lib::{CrateVersions, RustVersions};
+use kdeets_lib::{CrateVersions, RustVersions, Setup};
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -21,6 +21,9 @@ enum Commands {
     /// Query crates.io for maximum Rust version for a crate
     #[clap(name = "rust")]
     RustVersions(RustVersions),
+    /// Setup local registry for crate
+    #[clap(name = "setup", hide = true)]
+    Setup(Setup),
 }
 
 fn main() {
@@ -32,6 +35,7 @@ fn main() {
     let result = match args.command {
         Commands::CrateVersions(crate_versions) => crate_versions.run(),
         Commands::RustVersions(rust_versions) => rust_versions.run(),
+        Commands::Setup(setup) => setup.run(),
     };
 
     match result {
