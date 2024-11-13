@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(circleci)-update toolkit orb to version 1.17.0 and add code coverage step(pr [#25])
 - chore-update CircleCI toolkit orb to version 1.18.0(pr [#26])
 - test(cli)-add CLI tests using trycmd for command cases(pr [#28])
+- ci-add release-flag parameter to CircleCI config(pr [#35])
 
 ### Security
 
@@ -70,3 +71,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#30]: https://github.com/jerus-org/kdeets/pull/30
 [#31]: https://github.com/jerus-org/kdeets/pull/31
 [#34]: https://github.com/jerus-org/kdeets/pull/34
+[#35]: https://github.com/jerus-org/kdeets/pull/35
