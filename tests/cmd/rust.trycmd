@@ -1,0 +1,230 @@
+```console
+$ kdeets rust
+? 2
+error: the following required arguments were not provided:
+  <CRATE>
+
+Usage: kdeets rust <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust some_crate
+
+  Crate versions for [38;5;6msome_crate[0m.
+  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+    Most recent version: 0.2.1 (Rust version: [38;5;4;1mnot specified[0m)
+    Minimum Rust version: not specified
+
+
+```
+
+```console
+$ kdeets rust -e some_crate
+? 2
+error: unexpected argument '-e' found
+
+  tip: to pass '-e' as a value, use '-- -e'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -n some_crate
+? 2
+error: unexpected argument '-n' found
+
+  tip: to pass '-n' as a value, use '-- -n'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -t some_crate
+? 2
+error: unexpected argument '-t' found
+
+  tip: to pass '-t' as a value, use '-- -t'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -r some_crate
+? 2
+error: unexpected argument '-r' found
+
+  tip: to pass '-r' as a value, use '-- -r'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -l some_crate
+? 2
+error: unexpected argument '-l' found
+
+  tip: to pass '-l' as a value, use '-- -l'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -k some_crate
+? 2
+error: unexpected argument '-k' found
+
+  tip: to pass '-k' as a value, use '-- -k'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -a some_crate
+? 2
+error: unexpected argument '-a' found
+
+  tip: to pass '-a' as a value, use '-- -a'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --earliest some_crate
+? 2
+error: unexpected argument '--earliest' found
+
+  tip: to pass '--earliest' as a value, use '-- --earliest'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --normal some_crate
+? 2
+error: unexpected argument '--normal' found
+
+  tip: to pass '--normal' as a value, use '-- --normal'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --top some_crate
+? 2
+error: unexpected argument '--top' found
+
+  tip: to pass '--top' as a value, use '-- --top'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --recent some_crate
+? 2
+error: unexpected argument '--recent' found
+
+  tip: to pass '--recent' as a value, use '-- --recent'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --list some_crate
+? 2
+error: unexpected argument '--list' found
+
+  tip: to pass '--list' as a value, use '-- --list'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --key some_crate
+? 2
+error: unexpected argument '--key' found
+
+  tip: to pass '--key' as a value, use '-- --key'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --all some_crate
+? 2
+error: unexpected argument '--all' found
+
+  tip: to pass '--all' as a value, use '-- --all'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust --yanked some_crate
+? 2
+error: unexpected argument '--yanked' found
+
+  tip: to pass '--yanked' as a value, use '-- --yanked'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```
+
+```console
+$ kdeets rust -a some_not_existing_crate
+? 2
+error: unexpected argument '-a' found
+
+  tip: to pass '-a' as a value, use '-- -a'
+
+Usage: kdeets rust [OPTIONS] <CRATE>
+
+For more information, try '--help'.
+
+```

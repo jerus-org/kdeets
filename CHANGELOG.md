@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add colorful crate for enhanced console output(pr [#8])
 - add key flag for listing key values and colorize output(pr [#9])
 - add error handling with thiserror and create new library module(pr [#16])
+- add RustVersions command to query maximum Rust version for a crate(pr [#30])
 
 ### Changed
 
@@ -64,3 +65,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#26]: https://github.com/jerus-org/kdeets/pull/26
 [#28]: https://github.com/jerus-org/kdeets/pull/28
 [#29]: https://github.com/jerus-org/kdeets/pull/29
+[#30]: https://github.com/jerus-org/kdeets/pull/30

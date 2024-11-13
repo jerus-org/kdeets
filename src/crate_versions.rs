@@ -3,14 +3,7 @@ use crate::Error;
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
-use tame_index::{
-    external::{
-        http::{request::Parts, Response},
-        reqwest::blocking::ClientBuilder,
-    },
-    index::FileLock,
-    IndexLocation, IndexUrl, KrateName, SparseIndex,
-};
+use tame_index::{index::FileLock, KrateName};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -45,55 +38,12 @@ pub struct CrateVersions {
 impl CrateVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
-
-        let crate_name = KrateName::crates_io(&self.crate_)?;
-
-        let il = IndexLocation::new(IndexUrl::CratesIoSparse);
-        let index = SparseIndex::new(il)?;
-
         let lock = FileLock::unlocked();
-        let req = index.make_remote_request(crate_name, None, &lock)?;
+        let index = crate::get_sparce_index()?;
+        let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
 
-        log::debug!("Constructed remote request: {:?}!", req);
-
-        let (
-            Parts {
-                method,
-                uri,
-                version,
-                headers,
-                ..
-            },
-            _,
-        ) = req.into_parts();
-
-        let builder = ClientBuilder::new();
-        let builder = builder.tls_built_in_root_certs(true);
-        let client = builder.build()?;
-
-        let mut req = client.request(method, uri.to_string());
-        req = req.version(version);
-        req = req.headers(headers);
-        log::info!("Remote request for reqwest: {:#?}!", req);
-
-        let resp = client.execute(req.build()?)?;
-        log::info!("Response: {:#?}!", resp);
-
-        let mut builder = Response::builder()
-            .status(resp.status())
-            .version(resp.version());
-
-        builder
-            .headers_mut()
-            .unwrap()
-            .extend(resp.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
-
-        let body = resp.bytes().unwrap();
-        let response = builder.body(body.to_vec())?;
-
-        let Some(index_crate) = index.parse_remote_response(crate_name, response, false, &lock)?
-        else {
-            return Err(Error::CrateNotFoundonIndex);
+        let Some(index_crate) = index_crate else {
+            return Err(Error::CrateNotFoundOnIndex);
         };
 
         let mut output = format!(
