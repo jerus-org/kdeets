@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - test(cli)-add CLI tests using trycmd for command cases(pr [#28])
 - ci-add release-flag parameter to CircleCI config(pr [#35])
 - ci-update CircleCI config to include pcu_push parameter(pr [#36])
+- ci(circleci)-add make_release job with configurable parameters for release automation(pr [#37])
 
 ### Security
 
@@ -74,3 +75,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#34]: https://github.com/jerus-org/kdeets/pull/34
 [#35]: https://github.com/jerus-org/kdeets/pull/35
 [#36]: https://github.com/jerus-org/kdeets/pull/36
+[#37]: https://github.com/jerus-org/kdeets/pull/37
