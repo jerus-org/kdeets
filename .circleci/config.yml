@@ -307,7 +307,3 @@ workflows:
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
-          when_cargo_release: false
-          when_pcu_push: true
-          pcu_semver: true
-          pcu_update_changelog: true
