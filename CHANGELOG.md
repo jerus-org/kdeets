@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-update CircleCI toolkit orb to version 1.18.0(pr [#26])
 - test(cli)-add CLI tests using trycmd for command cases(pr [#28])
 - ci-add release-flag parameter to CircleCI config(pr [#35])
+- ci-update CircleCI config to include pcu_push parameter(pr [#36])
 
 ### Security
 
@@ -72,3 +73,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#31]: https://github.com/jerus-org/kdeets/pull/31
 [#34]: https://github.com/jerus-org/kdeets/pull/34
 [#35]: https://github.com/jerus-org/kdeets/pull/35
+[#36]: https://github.com/jerus-org/kdeets/pull/36
