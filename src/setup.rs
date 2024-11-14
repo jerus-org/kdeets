@@ -1,11 +1,17 @@
 use std::fmt::Display;
 
-use crate::{Error, LINE_CHAR, SETUP_HEADER};
+use crate::{get_client_builder, Error, LINE_CHAR, SETUP_HEADER};
 
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
-use tame_index::{index::FileLock, IndexKrate, KrateName};
+use tame_index::{
+    index::{
+        local::{builder::Client, LocalRegistryBuilder, ValidKrate},
+        FileLock, RemoteSparseIndex,
+    },
+    IndexKrate, KrateName, PathBuf,
+};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
@@ -24,13 +30,38 @@ impl Setup {
         );
         let lock = FileLock::unlocked();
         let index = crate::get_sparce_index()?;
-        let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
+        let client = crate::get_client_builder().build()?;
+
+        let remote_index = RemoteSparseIndex::new(index, client);
+        let crate_name = KrateName::crates_io(&self.crate_)?;
+
+        let index_crate = remote_index.krate(crate_name, true, &lock)?;
 
         let Some(index_crate) = index_crate else {
             return Err(Error::CrateNotFoundOnIndex);
         };
 
-        let output = SetupTestOutput::new(index_crate);
+        let output = SetupTestOutput::new(index_crate.clone());
+
+        let registry = LocalRegistryBuilder::create(PathBuf::from("tests/registry_new"))?;
+
+        let client = Client::build(get_client_builder())?;
+
+        let index = crate::get_sparce_index()?;
+
+        let index_config = index.index_config()?;
+
+        let mut krates = vec![];
+
+        for version in &index_crate.versions {
+            log::debug!("Downloaded for version {}", version.version);
+            let krate = ValidKrate::download(&client, &index_config, version)?;
+            krates.push(krate);
+        }
+
+        registry.insert(&index_crate, &krates)?;
+
+        registry.finalize(true)?;
 
         Ok(output.to_string())
     }
