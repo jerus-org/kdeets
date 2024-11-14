@@ -25,7 +25,7 @@ impl RustVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
         let lock = FileLock::unlocked();
-        let index = crate::get_sparce_index()?;
+        let index = crate::get_remote_combo_index()?;
         let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
 
         let Some(index_crate) = index_crate else {
