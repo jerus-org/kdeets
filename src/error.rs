@@ -8,6 +8,8 @@ use thiserror::Error;
 pub enum Error {
     #[error("The crate was not found on crates.io")]
     CrateNotFoundOnIndex,
+    #[error("Local registry builder has not been set. Please initialis_local_registry() first.")]
+    LocalRegistryBuilderNotSet,
     #[error("tame_index error says: {0:?}")]
     TameIndex(#[from] tame_index::Error),
     /// Error passed up from reqwest
