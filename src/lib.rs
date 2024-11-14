@@ -1,5 +1,5 @@
 const HEADER: &str = "Crate versions for";
-const SETUP_HEADER: &str = "Setting up local registry for";
+const SETUP_HEADER: &str = "Local registry set up for";
 const LINE_CHAR: char = '🭶';
 
 mod crate_versions;
