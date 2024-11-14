@@ -17,6 +17,9 @@ pub enum Error {
     #[error("http error says: {0:?}")]
     Http(#[from] tame_index::external::http::Error),
     /// Error passed up from semver
-    #[error("http error says: {0:?}")]
+    #[error("Semver error says: {0:?}")]
     Semver(#[from] semver::Error),
+    /// Error passed up from io
+    #[error("io error says: {0:?}")]
+    Io(#[from] std::io::Error),
 }
