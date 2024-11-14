@@ -2,7 +2,7 @@ use std::{fmt::Display, fs};
 
 use crate::{get_client_builder, Error, LINE_CHAR, SETUP_HEADER};
 
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
 use tame_index::{
@@ -13,14 +13,27 @@ use tame_index::{
     IndexKrate, KrateName, PathBuf,
 };
 
+#[derive(Debug, Parser, Default, ValueEnum, Clone)]
+enum SelectVersion {
+    #[default]
+    Latest,
+    Highest,
+    HighestNormal,
+    Earlist,
+    None,
+}
+
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
 pub struct Setup {
     #[clap(flatten)]
     logging: Verbosity,
-    #[clap(default_value = "false", short = 'r', long)]
     /// Do not replace the existing registry if it exists
+    #[clap(default_value = "false", short = 'r', long)]
     no_replace: bool,
+    /// Add dependencies based on specific version
+    #[clap(short, long, default_value = "latest")]
+    dependencies: SelectVersion,
     /// The name of the crate
     crate_: String,
 }
