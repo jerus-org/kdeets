@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, fs};
 
 use crate::{get_client_builder, Error, LINE_CHAR, SETUP_HEADER};
 
@@ -18,6 +18,9 @@ use tame_index::{
 pub struct Setup {
     #[clap(flatten)]
     logging: Verbosity,
+    #[clap(default_value = "false", short = 'r', long)]
+    /// Do not replace the existing registry if it exists
+    no_replace: bool,
     /// The name of the crate
     crate_: String,
 }
@@ -42,8 +45,20 @@ impl Setup {
         };
 
         let output = SetupTestOutput::new(index_crate.clone());
+        let registry_path = PathBuf::from("tests/registry_new");
 
-        let registry = LocalRegistryBuilder::create(PathBuf::from("tests/registry_new"))?;
+        let registry = match LocalRegistryBuilder::create(registry_path.clone()) {
+            Ok(registry) => registry,
+            Err(e) => {
+                if !self.no_replace {
+                    return Err(Error::TameIndex(e));
+                } else {
+                    log::warn!("Registry already exists, replacing.");
+                    fs::remove_dir_all(&registry_path)?;
+                    LocalRegistryBuilder::create(registry_path.clone())?
+                }
+            }
+        };
 
         let client = Client::build(get_client_builder())?;
 
