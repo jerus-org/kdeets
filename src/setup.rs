@@ -1,4 +1,4 @@
-use std::{fmt::Display, fs};
+use std::{fmt::Display, fs, ops::AddAssign};
 
 use crate::{get_client_builder, Error, LINE_CHAR, SETUP_HEADER};
 
@@ -10,7 +10,7 @@ use tame_index::{
         local::{builder::Client, LocalRegistryBuilder, ValidKrate},
         FileLock, RemoteSparseIndex,
     },
-    IndexKrate, KrateName, PathBuf,
+    IndexDependency, IndexKrate, KrateName, PathBuf,
 };
 
 #[derive(Debug, Parser, Default, ValueEnum, Clone)]
@@ -63,6 +63,40 @@ impl Setup {
 
         output.insert_crate(&index_crate)?;
 
+        match self.dependencies {
+            SelectVersion::Latest => {
+                log::debug!("Adding dependencies for most recent version");
+                output.add_dependency_crates(
+                    index_crate.most_recent_version().dependencies(),
+                    &remote_index,
+                )?;
+            }
+            SelectVersion::Earlist => {
+                log::debug!("Adding dependencies for earliest version");
+                output.add_dependency_crates(
+                    index_crate.earliest_version().dependencies(),
+                    &remote_index,
+                )?;
+            }
+            SelectVersion::Highest => {
+                log::debug!("Adding dependencies for highest version");
+                output.add_dependency_crates(
+                    index_crate.highest_version().dependencies(),
+                    &remote_index,
+                )?;
+            }
+            SelectVersion::HighestNormal => {
+                log::debug!("Attempting to add dependencies for highest normal version");
+                let opt_index_version = index_crate.highest_normal_version();
+                if let Some(index_version) = opt_index_version {
+                    output.add_dependency_crates(index_version.dependencies(), &remote_index)?;
+                } else {
+                    log::warn!("No normal version found for crate: {}", self.crate_);
+                };
+            }
+            SelectVersion::None => (),
+        };
+
         let final_output = output.finalize()?;
 
         Ok(final_output.to_string())
@@ -76,6 +110,7 @@ struct SetupTestOutput {
     registry_path: PathBuf,
     registry: OutputRegistry,
     crates: Vec<String>,
+    total: DiskSize,
 }
 
 impl SetupTestOutput {
@@ -101,6 +136,7 @@ impl SetupTestOutput {
             registry_path,
             registry: OutputRegistry::None,
             crates: Vec::new(),
+            total: DiskSize(0),
         }
     }
 
@@ -141,9 +177,29 @@ impl SetupTestOutput {
             krates.push(krate);
         }
 
-        registry_builder.insert(index_crate, &krates)?;
+        let written = registry_builder.insert(index_crate, &krates)?;
+        self.total += written;
         log::debug!("Inserted crate {} into registry", index_crate.name());
         self.crates.push(index_crate.name().to_string());
+        Ok(())
+    }
+
+    fn add_dependency_crates(
+        &mut self,
+        dependencies: &[IndexDependency],
+        remote_index: &RemoteSparseIndex,
+    ) -> Result<(), Error> {
+        log::debug!("Adding {} dependencies", dependencies.len());
+        for dependency in dependencies {
+            let dependency_name = KrateName::crates_io(dependency.crate_name())?;
+            let lock = FileLock::unlocked();
+            let dependency_crate = remote_index.krate(dependency_name, true, &lock)?;
+            if let Some(dependency_crate) = dependency_crate {
+                self.insert_crate(&dependency_crate)?
+            } else {
+                log::warn!("Could not find dependency: {}, skipping.", dependency_name);
+            };
+        }
         Ok(())
     }
 
@@ -166,6 +222,7 @@ impl SetupTestOutput {
             registry_path: self.registry_path,
             registry: OutputRegistry::Registry,
             crates: self.crates,
+            total: self.total,
         })
     }
 }
@@ -183,6 +240,39 @@ impl Display for SetupTestOutput {
             write!(f, "  Crates added:\n    ")?;
             self.crates.join("\n    ").fmt(f)?;
         };
+        write!(f, "\n  Total bytes written: {}\n", self.total)?;
         Ok(())
+    }
+}
+
+struct DiskSize(u64);
+
+impl Display for DiskSize {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut size = self.0 as f64;
+        let mut unit = "B";
+        if size > 1024.0 {
+            size /= 1024.0;
+            unit = "KiB";
+        }; // kibibytes
+        if size > 1024.0 {
+            size /= 1024.0;
+            unit = "MiB";
+        } // mebibytes
+        if size > 1024.0 {
+            size /= 1024.0;
+            unit = "GiB";
+        } // gibibytes
+        if size > 1024.0 {
+            size /= 1024.0;
+            unit = "TiB";
+        } // tebibytes
+        write!(f, "{:.2} {}", size, unit)
+    }
+}
+
+impl AddAssign<u64> for DiskSize {
+    fn add_assign(&mut self, rhs: u64) {
+        self.0 += rhs;
     }
 }
