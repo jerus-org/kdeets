@@ -1,17 +1,18 @@
-use std::{fmt::Display, fs, ops::AddAssign};
-
-use crate::{get_client_builder, Error, LINE_CHAR, SETUP_HEADER};
+use crate::Error;
 
 use clap::{Parser, ValueEnum};
 use clap_verbosity::Verbosity;
-use colorful::Colorful;
+use disksize::DiskSize;
+use output::SetupTestOutput;
+use output_registry::OutputRegistry;
 use tame_index::{
-    index::{
-        local::{builder::Client, LocalRegistryBuilder, ValidKrate},
-        FileLock, RemoteSparseIndex,
-    },
-    IndexDependency, IndexKrate, KrateName, PathBuf,
+    index::{FileLock, RemoteSparseIndex},
+    KrateName,
 };
+
+mod disksize;
+mod output;
+mod output_registry;
 
 #[derive(Debug, Parser, Default, ValueEnum, Clone)]
 enum SelectVersion {
@@ -100,179 +101,5 @@ impl Setup {
         let final_output = output.finalize()?;
 
         Ok(final_output.to_string())
-    }
-}
-
-struct SetupTestOutput {
-    #[allow(dead_code)]
-    index_crate: IndexKrate,
-    header: String,
-    registry_path: PathBuf,
-    registry: OutputRegistry,
-    crates: Vec<String>,
-    total: DiskSize,
-}
-
-impl SetupTestOutput {
-    fn new(index_crate: IndexKrate, registry_path: &str) -> Self {
-        let mut header = String::from("\n  ");
-        header.push_str(SETUP_HEADER);
-        header.push(' ');
-        header.push_str(index_crate.name().cyan().to_string().as_str());
-        header.push('.');
-        header.push_str("\n  ");
-        let mut i = 0;
-        while i < SETUP_HEADER.len() + 2 + index_crate.name().len() {
-            header.push(LINE_CHAR);
-            i += 1;
-        }
-        header.push('\n');
-
-        let registry_path = PathBuf::from(registry_path);
-
-        Self {
-            index_crate,
-            header,
-            registry_path,
-            registry: OutputRegistry::None,
-            crates: Vec::new(),
-            total: DiskSize(0),
-        }
-    }
-
-    fn initialise_local_registry(&mut self, no_replace: bool) -> Result<(), Error> {
-        let registry_path = self.registry_path.clone();
-
-        let registry_builder = match LocalRegistryBuilder::create(registry_path.clone()) {
-            Ok(registry) => registry,
-            Err(e) => {
-                if no_replace {
-                    return Err(Error::TameIndex(e));
-                } else {
-                    log::warn!("Registry already exists, replacing.");
-                    fs::remove_dir_all(&registry_path)?;
-                    LocalRegistryBuilder::create(registry_path.clone())?
-                }
-            }
-        };
-        log::debug!("Created registry at {}", registry_path);
-        self.registry = OutputRegistry::Builder(registry_builder);
-        Ok(())
-    }
-
-    fn insert_crate(&mut self, index_crate: &IndexKrate) -> Result<(), Error> {
-        let OutputRegistry::Builder(registry_builder) = &mut self.registry else {
-            return Err(Error::LocalRegistryBuilderNotSet);
-        };
-
-        let client = Client::build(get_client_builder())?;
-        let index = crate::get_sparce_index()?;
-        let index_config = index.index_config()?;
-
-        let mut krates = vec![];
-
-        for version in &index_crate.versions {
-            log::debug!("Downloaded for version {}", version.version);
-            let krate = ValidKrate::download(&client, &index_config, version)?;
-            krates.push(krate);
-        }
-
-        let written = registry_builder.insert(index_crate, &krates)?;
-        self.total += written;
-        log::debug!("Inserted crate {} into registry", index_crate.name());
-        self.crates.push(index_crate.name().to_string());
-        Ok(())
-    }
-
-    fn add_dependency_crates(
-        &mut self,
-        dependencies: &[IndexDependency],
-        remote_index: &RemoteSparseIndex,
-    ) -> Result<(), Error> {
-        log::debug!("Adding {} dependencies", dependencies.len());
-        for dependency in dependencies {
-            let dependency_name = KrateName::crates_io(dependency.crate_name())?;
-            let lock = FileLock::unlocked();
-            let dependency_crate = remote_index.krate(dependency_name, true, &lock)?;
-            if let Some(dependency_crate) = dependency_crate {
-                self.insert_crate(&dependency_crate)?
-            } else {
-                log::warn!("Could not find dependency: {}, skipping.", dependency_name);
-            };
-        }
-        Ok(())
-    }
-
-    fn finalize(self) -> Result<Self, Error> {
-        if !matches!(self.registry, OutputRegistry::Builder(_)) {
-            return Err(Error::LocalRegistryBuilderNotSet);
-        };
-
-        let OutputRegistry::Builder(registry_builder) = self.registry else {
-            return Err(Error::LocalRegistryBuilderNotSet);
-        };
-
-        let temp = registry_builder;
-
-        let _local_registry = temp.finalize(true)?;
-
-        Ok(Self {
-            index_crate: self.index_crate,
-            header: self.header,
-            registry_path: self.registry_path,
-            registry: OutputRegistry::Registry,
-            crates: self.crates,
-            total: self.total,
-        })
-    }
-}
-
-enum OutputRegistry {
-    None,
-    Builder(LocalRegistryBuilder),
-    Registry,
-}
-
-impl Display for SetupTestOutput {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.header)?;
-        if !self.crates.is_empty() {
-            write!(f, "  Crates added:\n    ")?;
-            self.crates.join("\n    ").fmt(f)?;
-        };
-        write!(f, "\n  Total bytes written: {}\n", self.total)?;
-        Ok(())
-    }
-}
-
-struct DiskSize(u64);
-
-impl Display for DiskSize {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let mut size = self.0 as f64;
-        let mut unit = "B";
-        if size > 1024.0 {
-            size /= 1024.0;
-            unit = "KiB";
-        }; // kibibytes
-        if size > 1024.0 {
-            size /= 1024.0;
-            unit = "MiB";
-        } // mebibytes
-        if size > 1024.0 {
-            size /= 1024.0;
-            unit = "GiB";
-        } // gibibytes
-        if size > 1024.0 {
-            size /= 1024.0;
-            unit = "TiB";
-        } // tebibytes
-        write!(f, "{:.2} {}", size, unit)
-    }
-}
-
-impl AddAssign<u64> for DiskSize {
-    fn add_assign(&mut self, rhs: u64) {
-        self.0 += rhs;
     }
 }
