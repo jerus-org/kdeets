@@ -1,5 +1,6 @@
 use std::{fmt::Display, ops::AddAssign};
 
+#[derive(Debug, PartialEq, Eq)]
 pub(crate) struct DiskSize(u64);
 
 impl DiskSize {
@@ -155,5 +156,24 @@ mod tests {
         assert_eq!(format!("{}", size), "1.00 PiB");
         let size = DiskSize(1152921504606846976);
         assert_eq!(format!("{}", size), "1.00 EiB");
+    }
+
+    #[test]
+    fn test_zero_returns_zero_disksize() {
+        let size = DiskSize::zero();
+        assert_eq!(size.0, 0);
+    }
+
+    #[test]
+    fn test_zero_disksize_equality() {
+        let size1 = DiskSize::zero();
+        let size2 = DiskSize::zero();
+        assert_eq!(size1, size2);
+    }
+
+    #[test]
+    fn test_zero_disksize_is_empty() {
+        let size = DiskSize::zero();
+        assert!(size.0 == 0);
     }
 }
