@@ -15,10 +15,7 @@ mod tests {
     #[test]
     fn test_output_registry_none() {
         let registry = OutputRegistry::None;
-        match registry {
-            OutputRegistry::None => (),
-            _ => panic!("Expected OutputRegistry::None variant"),
-        }
+        matches!(registry, OutputRegistry::None);
     }
 
     #[test]
