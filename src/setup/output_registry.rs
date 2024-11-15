@@ -22,18 +22,12 @@ mod tests {
     fn test_output_registry_builder() {
         let builder = LocalRegistryBuilder::create(PathBuf::from("test")).unwrap();
         let registry = OutputRegistry::Builder(builder);
-        match registry {
-            OutputRegistry::Builder(_) => (),
-            _ => panic!("Expected OutputRegistry::Builder variant"),
-        }
+        matches!(registry, OutputRegistry::Builder(_));
     }
 
     #[test]
     fn test_output_registry_registry() {
         let registry = OutputRegistry::Registry;
-        match registry {
-            OutputRegistry::Registry => (),
-            _ => panic!("Expected OutputRegistry::Registry variant"),
-        }
+        matches!(registry, OutputRegistry::Registry);
     }
 }
