@@ -28,4 +28,5 @@ path = "src/lib.rs"
 
 [dev-dependencies]
 rstest = "0.23.0"
+tempfile = "3.14.0"
 trycmd = "0.15.8"
