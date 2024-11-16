@@ -151,6 +151,7 @@ impl Display for SetupTestOutput {
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
 
     const TEST_CRATE: &str = "tests/registry/index/fo/re/forestry";
@@ -165,6 +166,9 @@ mod tests {
         path_string
     }
 
+    fn get_index_crate(name: &str) -> IndexKrate {
+        IndexKrate::new(make_index_path(name)).unwrap()
+    }
     #[test]
     fn test_output_new_basic() {
         let krate = IndexKrate::new(TEST_CRATE).unwrap();
@@ -196,5 +200,66 @@ mod tests {
 
         assert!(!output.header.is_empty());
         assert_eq!(output.registry_path, PathBuf::from("/some/path"));
+    }
+
+    #[test]
+    fn test_initialise_local_registry_success() {
+        let index_crate = get_index_crate("forestry");
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+        println!("Registry path: {}", registry_path.to_str().unwrap());
+        let mut output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
+
+        assert!(output.initialise_local_registry(false).is_ok());
+        assert!(registry_path.exists());
+    }
+
+    #[test]
+    fn test_initialise_local_registry_existing_no_replace() {
+        let index_crate = get_index_crate("forestry");
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+        fs::create_dir_all(&registry_path).unwrap();
+
+        // Create a file to make it a valid registry
+        let config_file = registry_path.join("config.json");
+        fs::write(config_file, "{\"version\": 1}").unwrap();
+
+        println!("Registry path: {}", registry_path.to_str().unwrap());
+
+        let mut output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
+        println!("Output registry path: {}", output.registry_path);
+        let result = output.initialise_local_registry(true);
+        assert!(result.is_err());
+        matches!(result, Err(Error::TameIndex(_)));
+    }
+
+    #[test]
+    fn test_initialise_local_registry_existing_with_replace() {
+        let index_crate = get_index_crate("forestry");
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+        fs::create_dir_all(&registry_path).unwrap();
+
+        // Create a file to make it a valid registry
+        let config_file = registry_path.join("config.json");
+        fs::write(config_file, "{\"version\": 1}").unwrap();
+
+        println!("Registry path: {}", registry_path.to_str().unwrap());
+
+        let mut output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
+        println!("Output registry path: {}", output.registry_path);
+        assert!(output.initialise_local_registry(false).is_ok());
+        assert!(registry_path.exists());
+    }
+
+    #[test]
+    fn test_initialise_local_registry_permission_error() {
+        let index_crate = get_index_crate("forestry");
+        let registry_path = "/root/test_registry";
+        let mut output = SetupTestOutput::new(index_crate, registry_path);
+
+        let result = output.initialise_local_registry(false);
+        assert!(result.is_err());
     }
 }
