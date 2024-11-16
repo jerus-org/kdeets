@@ -148,3 +148,53 @@ impl Display for SetupTestOutput {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const TEST_CRATE: &str = "tests/registry/index/fo/re/forestry";
+    const TEST_CRATE_ROOT: &str = "tests/registry/index/";
+
+    fn make_index_path(name: &str) -> String {
+        let first_two = name[..2].to_string();
+        let second_two = name[2..4].to_string();
+
+        let path_string = format!("{}{}/{}/{}", TEST_CRATE_ROOT, first_two, second_two, name);
+        println!("Manufactured string is: {}", path_string);
+        path_string
+    }
+
+    #[test]
+    fn test_output_new_basic() {
+        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let registry_path = "/tmp/registry";
+        let output = SetupTestOutput::new(krate, registry_path);
+
+        assert_eq!(output.registry_path, PathBuf::from("/tmp/registry"));
+        assert_eq!(output.total, DiskSize::zero());
+        assert!(output.crates.is_empty());
+    }
+
+    #[test]
+    fn test_output_new_header_format() {
+        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let registry_path = "/test/path";
+        let output = SetupTestOutput::new(krate, registry_path);
+
+        assert!(output.header.contains("Local registry"));
+        assert!(output.header.starts_with("\n  "));
+        assert!(output.header.contains('\n'));
+    }
+
+    #[test]
+    fn test_output_new_empty_crate_name() {
+        let index_path = make_index_path("holochain_serialized_bytes_derive");
+        let krate = IndexKrate::new(index_path).unwrap();
+        let registry_path = "/some/path";
+        let output = SetupTestOutput::new(krate, registry_path);
+
+        assert!(!output.header.is_empty());
+        assert_eq!(output.registry_path, PathBuf::from("/some/path"));
+    }
+}
