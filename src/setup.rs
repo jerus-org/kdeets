@@ -3,13 +3,11 @@ use crate::Error;
 use clap::{Parser, ValueEnum};
 use clap_verbosity::Verbosity;
 use disksize::DiskSize;
-use output::SetupTestOutput;
-use output_registry::OutputRegistry;
+use output::SetupTestOutputBuilder;
 use tame_index::{index::FileLock, KrateName};
 
 mod disksize;
 mod output;
-mod output_registry;
 
 #[derive(Debug, Parser, Default, ValueEnum, Clone)]
 enum SelectVersion {
@@ -53,7 +51,7 @@ impl Setup {
             return Err(Error::CrateNotFoundOnIndex);
         };
 
-        let mut output = SetupTestOutput::new(index_crate.clone(), "tests/registry_new");
+        let mut output = SetupTestOutputBuilder::new(index_crate.clone(), "tests/registry_new");
 
         output.initialise_local_registry(self.no_replace)?;
 
