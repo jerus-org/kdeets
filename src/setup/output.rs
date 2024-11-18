@@ -4,7 +4,7 @@ use colorful::Colorful;
 use tame_index::{
     index::{
         local::{builder::Client, LocalRegistryBuilder, ValidKrate},
-        FileLock, RemoteSparseIndex,
+        ComboIndex, FileLock,
     },
     IndexDependency, IndexKrate, KrateName, PathBuf,
 };
@@ -100,13 +100,13 @@ impl SetupTestOutput {
     pub(crate) fn add_dependency_crates(
         &mut self,
         dependencies: &[IndexDependency],
-        remote_index: &RemoteSparseIndex,
+        combo_index: &ComboIndex,
     ) -> Result<(), Error> {
         log::debug!("Adding {} dependencies", dependencies.len());
         for dependency in dependencies {
             let dependency_name = KrateName::crates_io(dependency.crate_name())?;
             let lock = FileLock::unlocked();
-            let dependency_crate = remote_index.krate(dependency_name, true, &lock)?;
+            let dependency_crate = combo_index.krate(dependency_name, true, &lock)?;
             if let Some(dependency_crate) = dependency_crate {
                 self.insert_crate(&dependency_crate)?
             } else {
@@ -155,11 +155,20 @@ impl Display for SetupTestOutput {
 #[cfg(test)]
 mod tests {
 
+    use tame_index::index::{ComboIndex, LocalRegistry};
+
     use super::*;
 
     const TEST_CRATE: &str = "tests/registry/index/fo/re/forestry";
     const TEST_CRATE_ROOT: &str = "tests/registry/index/";
-    const TEST_CRATE_NAME: &str = "forestry";
+    const TEST_CRATE_NAME: &str = "forestry"; // One dependency
+    const TEST_CRATE_NO_DEPENDENCY: &str = "some_crate"; // No dependencies
+
+    pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
+        let local_registry = LocalRegistry::open(PathBuf::from("tests/registry"), true)?;
+
+        Ok(ComboIndex::from(local_registry))
+    }
 
     fn make_index_path(name: &str) -> String {
         let first_two = name[..2].to_string();
@@ -194,9 +203,9 @@ mod tests {
 
     #[test]
     fn test_output_new_basic() {
-        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
         let registry_path = "/tmp/registry";
-        let output = SetupTestOutput::new(krate, registry_path);
+        let output = SetupTestOutput::new(index_crate, registry_path);
 
         assert_eq!(output.registry_path, PathBuf::from("/tmp/registry"));
         assert_eq!(output.total, DiskSize::zero());
@@ -205,9 +214,9 @@ mod tests {
 
     #[test]
     fn test_output_new_header_format() {
-        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
         let registry_path = "/test/path";
-        let output = SetupTestOutput::new(krate, registry_path);
+        let output = SetupTestOutput::new(index_crate, registry_path);
 
         assert!(output.header.contains("Local registry"));
         assert!(output.header.starts_with("\n  "));
@@ -217,9 +226,9 @@ mod tests {
     #[test]
     fn test_output_new_empty_crate_name() {
         let index_path = make_index_path("holochain_serialized_bytes_derive");
-        let krate = IndexKrate::new(index_path).unwrap();
+        let index_crate = IndexKrate::new(index_path).unwrap();
         let registry_path = "/some/path";
-        let output = SetupTestOutput::new(krate, registry_path);
+        let output = SetupTestOutput::new(index_crate, registry_path);
 
         assert!(!output.header.is_empty());
         assert_eq!(output.registry_path, PathBuf::from("/some/path"));
@@ -288,9 +297,9 @@ mod tests {
     #[test]
     fn test_insert_crate_success() {
         let mut output = get_initialised_output(TEST_CRATE_NAME);
-        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
 
-        assert!(output.insert_crate(&krate).is_ok());
+        assert!(output.insert_crate(&index_crate).is_ok());
         assert_eq!(output.crates.len(), 1);
         assert_eq!(output.crates[0], "forestry".to_string());
     }
@@ -298,9 +307,39 @@ mod tests {
     #[test]
     fn test_insert_crate_registry_not_set() {
         let mut output = get_new_output(TEST_CRATE_NAME);
-        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
 
-        let result = output.insert_crate(&krate);
+        let result = output.insert_crate(&index_crate);
         assert!(matches!(result, Err(Error::LocalRegistryBuilderNotSet)));
+    }
+
+    #[test]
+    fn test_add_dependency_crates_empty_dependencies() {
+        let mut output = get_new_output(TEST_CRATE_NO_DEPENDENCY);
+        output.initialise_local_registry(false).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
+        let combo_index = get_test_index().unwrap();
+        let result = output.add_dependency_crates(
+            index_crate.most_recent_version().dependencies(),
+            &combo_index,
+        );
+        println!("Result: {:?}", result);
+
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_add_dependency_crates_valid_dependencies() {
+        let mut output = get_new_output(TEST_CRATE_NAME);
+        output.initialise_local_registry(false).unwrap();
+        let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
+        let combo_index = get_test_index().unwrap();
+        let result = output.add_dependency_crates(
+            index_crate.most_recent_version().dependencies(),
+            &combo_index,
+        );
+        println!("Result: {:?}", result);
+
+        assert!(result.is_ok());
     }
 }
