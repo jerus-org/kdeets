@@ -1,14 +1,20 @@
 {
     "cSpell.words": [
+        "automod",
         "cksum",
         "colored",
         "colorful",
         "entr",
         "entrl",
+        "flate",
+        "impls",
+        "insta",
         "krate",
         "mnot",
         "msome",
-        "vers"
+        "termcolor",
+        "vers",
+        "walkdir"
     ],
     "rustTestExplorer.logpanel": true
 }
