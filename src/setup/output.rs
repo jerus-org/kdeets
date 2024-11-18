@@ -50,7 +50,10 @@ impl SetupTestOutput {
         }
     }
 
-    pub(crate) fn initialise_local_registry(&mut self, no_replace: bool) -> Result<(), Error> {
+    pub(crate) fn initialise_local_registry(
+        &mut self,
+        no_replace: bool,
+    ) -> Result<&mut Self, Error> {
         let registry_path = self.registry_path.clone();
 
         let registry_builder = match LocalRegistryBuilder::create(registry_path.clone()) {
@@ -67,7 +70,7 @@ impl SetupTestOutput {
         };
         log::debug!("Created registry at {}", registry_path);
         self.registry = OutputRegistry::Builder(registry_builder);
-        Ok(())
+        Ok(self)
     }
 
     pub(crate) fn insert_crate(&mut self, index_crate: &IndexKrate) -> Result<(), Error> {
@@ -156,6 +159,7 @@ mod tests {
 
     const TEST_CRATE: &str = "tests/registry/index/fo/re/forestry";
     const TEST_CRATE_ROOT: &str = "tests/registry/index/";
+    const TEST_CRATE_NAME: &str = "forestry";
 
     fn make_index_path(name: &str) -> String {
         let first_two = name[..2].to_string();
@@ -169,6 +173,25 @@ mod tests {
     fn get_index_crate(name: &str) -> IndexKrate {
         IndexKrate::new(make_index_path(name)).unwrap()
     }
+
+    fn get_new_output(name: &str) -> SetupTestOutput {
+        let index_crate = get_index_crate(name);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+        let output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
+        output
+    }
+
+    fn get_initialised_output(name: &str) -> SetupTestOutput {
+        let index_crate = get_index_crate(name);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+        let mut output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
+
+        output.initialise_local_registry(false).unwrap();
+        output
+    }
+
     #[test]
     fn test_output_new_basic() {
         let krate = IndexKrate::new(TEST_CRATE).unwrap();
@@ -207,7 +230,6 @@ mod tests {
         let index_crate = get_index_crate("forestry");
         let temp_dir = tempfile::tempdir().unwrap();
         let registry_path = temp_dir.path().join("registry");
-        println!("Registry path: {}", registry_path.to_str().unwrap());
         let mut output = SetupTestOutput::new(index_crate, registry_path.to_str().unwrap());
 
         assert!(output.initialise_local_registry(false).is_ok());
@@ -261,5 +283,24 @@ mod tests {
 
         let result = output.initialise_local_registry(false);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_insert_crate_success() {
+        let mut output = get_initialised_output(TEST_CRATE_NAME);
+        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+
+        assert!(output.insert_crate(&krate).is_ok());
+        assert_eq!(output.crates.len(), 1);
+        assert_eq!(output.crates[0], "forestry".to_string());
+    }
+
+    #[test]
+    fn test_insert_crate_registry_not_set() {
+        let mut output = get_new_output(TEST_CRATE_NAME);
+        let krate = IndexKrate::new(TEST_CRATE).unwrap();
+
+        let result = output.insert_crate(&krate);
+        assert!(matches!(result, Err(Error::LocalRegistryBuilderNotSet)));
     }
 }
