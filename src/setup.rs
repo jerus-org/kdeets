@@ -44,10 +44,10 @@ impl Setup {
         );
         let lock = FileLock::unlocked();
 
-        let remote_index = crate::get_remote_combo_index()?;
+        let combo_index = crate::get_remote_combo_index()?;
         let crate_name = KrateName::crates_io(&self.crate_)?;
 
-        let index_crate = remote_index.krate(crate_name, true, &lock)?;
+        let index_crate = combo_index.krate(crate_name, true, &lock)?;
 
         let Some(index_crate) = index_crate else {
             return Err(Error::CrateNotFoundOnIndex);
@@ -64,28 +64,28 @@ impl Setup {
                 log::debug!("Adding dependencies for most recent version");
                 output.add_dependency_crates(
                     index_crate.most_recent_version().dependencies(),
-                    &remote_index,
+                    &combo_index,
                 )?;
             }
             SelectVersion::Earlist => {
                 log::debug!("Adding dependencies for earliest version");
                 output.add_dependency_crates(
                     index_crate.earliest_version().dependencies(),
-                    &remote_index,
+                    &combo_index,
                 )?;
             }
             SelectVersion::Highest => {
                 log::debug!("Adding dependencies for highest version");
                 output.add_dependency_crates(
                     index_crate.highest_version().dependencies(),
-                    &remote_index,
+                    &combo_index,
                 )?;
             }
             SelectVersion::HighestNormal => {
                 log::debug!("Attempting to add dependencies for highest normal version");
                 let opt_index_version = index_crate.highest_normal_version();
                 if let Some(index_version) = opt_index_version {
-                    output.add_dependency_crates(index_version.dependencies(), &remote_index)?;
+                    output.add_dependency_crates(index_version.dependencies(), &combo_index)?;
                 } else {
                     log::warn!("No normal version found for crate: {}", self.crate_);
                 };
