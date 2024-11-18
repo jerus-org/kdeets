@@ -163,6 +163,7 @@ mod tests {
     const TEST_CRATE_ROOT: &str = "tests/registry/index/";
     const TEST_CRATE_NAME: &str = "forestry"; // One dependency
     const TEST_CRATE_NO_DEPENDENCY: &str = "some_crate"; // No dependencies
+    const ONLINE_TEST_CRATE_NAME: &str = "log";
 
     pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
         let local_registry = LocalRegistry::open(PathBuf::from("tests/registry"), true)?;
@@ -337,6 +338,34 @@ mod tests {
         let result = output.add_dependency_crates(
             index_crate.most_recent_version().dependencies(),
             &combo_index,
+        );
+        println!("Result: {:?}", result);
+
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_add_dependency_crates_not_found() {
+        let _logger = env_logger::try_init();
+        let mut output = get_new_output(TEST_CRATE_NAME);
+        output.initialise_local_registry(false).unwrap();
+
+        let lock = FileLock::unlocked();
+
+        let combo_index_remote = crate::get_remote_combo_index().unwrap();
+        let crate_name = KrateName::crates_io(ONLINE_TEST_CRATE_NAME).unwrap();
+        println!("Crates.io crate name: {:?}", crate_name);
+
+        let index_crate = combo_index_remote
+            .krate(crate_name, true, &lock)
+            .unwrap()
+            .unwrap();
+
+        let combo_index_local = get_test_index().unwrap();
+
+        let result = output.add_dependency_crates(
+            index_crate.most_recent_version().dependencies(),
+            &combo_index_local,
         );
         println!("Result: {:?}", result);
 
