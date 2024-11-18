@@ -5,10 +5,7 @@ use clap_verbosity::Verbosity;
 use disksize::DiskSize;
 use output::SetupTestOutput;
 use output_registry::OutputRegistry;
-use tame_index::{
-    index::{FileLock, RemoteSparseIndex},
-    KrateName,
-};
+use tame_index::{index::FileLock, KrateName};
 
 mod disksize;
 mod output;
@@ -46,10 +43,8 @@ impl Setup {
             self.crate_
         );
         let lock = FileLock::unlocked();
-        let index = crate::get_sparce_index()?;
-        let client = crate::get_client_builder().build()?;
 
-        let remote_index = RemoteSparseIndex::new(index, client);
+        let remote_index = crate::get_remote_combo_index()?;
         let crate_name = KrateName::crates_io(&self.crate_)?;
 
         let index_crate = remote_index.krate(crate_name, true, &lock)?;
