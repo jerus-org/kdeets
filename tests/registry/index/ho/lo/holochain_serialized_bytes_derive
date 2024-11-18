@@ -1,1 +1,29 @@
-{"name":"holochain_serialized_bytes_derive","vers":"0.0.55","deps":[{"name":"quote","req":"^1.0","features":[],"optional":false,"default_features":true,"target":null,"kind":null,"package":null},{"name":"syn","req":"^1.0","features":[],"optional":false,"default_features":true,"target":null,"kind":null,"package":null}],"cksum":"3e6a221b5650251e09ef0b9223cf39e72b5222492cffc6bb4bdf36b2a6bc91aa","features":{},"yanked":false}
+{
+    "name": "holochain_serialized_bytes_derive",
+    "vers": "0.0.55",
+    "deps": [
+        {
+            "name": "quote",
+            "req": "^1.0",
+            "features": [],
+            "optional": false,
+            "default_features": true,
+            "target": null,
+            "kind": null,
+            "package": null
+        },
+        {
+            "name": "syn",
+            "req": "^1.0",
+            "features": [],
+            "optional": false,
+            "default_features": true,
+            "target": null,
+            "kind": null,
+            "package": null
+        }
+    ],
+    "cksum": "3e6a221b5650251e09ef0b9223cf39e72b5222492cffc6bb4bdf36b2a6bc91aa",
+    "features": {},
+    "yanked": false
+}
