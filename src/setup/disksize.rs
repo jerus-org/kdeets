@@ -7,6 +7,11 @@ impl DiskSize {
     pub fn zero() -> Self {
         Self(0)
     }
+
+    #[allow(dead_code)]
+    pub fn new(val: u64) -> Self {
+        Self(val)
+    }
 }
 
 impl Display for DiskSize {
@@ -175,5 +180,23 @@ mod tests {
     fn test_zero_disksize_is_empty() {
         let size = DiskSize::zero();
         assert!(size.0 == 0);
+    }
+
+    #[test]
+    fn test_disksize_new_zero() {
+        let size = DiskSize::new(0);
+        assert_eq!(size.0, 0);
+    }
+
+    #[test]
+    fn test_disksize_new_positive() {
+        let size = DiskSize::new(1024);
+        assert_eq!(size.0, 1024);
+    }
+
+    #[test]
+    fn test_disksize_new_large_value() {
+        let size = DiskSize::new(u64::MAX);
+        assert_eq!(size.0, u64::MAX);
     }
 }
