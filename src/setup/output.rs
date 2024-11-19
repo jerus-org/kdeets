@@ -155,33 +155,15 @@ impl Display for SetupTestOutput {
 #[cfg(test)]
 mod tests {
 
-    use tame_index::index::{ComboIndex, LocalRegistry};
     use tempfile::TempDir;
 
     use super::*;
 
-    const TEST_REGISGTRY: &str = "tests/registry";
     const TEST_CRATE: &str = "tests/registry/index/fo/re/forestry";
     const TEST_CRATE_ROOT: &str = "tests/registry/index/";
     const TEST_CRATE_NAME: &str = "forestry"; // One dependency
     const TEST_CRATE_NO_DEPENDENCY: &str = "some_crate"; // No dependencies
     const ONLINE_TEST_CRATE_NAME: &str = "log";
-
-    pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
-        let local_registry_res = LocalRegistry::open(PathBuf::from(TEST_REGISGTRY), false);
-        let local_registry = match local_registry_res {
-            Ok(lr) => {
-                println!("Succussfully created local registry");
-                lr
-            }
-            Err(err) => {
-                println!("Error creating local registry: {:?}", err);
-                return Err(err);
-            }
-        };
-
-        Ok(ComboIndex::from(local_registry))
-    }
 
     fn make_index_path(name: &str) -> String {
         let first_two = name[..2].to_string();
@@ -236,12 +218,9 @@ mod tests {
         output.initialise_local_registry(false).unwrap();
         output.insert_crate(&index_crate).unwrap();
 
-        let combo_index = get_test_index().unwrap();
+        let index = crate::tests::get_test_index().unwrap();
         output
-            .add_dependency_crates(
-                index_crate.most_recent_version().dependencies(),
-                &combo_index,
-            )
+            .add_dependency_crates(index_crate.most_recent_version().dependencies(), &index)
             .unwrap();
         (output, temp_dir)
     }
@@ -363,11 +342,9 @@ mod tests {
         let mut output = get_output_new(TEST_CRATE_NO_DEPENDENCY);
         output.initialise_local_registry(false).unwrap();
         let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
-        let combo_index = get_test_index().unwrap();
-        let result = output.add_dependency_crates(
-            index_crate.most_recent_version().dependencies(),
-            &combo_index,
-        );
+        let index = crate::tests::get_test_index().unwrap();
+        let result =
+            output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
         println!("Result: {:?}", result);
 
         assert!(result.is_ok());
@@ -378,11 +355,9 @@ mod tests {
         let mut output = get_output_new(TEST_CRATE_NAME);
         output.initialise_local_registry(false).unwrap();
         let index_crate = IndexKrate::new(TEST_CRATE).unwrap();
-        let combo_index = get_test_index().unwrap();
-        let result = output.add_dependency_crates(
-            index_crate.most_recent_version().dependencies(),
-            &combo_index,
-        );
+        let index = crate::tests::get_test_index().unwrap();
+        let result =
+            output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
         println!("Result: {:?}", result);
 
         assert!(result.is_ok());
@@ -405,12 +380,10 @@ mod tests {
             .unwrap()
             .unwrap();
 
-        let combo_index_local = get_test_index().unwrap();
+        let index = crate::tests::get_test_index().unwrap();
 
-        let result = output.add_dependency_crates(
-            index_crate.most_recent_version().dependencies(),
-            &combo_index_local,
-        );
+        let result =
+            output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
         println!("Result: {:?}", result);
 
         assert!(result.is_ok());
