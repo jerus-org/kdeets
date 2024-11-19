@@ -45,8 +45,16 @@ mod tests {
         PathBuf,
     };
 
+    const TEST_REGISGTRY: &str = "tests/registry";
+
     pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
-        let local_registry = LocalRegistry::open(PathBuf::from("tests/registry"), true)?;
+        let temp_dir = tempfile::tempdir().unwrap();
+        let registry_path = temp_dir.path().join("registry");
+
+        copy_dir::copy_dir(TEST_REGISGTRY, &registry_path)?;
+
+        let local_registry =
+            LocalRegistry::open(PathBuf::from(registry_path.to_str().unwrap()), false)?;
 
         Ok(ComboIndex::from(local_registry))
     }
