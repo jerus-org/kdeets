@@ -27,9 +27,16 @@ pub struct Setup {
     /// Do not replace the existing registry if it exists
     #[clap(default_value = "false", short = 'r', long)]
     no_replace: bool,
-    /// Add dependencies based on specific version
-    #[clap(short, long, default_value = "latest")]
+    #[clap(
+        short,
+        long,
+        help = "Add dependencies based on specific version\n",
+        default_value = "latest"
+    )]
     dependencies: SelectVersion,
+    /// The location for the local registry
+    #[clap(short, long, default_value = "tests/local_registry")]
+    location: String,
     /// The name of the crate
     crate_: String,
 }
@@ -51,7 +58,13 @@ impl Setup {
             return Err(Error::CrateNotFoundOnIndex);
         };
 
-        let mut output = SetupTestOutputBuilder::new(index_crate.clone(), "tests/registry_new");
+        let registry = if self.location.is_empty() {
+            "tests/local_registry"
+        } else {
+            &self.location
+        };
+        log::debug!("Creating registry at {}", registry);
+        let mut output = SetupTestOutputBuilder::new(index_crate.clone(), registry);
 
         output.initialise_local_registry(self.no_replace)?;
 
@@ -105,11 +118,15 @@ mod tests {
 
     #[test]
     fn test_setup_run_with_latest_dependencies() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+
         let setup = Setup {
             crate_: String::from("forestry"),
             dependencies: SelectVersion::Latest,
-            no_replace: false,
-            logging: Verbosity::new(0, 0),
+            location: location.to_string(),
+            ..Default::default()
         };
         let result = setup.run();
         println!("Result: {:?}", result);
@@ -117,69 +134,85 @@ mod tests {
         assert!(Path::new("tests/registry_new").exists());
     }
 
-    // #[test]
-    // fn test_setup_run_with_earliest_dependencies() {
-    //     let setup = Setup {
-    //         crate_: String::from("forestry"),
-    //         dependencies: SelectVersion::Earlist,
-    //         no_replace: false,
-    //         logging: Verbosity::new(0, 0),
-    //     };
-    //     let result = setup.run();
-    //     assert!(result.is_ok());
-    // }
+    #[test]
+    fn test_setup_run_with_earliest_dependencies() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Earlist,
+            location: location.to_string(),
+            ..Default::default()
+        };
+        let result = setup.run();
+        assert!(result.is_ok());
+    }
 
-    // #[test]
-    // fn test_setup_run_with_highest_normal_dependencies() {
-    //     let setup = Setup {
-    //         crate_: String::from("forestry"),
-    //         dependencies: SelectVersion::HighestNormal,
-    //         no_replace: false,
-    //         logging: Verbosity::new(0, 0),
-    //     };
-    //     let result = setup.run();
-    //     assert!(result.is_ok());
-    // }
+    #[test]
+    fn test_setup_run_with_highest_normal_dependencies() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::HighestNormal,
+            location: location.to_string(),
+            ..Default::default()
+        };
+        let result = setup.run();
+        assert!(result.is_ok());
+    }
 
-    // #[test]
-    // fn test_setup_run_with_no_dependencies() {
-    //     let setup = Setup {
-    //         crate_: String::from("forestry"),
-    //         dependencies: SelectVersion::None,
-    //         no_replace: false,
-    //         logging: Verbosity::new(0, 0),
-    //     };
-    //     let result = setup.run();
-    //     assert!(result.is_ok());
-    // }
+    #[test]
+    fn test_setup_run_with_no_dependencies() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::None,
+            location: location.to_string(),
+            ..Default::default()
+        };
+        let result = setup.run();
+        assert!(result.is_ok());
+    }
 
-    // #[test]
-    // fn test_setup_run_nonexistent_crate() {
-    //     let setup = Setup {
-    //         crate_: String::from("nonexistent_crate_12345"),
-    //         dependencies: SelectVersion::Latest,
-    //         no_replace: false,
-    //         logging: Verbosity::new(0, 0),
-    //     };
-    //     let result = setup.run();
-    //     assert!(matches!(result, Err(Error::CrateNotFoundOnIndex)));
-    // }
+    #[test]
+    fn test_setup_run_nonexistent_crate() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("nonexistent_crate_12345"),
+            dependencies: SelectVersion::Latest,
+            location: location.to_string(),
+            ..Default::default()
+        };
+        let result = setup.run();
+        assert!(matches!(result, Err(Error::CrateNotFoundOnIndex)));
+    }
 
-    // #[test]
-    // fn test_setup_run_with_no_replace_flag() {
-    //     let setup = Setup {
-    //         crate_: String::from("forestry"),
-    //         dependencies: SelectVersion::Latest,
-    //         no_replace: true,
-    //         logging: Verbosity::new(0, 0),
-    //     };
+    #[test]
+    fn test_setup_run_with_no_replace_flag() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Latest,
+            no_replace: false,
+            location: location.to_string(),
+            ..Default::default()
+        };
 
-    //     // First run should succeed
-    //     let result1 = setup.run();
-    //     assert!(result1.is_ok());
+        // First run should succeed
+        let result1 = setup.run();
+        assert!(result1.is_ok());
 
-    //     // Second run with no_replace should still succeed
-    //     let result2 = setup.run();
-    //     assert!(result2.is_ok());
-    // }
+        // Second run with no_replace should still succeed
+        let result2 = setup.run();
+        assert!(result2.is_ok());
+    }
 }
