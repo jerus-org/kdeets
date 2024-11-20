@@ -96,3 +96,90 @@ impl Setup {
         Ok(final_output.to_string())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+
+    use super::*;
+
+    #[test]
+    fn test_setup_run_with_latest_dependencies() {
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Latest,
+            no_replace: false,
+            logging: Verbosity::new(0, 0),
+        };
+        let result = setup.run();
+        println!("Result: {:?}", result);
+        assert!(result.is_ok());
+        assert!(Path::new("tests/registry_new").exists());
+    }
+
+    // #[test]
+    // fn test_setup_run_with_earliest_dependencies() {
+    //     let setup = Setup {
+    //         crate_: String::from("forestry"),
+    //         dependencies: SelectVersion::Earlist,
+    //         no_replace: false,
+    //         logging: Verbosity::new(0, 0),
+    //     };
+    //     let result = setup.run();
+    //     assert!(result.is_ok());
+    // }
+
+    // #[test]
+    // fn test_setup_run_with_highest_normal_dependencies() {
+    //     let setup = Setup {
+    //         crate_: String::from("forestry"),
+    //         dependencies: SelectVersion::HighestNormal,
+    //         no_replace: false,
+    //         logging: Verbosity::new(0, 0),
+    //     };
+    //     let result = setup.run();
+    //     assert!(result.is_ok());
+    // }
+
+    // #[test]
+    // fn test_setup_run_with_no_dependencies() {
+    //     let setup = Setup {
+    //         crate_: String::from("forestry"),
+    //         dependencies: SelectVersion::None,
+    //         no_replace: false,
+    //         logging: Verbosity::new(0, 0),
+    //     };
+    //     let result = setup.run();
+    //     assert!(result.is_ok());
+    // }
+
+    // #[test]
+    // fn test_setup_run_nonexistent_crate() {
+    //     let setup = Setup {
+    //         crate_: String::from("nonexistent_crate_12345"),
+    //         dependencies: SelectVersion::Latest,
+    //         no_replace: false,
+    //         logging: Verbosity::new(0, 0),
+    //     };
+    //     let result = setup.run();
+    //     assert!(matches!(result, Err(Error::CrateNotFoundOnIndex)));
+    // }
+
+    // #[test]
+    // fn test_setup_run_with_no_replace_flag() {
+    //     let setup = Setup {
+    //         crate_: String::from("forestry"),
+    //         dependencies: SelectVersion::Latest,
+    //         no_replace: true,
+    //         logging: Verbosity::new(0, 0),
+    //     };
+
+    //     // First run should succeed
+    //     let result1 = setup.run();
+    //     assert!(result1.is_ok());
+
+    //     // Second run with no_replace should still succeed
+    //     let result2 = setup.run();
+    //     assert!(result2.is_ok());
+    // }
+}
