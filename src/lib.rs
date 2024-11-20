@@ -39,22 +39,35 @@ pub(crate) fn get_client_builder() -> ClientBuilder {
 #[cfg(test)]
 mod tests {
 
+    use std::vec;
+
     use crate::get_remote_combo_index;
     use tame_index::{
         index::{ComboIndex, LocalRegistry},
         PathBuf,
     };
+    use tempfile::TempDir;
 
     const TEST_REGISGTRY: &str = "tests/registry";
 
-    pub(crate) fn get_test_index() -> Result<ComboIndex, tame_index::error::Error> {
+    pub(crate) fn get_temp_local_registry() -> (TempDir, String) {
         let temp_dir = tempfile::tempdir().unwrap();
+        println!("Temp dir: {}", temp_dir.path().display());
         let registry_path = temp_dir.path().join("registry");
+        let registry = registry_path.to_str().unwrap();
 
-        copy_dir::copy_dir(TEST_REGISGTRY, &registry_path)?;
+        let options = fs_extra::dir::CopyOptions::new();
 
-        let local_registry =
-            LocalRegistry::open(PathBuf::from(registry_path.to_str().unwrap()), false)?;
+        let from_path = vec![TEST_REGISGTRY];
+
+        let _ = fs_extra::copy_items(&from_path, temp_dir.path().to_str().unwrap(), &options);
+        let _ = fs_extra::copy_items(&from_path, "/tmp/test/", &options);
+
+        (temp_dir, registry.to_string())
+    }
+
+    pub(crate) fn get_test_index(registry: &str) -> Result<ComboIndex, tame_index::error::Error> {
+        let local_registry = LocalRegistry::open(PathBuf::from(registry), false)?;
 
         Ok(ComboIndex::from(local_registry))
     }
