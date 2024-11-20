@@ -18,7 +18,7 @@ env_logger = "0.11.5"
 log = "0.4.22"
 semver = "1.0.23"
 smol_str = "0.3.2"
-tame-index = { version = "0.15.0", features = ["git", "local", "sparse"] }
+tame-index = { version = "0.15.0", features = ["git", "local", "local-builder", "sparse"] }
 thiserror = "2.0.3"
 
 
@@ -27,5 +27,8 @@ name = "kdeets_lib"
 path = "src/lib.rs"
 
 [dev-dependencies]
+fs_extra = "1.3.0"
 rstest = "0.23.0"
+simple_logger = "5.0.0"
+tempfile = "3.14.0"
 trycmd = "0.15.8"

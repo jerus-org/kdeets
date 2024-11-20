@@ -25,7 +25,7 @@ impl RustVersions {
     pub fn run(&self) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
         let lock = FileLock::unlocked();
-        let index = crate::get_sparce_index()?;
+        let index = crate::get_remote_combo_index()?;
         let index_crate = index.krate(KrateName::crates_io(&self.crate_)?, true, &lock)?;
 
         let Some(index_crate) = index_crate else {
@@ -225,8 +225,9 @@ mod tests {
     fn test_add_crate_and_set_header() {
         let expected = "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n";
 
+        let (_temp_dir, registry) = crate::tests::get_temp_local_registry();
         let lock = FileLock::unlocked();
-        let index = crate::tests::get_test_index().unwrap();
+        let index = crate::tests::get_test_index(&registry).unwrap();
         let index_crate = index
             .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
             .unwrap()
@@ -241,8 +242,9 @@ mod tests {
     fn test_set_rust_version_output_with_specified_version() {
         let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Most recent version: 1.4.1 (Rust version: \u{1b}[38;5;4;1mnot specified\u{1b}[0m)\n";
 
+        let (_temp_dir, registry) = crate::tests::get_temp_local_registry();
         let lock = FileLock::unlocked();
-        let index = crate::tests::get_test_index().unwrap();
+        let index = crate::tests::get_test_index(&registry).unwrap();
         let index_crate = index
             .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
             .unwrap()
@@ -258,8 +260,9 @@ mod tests {
     fn test_set_rust_version_output_with_minimum_rust() {
         let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Minimum Rust version: not specified (\u{1b}[38;5;3m (WARNING: Some dependencies do not specify a Rust version)\u{1b}[0m)\n";
 
+        let (_temp_dir, registry) = crate::tests::get_temp_local_registry();
         let lock = FileLock::unlocked();
-        let index = crate::tests::get_test_index().unwrap();
+        let index = crate::tests::get_test_index(&registry).unwrap();
         let index_crate = index
             .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
             .unwrap()
@@ -276,8 +279,9 @@ mod tests {
     fn test_set_rust_version_output_with_specified_version_and_minimum_rust() {
         let expected =  "\n  Crate versions for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n    Most recent version: 1.4.1 (Rust version: \u{1b}[38;5;4;1mnot specified\u{1b}[0m)\n    Minimum Rust version: not specified (\u{1b}[38;5;3m (WARNING: Some dependencies do not specify a Rust version)\u{1b}[0m)\n";
 
+        let (_temp_dir, registry) = crate::tests::get_temp_local_registry();
         let lock = FileLock::unlocked();
-        let index = crate::tests::get_test_index().unwrap();
+        let index = crate::tests::get_test_index(&registry).unwrap();
         let index_crate = index
             .krate(KrateName::crates_io("forestry").unwrap(), true, &lock)
             .unwrap()

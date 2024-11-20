@@ -8,6 +8,8 @@ use thiserror::Error;
 pub enum Error {
     #[error("The crate was not found on crates.io")]
     CrateNotFoundOnIndex,
+    #[error("Local registry builder has not been set. Please initialis_local_registry() first.")]
+    LocalRegistryBuilderNotSet,
     #[error("tame_index error says: {0:?}")]
     TameIndex(#[from] tame_index::Error),
     /// Error passed up from reqwest
@@ -17,6 +19,9 @@ pub enum Error {
     #[error("http error says: {0:?}")]
     Http(#[from] tame_index::external::http::Error),
     /// Error passed up from semver
-    #[error("http error says: {0:?}")]
+    #[error("Semver error says: {0:?}")]
     Semver(#[from] semver::Error),
+    /// Error passed up from io
+    #[error("io error says: {0:?}")]
+    Io(#[from] std::io::Error),
 }
