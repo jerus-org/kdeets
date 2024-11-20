@@ -117,6 +117,21 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_setup_run_default_directory() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Latest,
+            ..Default::default()
+        };
+        let result = setup.run();
+        println!("Result: {:?}", result);
+        assert!(result.is_ok());
+        assert!(Path::new("tests/local_registry").exists());
+    }
+
+    #[test]
     fn test_setup_run_with_latest_dependencies() {
         let _log = simple_logger::init_with_level(log::Level::Debug);
         let temp_dir = tempfile::tempdir().unwrap();
