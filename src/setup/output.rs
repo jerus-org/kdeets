@@ -155,6 +155,8 @@ impl Display for SetupTestOutput {
 #[cfg(test)]
 mod tests {
 
+    use std::fmt::Write;
+
     use tempfile::TempDir;
 
     use super::*;
@@ -454,5 +456,63 @@ mod tests {
             vec![TEST_CRATE_NAME.to_string(), "colored".to_string()]
         );
         assert_eq!(output.total, DiskSize::new(33699));
+    }
+
+    #[test]
+    fn test_fmt_empty_crates() {
+        let output = SetupTestOutput {
+            header: String::from("Test Header\n"),
+            crates: vec![],
+            total: DiskSize::new(100),
+        };
+        let mut result = String::new();
+        write!(&mut result, "{}", output).unwrap();
+        assert_eq!(result, "Test Header\n\n  Total bytes written: 100.00 B\n");
+    }
+
+    #[test]
+    fn test_fmt_single_crate() {
+        let output = SetupTestOutput {
+            header: String::from("Test Header\n"),
+            crates: vec![String::from("test-crate")],
+            total: DiskSize::new(50),
+        };
+        let mut result = String::new();
+        write!(&mut result, "{}", output).unwrap();
+        assert_eq!(
+            result,
+            "Test Header\n  Crates added:\n    test-crate\n  Total bytes written: 50.00 B\n"
+        );
+    }
+
+    #[test]
+    fn test_fmt_multiple_crates() {
+        let output = SetupTestOutput {
+            header: String::from("Test Header\n"),
+            crates: vec![
+                String::from("crate1"),
+                String::from("crate2"),
+                String::from("crate3"),
+            ],
+            total: DiskSize::new(200),
+        };
+        let mut result = String::new();
+        write!(&mut result, "{}", output).unwrap();
+        assert_eq!(result, "Test Header\n  Crates added:\n    crate1\n    crate2\n    crate3\n  Total bytes written: 200.00 B\n");
+    }
+
+    #[test]
+    fn test_fmt_empty_header() {
+        let output = SetupTestOutput {
+            header: String::new(),
+            crates: vec![String::from("test-crate")],
+            total: DiskSize::new(75),
+        };
+        let mut result = String::new();
+        write!(&mut result, "{}", output).unwrap();
+        assert_eq!(
+            result,
+            "  Crates added:\n    test-crate\n  Total bytes written: 75.00 B\n"
+        );
     }
 }
