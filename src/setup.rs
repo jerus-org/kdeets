@@ -131,7 +131,7 @@ mod tests {
         let result = setup.run();
         println!("Result: {:?}", result);
         assert!(result.is_ok());
-        assert!(Path::new("tests/registry_new").exists());
+        assert!(Path::new(location).exists());
     }
 
     #[test]
