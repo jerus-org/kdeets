@@ -180,6 +180,21 @@ mod tests {
     }
 
     #[test]
+    fn test_setup_run_with_highest_dependencies() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Highest,
+            location: location.to_string(),
+            ..Default::default()
+        };
+        let result = setup.run();
+        assert!(result.is_ok());
+    }
+
+    #[test]
     fn test_setup_run_with_no_dependencies() {
         let _log = simple_logger::init_with_level(log::Level::Debug);
         let temp_dir = tempfile::tempdir().unwrap();
