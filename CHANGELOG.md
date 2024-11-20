@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add error handling with thiserror and create new library module(pr [#16])
 - add RustVersions command to query maximum Rust version for a crate(pr [#30])
 - add Setup struct with command-line parsing and crate setup functionality(pr [#33])
+- add location option for local registry path and re-enable tests(pr [#41])
 
 ### Changed
 
@@ -77,3 +78,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#31]: https://github.com/jerus-org/kdeets/pull/31
 [#33]: https://github.com/jerus-org/kdeets/pull/33
 [#40]: https://github.com/jerus-org/kdeets/pull/40
+[#41]: https://github.com/jerus-org/kdeets/pull/41
