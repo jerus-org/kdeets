@@ -71,18 +71,29 @@ fn get_logging(level: log::LevelFilter) -> env_logger::Builder {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use clap_verbosity::Level::Error;
 
     #[test]
     fn test_cli_default_values() {
         let cli = Cli::try_parse_from(["kdeets", "crate", "some_crate"]).unwrap();
         assert!(!cli.no_colour);
-        assert_eq!(cli.logging.log_level(), Some(Error));
+        assert_eq!(cli.logging.log_level(), Some(log::Level::Error));
     }
 
     #[test]
     fn test_cli_no_colour_flag() {
         let cli = Cli::try_parse_from(["kdeets", "--no-colour", "crate", "some_crate"]).unwrap();
+        assert!(cli.no_colour);
+    }
+
+    #[test]
+    fn test_cli_no_colour_flag_rust() {
+        let cli = Cli::try_parse_from(["kdeets", "--no-colour", "rust", "some_crate"]).unwrap();
+        assert!(cli.no_colour);
+    }
+
+    #[test]
+    fn test_cli_no_colour_flag_setup() {
+        let cli = Cli::try_parse_from(["kdeets", "--no-colour", "setup", "some_crate"]).unwrap();
         assert!(cli.no_colour);
     }
 
