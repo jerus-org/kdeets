@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add RustVersions command to query maximum Rust version for a crate(pr [#30])
 - add Setup struct with command-line parsing and crate setup functionality(pr [#33])
 - add location option for local registry path and re-enable tests(pr [#41])
+- add no_colour option to disable colored output(pr [#44])
 
 ### Changed
 
@@ -83,3 +84,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#41]: https://github.com/jerus-org/kdeets/pull/41
 [#42]: https://github.com/jerus-org/kdeets/pull/42
 [#43]: https://github.com/jerus-org/kdeets/pull/43
+[#44]: https://github.com/jerus-org/kdeets/pull/44
