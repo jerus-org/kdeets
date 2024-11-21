@@ -76,7 +76,7 @@ Options:
 
 Display the key versions for the crate.
 
-```sh
+```console
 $ kdeets crate -h
 Query crates.io for information about a crate
 
@@ -97,7 +97,7 @@ Options:
   -a, --all         List all versions and key values (equivalent to `-entrl`)
   -h, --help        Print help
   -V, --version     Print version
-  
+
 ```
 
 This command queries crates.io for information about a crate and reports based on the options selected.
@@ -115,19 +115,21 @@ The command can create a table listing the yank status and version for all versi
 
 The `all` option lists all versions and key values (equivalent to `-entrl`).
 
-```sh
-$ kdeets crate -entrl some-crate
- Crate versions for some_crate.
+```console
+$ kdeets crate -entrl some_crate
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
    Earliest version: 0.1.0
-   Highest normal version: 0.2.1
-   Highest version: 0.2.1
-   Most recent version: 0.2.1
-    Yanked  Version 
-       No     0.1.0
-       No     0.1.1
-       No     0.1.3
-       No     0.2.1
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
 
 ```
 

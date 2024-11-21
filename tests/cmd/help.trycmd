@@ -7,11 +7,13 @@ Usage: kdeets [OPTIONS] <COMMAND>
 Commands:
   crate  Query crates.io for information about a crate
   rust   Query crates.io for maximum Rust version for a crate
+  setup  Setup local registry for a crate
   help   Print this message or the help of the given subcommand(s)
 
 Options:
   -v, --verbose...  Increase logging verbosity
   -q, --quiet...    Decrease logging verbosity
+      --no-colour   No colour flag removes styling escapes from the output
   -h, --help        Print help
   -V, --version     Print version
 
@@ -26,11 +28,13 @@ Usage: kdeets [OPTIONS] <COMMAND>
 Commands:
   crate  Query crates.io for information about a crate
   rust   Query crates.io for maximum Rust version for a crate
+  setup  Setup local registry for a crate
   help   Print this message or the help of the given subcommand(s)
 
 Options:
   -v, --verbose...  Increase logging verbosity
   -q, --quiet...    Decrease logging verbosity
+      --no-colour   No colour flag removes styling escapes from the output
   -h, --help        Print help
   -V, --version     Print version
 
