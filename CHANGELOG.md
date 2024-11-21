@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-add make_release job with configurable parameters for release automation(pr [#37])
 - ci(circleci)-add pcu_update_changelog flag to workflows configuration(pr [#38])
 - ci-remove deprecated parameters from CircleCI config(pr [#39])
+- test(setup)-add test for default directory creation in setup run(pr [#42])
 
 ### Security
 
@@ -79,3 +80,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#33]: https://github.com/jerus-org/kdeets/pull/33
 [#40]: https://github.com/jerus-org/kdeets/pull/40
 [#41]: https://github.com/jerus-org/kdeets/pull/41
+[#42]: https://github.com/jerus-org/kdeets/pull/42
