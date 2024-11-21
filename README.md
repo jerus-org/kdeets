@@ -116,19 +116,19 @@ The command can create a table listing the yank status and version for all versi
 The `all` option lists all versions and key values (equivalent to `-entrl`).
 
 ```console
-$ kdeets crate -entrl some_crate
+$ kdeets --no-colour crate -entrl some_crate
 
- [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ Crate versions for some_crate.
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
    Earliest version: 0.1.0
-   [38;5;4mHighest normal version: 0.2.1[0m
-   [38;5;2mHighest version: 0.2.1[0m
-   [38;5;3mMost recent version: 0.2.1[0m
-   [4m Yanked  Version [0m
-      [38;5;2m No[0m     0.1.0
-      [38;5;2m No[0m     0.1.1
-      [38;5;2m No[0m     0.1.3
-      [38;5;2m No[0m     0.2.1
+   Highest normal version: 0.2.1
+   Highest version: 0.2.1
+   Most recent version: 0.2.1
+    Yanked  Version 
+       No     0.1.0
+       No     0.1.1
+       No     0.1.3
+       No     0.2.1
 
 
 ```

@@ -9,7 +9,7 @@ struct Cli {
     #[clap(flatten)]
     logging: clap_verbosity_flag::Verbosity,
     /// No colour flag removes styling escapes from the output
-    #[clap(long = "no-colour")]
+    #[clap(long = "no-colour", alias = "no-color")]
     no_colour: bool,
     /// Force the calculation of the version number
     #[command(subcommand)]
@@ -36,7 +36,7 @@ fn main() {
     builder.init();
 
     let result = match args.command {
-        Commands::CrateVersions(crate_versions) => crate_versions.run(),
+        Commands::CrateVersions(crate_versions) => crate_versions.run(args.no_colour),
         Commands::RustVersions(rust_versions) => rust_versions.run(),
         Commands::Setup(setup) => setup.run(),
     };
