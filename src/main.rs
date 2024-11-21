@@ -8,6 +8,9 @@ use kdeets_lib::{CrateVersions, RustVersions, Setup};
 struct Cli {
     #[clap(flatten)]
     logging: clap_verbosity_flag::Verbosity,
+    /// No colour flag removes styling escapes from the output
+    #[clap(long = "no-colour")]
+    no_colour: bool,
     /// Force the calculation of the version number
     #[command(subcommand)]
     command: Commands,
