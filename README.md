@@ -28,19 +28,19 @@ A utility to query crates.io for information about a crate.
 ## Feature set
 
 - [x] Versions for a crate
-- [ ] Rust versions for dependencies
+- [x] Rust versions for dependencies
+- [x] Setup limited clone for testing
 
-## CLI Usage
+## Installation
 
 Install the CLI using cargo install.
 
 ```sh
-
 cargo install kdeets
 
 ```
 
-Run in your project directory and check the version
+Check program is available and the version installed.
 
 ```console
 $ kdeets --version
@@ -48,17 +48,88 @@ kdeets 0.1.0
 
 ```
 
-### Versions for a crate
+## Usage
+
+The available commands can be seen by running the command with the help flag.
+
+```sh
+$ kdeets --help
+Query crates.io for information about a crate.
+
+Usage: kdeets [OPTIONS] <COMMAND>
+
+Commands:
+  crate  Query crates.io for information about a crate
+  rust   Query crates.io for maximum Rust version for a crate
+  setup  Setup local registry for a crate
+  help   Print this message or the help of the given subcommand(s)
+
+Options:
+  -v, --verbose...  Increase logging verbosity
+  -q, --quiet...    Decrease logging verbosity
+  -h, --help        Print help
+  -V, --version     Print version
+
+```
+
+### Versions for a crate  (cmd: crate)
 
 Display the key versions for the crate.
 
-```sh
+```console
+$ kdeets crate -h
+Query crates.io for information about a crate
 
-$ kdeets crate -k nextsv
-Earliest version: 0.1.0!
-Highest normal version: 0.9.2!
-Highest version: 9.0.2!
-Most recent version: 0.9.2!
+Usage: kdeets crate [OPTIONS] <CRATE>
+
+Arguments:
+  <CRATE>  The name of the crate
+
+Options:
+  -v, --verbose...  More output per occurrence
+  -q, --quiet...    Less output per occurrence
+  -e, --earliest    First version ever published. May be yanked
+  -n, --normal      Returns crate version with the highest version number according to semver, but excludes pre-release and yanked versions
+  -t, --top         The highest version as per semantic versioning specification
+  -r, --recent      The last release by date, even if it’s yanked or less than highest version
+  -l, --list        List all versions of the crate
+  -k, --key         List key values (equivalent to `-entr`)
+  -a, --all         List all versions and key values (equivalent to `-entrl`)
+  -h, --help        Print help
+  -V, --version     Print version
+
+```
+
+This command queries crates.io for information about a crate and reports based on the options selected.
+
+Crates.io tracks for each crate the following versions:
+
+- `earliest`: The first version ever published. May be yanked.
+- `normal`: Returns crate version with the highest version number according to semver, but excludes pre-release and yanked versions.
+- `top`: The highest version as per semantic versioning specification.
+- `recent`: The last release by date, even if it’s yanked or less than highest version.
+
+The `key` option lists all of these versions (equivalent to `-entr`).
+
+The command can create a table listing the yank status and version for all versions of the crate.
+
+The `all` option lists all versions and key values (equivalent to `-entrl`).
+
+```console
+$ kdeets crate -entrl some_crate
+
+ [1mCrate versions for [38;5;6msome_crate[0m.[0m
+ 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
+   Earliest version: 0.1.0
+   [38;5;4mHighest normal version: 0.2.1[0m
+   [38;5;2mHighest version: 0.2.1[0m
+   [38;5;3mMost recent version: 0.2.1[0m
+   [4m Yanked  Version [0m
+      [38;5;2m No[0m     0.1.0
+      [38;5;2m No[0m     0.1.1
+      [38;5;2m No[0m     0.1.3
+      [38;5;2m No[0m     0.2.1
+
 
 ```
 
