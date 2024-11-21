@@ -67,3 +67,46 @@ fn get_logging(level: log::LevelFilter) -> env_logger::Builder {
 
     builder
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use clap_verbosity::Level::Error;
+
+    #[test]
+    fn test_cli_default_values() {
+        let cli = Cli::try_parse_from(["kdeets", "crate", "some_crate"]).unwrap();
+        assert!(!cli.no_colour);
+        assert_eq!(cli.logging.log_level(), Some(Error));
+    }
+
+    #[test]
+    fn test_cli_no_colour_flag() {
+        let cli = Cli::try_parse_from(["kdeets", "--no-colour", "crate", "some_crate"]).unwrap();
+        assert!(cli.no_colour);
+    }
+
+    #[test]
+    fn test_cli_verbosity_levels() {
+        let quiet = Cli::try_parse_from(["kdeets", "-q", "crate", "some_crate"]).unwrap();
+        assert_eq!(quiet.logging.log_level(), None);
+
+        let verbose = Cli::try_parse_from(["kdeets", "-v", "crate", "some_crate"]).unwrap();
+        assert_eq!(verbose.logging.log_level(), Some(log::Level::Warn));
+
+        let debug = Cli::try_parse_from(["kdeets", "-vv", "crate", "some_crate"]).unwrap();
+        assert_eq!(debug.logging.log_level(), Some(log::Level::Info));
+
+        let debug = Cli::try_parse_from(["kdeets", "-vvv", "crate", "some_crate"]).unwrap();
+        assert_eq!(debug.logging.log_level(), Some(log::Level::Debug));
+
+        let debug = Cli::try_parse_from(["kdeets", "-vvvv", "crate", "some_crate"]).unwrap();
+        assert_eq!(debug.logging.log_level(), Some(log::Level::Trace));
+    }
+
+    #[test]
+    fn test_cli_invalid_args() {
+        let result = Cli::try_parse_from(["kdeets", "--invalid-flag", "crate", "some_crate"]);
+        assert!(result.is_err());
+    }
+}
