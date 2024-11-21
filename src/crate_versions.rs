@@ -36,7 +36,7 @@ pub struct CrateVersions {
 }
 
 impl CrateVersions {
-    pub fn run(&self) -> Result<String, Error> {
+    pub fn run(&self, no_colour: bool) -> Result<String, Error> {
         log::info!("Getting details for crate: {}", self.crate_);
         let lock = FileLock::unlocked();
         let index = crate::get_remote_combo_index()?;
@@ -48,7 +48,13 @@ impl CrateVersions {
 
         let mut output = format!(
             "\n {}",
-            format!("Crate versions for {}.", index_crate.name().cyan()).bold()
+            if no_colour {
+                format!("Crate versions for {}.", index_crate.name())
+            } else {
+                format!("Crate versions for {}.", index_crate.name().cyan())
+                    .bold()
+                    .to_string()
+            }
         );
 
         let mut i = 0;
@@ -73,14 +79,25 @@ impl CrateVersions {
             output = format!(
                 "{}   {}\n",
                 output,
-                format!(
-                    "Highest normal version: {}",
-                    index_crate
-                        .highest_normal_version()
-                        .unwrap_or_else(|| index_crate.highest_version())
-                        .version
-                )
-                .blue()
+                if no_colour {
+                    format!(
+                        "Highest normal version: {}",
+                        index_crate
+                            .highest_normal_version()
+                            .unwrap_or_else(|| index_crate.highest_version())
+                            .version
+                    )
+                } else {
+                    format!(
+                        "Highest normal version: {}",
+                        index_crate
+                            .highest_normal_version()
+                            .unwrap_or_else(|| index_crate.highest_version())
+                            .version
+                    )
+                    .blue()
+                    .to_string()
+                }
             );
         };
 
@@ -88,7 +105,13 @@ impl CrateVersions {
             output = format!(
                 "{}   {}\n",
                 output,
-                format!("Highest version: {}", index_crate.highest_version().version).green()
+                if no_colour {
+                    format!("Highest version: {}", index_crate.highest_version().version)
+                } else {
+                    format!("Highest version: {}", index_crate.highest_version().version)
+                        .green()
+                        .to_string()
+                }
             );
         };
 
@@ -96,11 +119,19 @@ impl CrateVersions {
             output = format!(
                 "{}   {}\n",
                 output,
-                format!(
-                    "Most recent version: {}",
-                    index_crate.most_recent_version().version
-                )
-                .yellow()
+                if no_colour {
+                    format!(
+                        "Most recent version: {}",
+                        index_crate.most_recent_version().version
+                    )
+                } else {
+                    format!(
+                        "Most recent version: {}",
+                        index_crate.most_recent_version().version
+                    )
+                    .yellow()
+                    .to_string()
+                }
             );
         };
 
@@ -115,7 +146,12 @@ impl CrateVersions {
                 .map(|x| {
                     format!(
                         "   {}     {}",
-                        if x.yanked { "Yes".red() } else { " No".green() },
+                        match (x.yanked, no_colour) {
+                            (true, true) => "Yes".to_string(),
+                            (false, true) => " No".to_string(),
+                            (true, false) => "Yes".red().to_string(),
+                            (false, false) => " No".green().to_string(),
+                        },
                         x.version
                     )
                 })
@@ -141,7 +177,16 @@ impl CrateVersions {
 
             let rows = format!("   {}\n", rows.join("\n   "));
 
-            output = format!("{}   {}\n{}", output, header.underlined(), rows);
+            output = format!(
+                "{}   {}\n{}",
+                output,
+                if no_colour {
+                    header.to_string()
+                } else {
+                    header.underlined().to_string()
+                },
+                rows
+            );
         }
 
         Ok(output)
@@ -219,7 +264,7 @@ mod tests {
         assert!(!crate_versions.all);
         assert!(!crate_versions.key);
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -236,7 +281,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -253,7 +298,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -270,7 +315,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -287,7 +332,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -312,7 +357,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -336,7 +381,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
         assert_eq!(output, expected);
@@ -349,7 +394,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_err());
     }
 
@@ -361,7 +406,7 @@ mod tests {
             ..Default::default()
         };
 
-        let result = crate_versions.run();
+        let result = crate_versions.run(false);
         assert!(result.is_ok());
     }
 }
