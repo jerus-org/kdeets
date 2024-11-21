@@ -21,8 +21,8 @@ enum Commands {
     /// Query crates.io for maximum Rust version for a crate
     #[clap(name = "rust")]
     RustVersions(RustVersions),
-    /// Setup local registry for crate
-    #[clap(name = "setup", hide = true)]
+    /// Setup local registry for a crate
+    #[clap(name = "setup")]
     Setup(Setup),
 }
 
