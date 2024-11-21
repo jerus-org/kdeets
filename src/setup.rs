@@ -225,7 +225,7 @@ mod tests {
     }
 
     #[test]
-    fn test_setup_run_with_no_replace_flag() {
+    fn test_setup_run_with_no_replace_flag_not_set() {
         let _log = simple_logger::init_with_level(log::Level::Debug);
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
@@ -244,5 +244,27 @@ mod tests {
         // Second run with no_replace should still succeed
         let result2 = setup.run();
         assert!(result2.is_ok());
+    }
+
+    #[test]
+    fn test_setup_run_with_no_replace_flag_set() {
+        let _log = simple_logger::init_with_level(log::Level::Debug);
+        let temp_dir = tempfile::tempdir().unwrap();
+        let location = temp_dir.path().to_str().unwrap();
+        let setup = Setup {
+            crate_: String::from("forestry"),
+            dependencies: SelectVersion::Latest,
+            no_replace: true,
+            location: location.to_string(),
+            ..Default::default()
+        };
+
+        // First run should succeed
+        let result1 = setup.run();
+        assert!(result1.is_ok());
+
+        // Second run with no_replace should not succeed
+        let result2 = setup.run();
+        assert!(result2.is_err());
     }
 }
