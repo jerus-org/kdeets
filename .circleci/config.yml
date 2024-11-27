@@ -88,7 +88,7 @@ commands:
                 target=""
             fi
 
-            cargo +<<parameters.rust_version>> nextest \
+            cargo +<<parameters.rust_version>> nextest run \
               <<parameters.cargo_args>> \
               $all_features \
               $package \
