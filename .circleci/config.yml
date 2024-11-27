@@ -33,6 +33,68 @@ executors:
       - image: jerusdp/ci-rust:base
 
 commands:
+  cargo_nextest:
+    parameters:
+      rust_version:
+        default: "stable"
+        type: string
+        description: "The rust compiler version to use"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo build"
+      cargo_all_features:
+        type: boolean
+        default: true
+        description: "Build all features"
+      cargo_package:
+        type: string
+        default: ""
+        description: "Package to build"
+      cargo_target:
+        type: string
+        default: ""
+        description: "Target to build for"
+      cargo_bin:
+        type: string
+        default: ""
+        description: "Binary to build"
+    steps:
+      - run:
+          name: Check test <<parameters.rust_version>>
+          command: |
+            set -ex
+            if [ "<< parameters.cargo_all_features >>" == true ]; then
+                all_features=" --all-features "
+            else
+                all_features=""
+            fi
+
+            if [ "<< parameters.cargo_package >>" != "" ]; then
+                package=" --package << parameters.cargo_package >>"
+            else
+                package=""
+            fi
+
+            if [ "<<parameters.cargo_bin>>" != "" ]; then
+                bin=" --bin <<parameters.cargo_bin>>"
+            else
+                bin=""
+            fi
+
+            if [ "<< parameters.cargo_target >>" != "" ]; then
+                target=" --target << parameters.cargo_target >>"
+            else
+                target=""
+            fi
+
+            cargo +<<parameters.rust_version>> nextest run \
+              <<parameters.cargo_args>> \
+              $all_features \
+              $package \
+              $bin \
+              $target
+
   cargo_audit:
     parameters:
       ignore_advisories:
@@ -47,6 +109,53 @@ commands:
               cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
             fi
 jobs:
+  common_tests:
+    executor: rust-env
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      docker_tag_suffix:
+        type: string
+        default: ""
+        description: "The suffix to append to the docker tag"
+      cargo_args:
+        type: string
+        default: ""
+        description: "Additional parameters to pass to cargo build"
+      cargo_all_features:
+        type: boolean
+        default: true
+        description: "Build all features"
+      cargo_package:
+        type: string
+        default: ""
+        description: "Package to pass to cargo build"
+      cargo_target:
+        type: string
+        default: ""
+        description: "Target to pass to cargo build"
+
+    steps:
+      - checkout
+      - run:
+          name: Check rust version for code
+          command: cargo --version
+      - run:
+          name: Check formatting for code
+          command: |
+            rustfmt --version
+            cargo fmt --all -- --check
+      - run:
+          name: Install cargo_nextest
+          command: cargo install cargo-nextest
+      - cargo_nextest:
+          rust_version: "<<parameters.min_rust_version>>"
+          cargo_args: <<parameters.cargo_args>>
+          cargo_all_features: <<parameters.cargo_all_features>>
+          cargo_package: << parameters.cargo_package >>
+          cargo_target: << parameters.cargo_target >>
+
   security:
     executor: base-env
     parameters:
@@ -259,7 +368,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      - toolkit/common_tests:
+      - common_tests:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
@@ -267,7 +376,7 @@ workflows:
           context: SonarCloud
       - toolkit/update_changelog:
           requires:
-            - toolkit/common_tests
+            - common_tests
             - toolkit/required_builds
             - toolkit/idiomatic_rust
             - toolkit/code_coverage
