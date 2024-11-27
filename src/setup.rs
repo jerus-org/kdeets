@@ -103,9 +103,9 @@ impl Setup {
             }
             SelectVersion::None => (),
         };
-
+        log::debug!("Finalizing registry");
         let final_output = output.finalize()?;
-
+        log::debug!("Registry setup complete");
         Ok(final_output.to_string())
     }
 }
@@ -115,18 +115,21 @@ mod tests {
     use std::path::Path;
 
     use super::*;
+    const TEST_CRATE_NAME: &str = "forestry";
+    // const TEST_CRATE_NAME: &str = "some_crate";
+    const TEST_NON_EXISTENT_CRATE_NAME: &str = "nonexistent_crate_12345";
 
     #[test]
     fn test_setup_run_default_directory() {
         let _log = simple_logger::init_with_level(log::Level::Debug);
 
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Latest,
             ..Default::default()
         };
         let result = setup.run();
-        println!("Result: {:?}", result);
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
         assert!(Path::new("tests/local_registry").exists());
     }
@@ -138,13 +141,13 @@ mod tests {
         let location = temp_dir.path().to_str().unwrap();
 
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Latest,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
-        println!("Result: {:?}", result);
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
         assert!(Path::new(location).exists());
     }
@@ -155,12 +158,13 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Earlist,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
     }
 
@@ -170,12 +174,13 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::HighestNormal,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
     }
 
@@ -185,12 +190,13 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Highest,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
     }
 
@@ -200,12 +206,13 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::None,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
+        log::debug!("Result: {:?}", result);
         assert!(result.is_ok());
     }
 
@@ -215,12 +222,13 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("nonexistent_crate_12345"),
+            crate_: String::from(TEST_NON_EXISTENT_CRATE_NAME),
             dependencies: SelectVersion::Latest,
             location: location.to_string(),
             ..Default::default()
         };
         let result = setup.run();
+        log::debug!("Result: {:?}", result);
         assert!(matches!(result, Err(Error::CrateNotFoundOnIndex)));
     }
 
@@ -230,7 +238,7 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Latest,
             no_replace: false,
             location: location.to_string(),
@@ -239,10 +247,12 @@ mod tests {
 
         // First run should succeed
         let result1 = setup.run();
+        log::debug!("Result1: {:?}", result1);
         assert!(result1.is_ok());
 
         // Second run with no_replace should still succeed
         let result2 = setup.run();
+        log::debug!("Result2: {:?}", result2);
         assert!(result2.is_ok());
     }
 
@@ -252,7 +262,7 @@ mod tests {
         let temp_dir = tempfile::tempdir().unwrap();
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
-            crate_: String::from("forestry"),
+            crate_: String::from(TEST_CRATE_NAME),
             dependencies: SelectVersion::Latest,
             no_replace: true,
             location: location.to_string(),
@@ -261,10 +271,12 @@ mod tests {
 
         // First run should succeed
         let result1 = setup.run();
+        log::debug!("Result1: {:?}", result1);
         assert!(result1.is_ok());
 
         // Second run with no_replace should not succeed
         let result2 = setup.run();
+        log::debug!("Result2: {:?}", result2);
         assert!(result2.is_err());
     }
 }
