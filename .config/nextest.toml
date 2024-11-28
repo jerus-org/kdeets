@@ -106,7 +106,7 @@ archive.include = [
 # Output a JUnit report into the given file inside 'store.dir/<profile-name>'.
 # If unspecified, JUnit is not written out.
 
-# path = "junit.xml"
+path = "junit.xml"
 
 # The name of the top-level "report" element in JUnit report. If aggregating
 # reports across different test runs, it may be useful to provide separate names
@@ -125,6 +125,8 @@ store-success-output = false
 store-failure-output = true
 
 [profile.ci]
-# Do not cancel the test run on the first failure.
 fail-fast = false
 retries = 2
+
+[profile.ci.junit]
+path = "junit.xml"
