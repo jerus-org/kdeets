@@ -63,7 +63,6 @@ commands:
       - run:
           name: Check test <<parameters.rust_version>>
           command: |
-            set -ex
             if [ "<< parameters.cargo_all_features >>" == true ]; then
                 all_features=" --all-features "
             else
@@ -94,6 +93,14 @@ commands:
               $package \
               $bin \
               $target
+
+            # Fix junit files
+            set -ex
+            ls -R target/nextest
+            cat target/nextest/ci/junit.xml | circleci-junit-fix > target/nextest/ci/fixed-report.xml
+
+      - store_test_results:
+          path: target/nextest/ci/fixed-report.xml
 
   cargo_audit:
     parameters:
@@ -159,15 +166,6 @@ jobs:
           cargo_all_features: <<parameters.cargo_all_features>>
           cargo_package: << parameters.cargo_package >>
           cargo_target: << parameters.cargo_target >>
-
-      - run:
-          name: Fix junit files
-          command: |
-            set -ex
-            ls -R target/nextest
-            cat target/nextest/ci/junit.xml | circleci-junit-fix > target/nextest/ci/fixed-report.xml
-      - store_test_results:
-          path: target/nextest/ci/fixed-report.xml
 
   security:
     executor: base-env
