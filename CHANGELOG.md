@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - test(setup)-add test for default directory creation in setup run(pr [#42])
 - docs-update README with Rust versions for dependencies and usage instructions(pr [#43])
 - Nextest-test(pr [#48])
+- ci-update CircleCI config to include junit fix and add nextest config file(pr [#49])
 
 ### Security
 
@@ -93,3 +94,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#46]: https://github.com/jerus-org/kdeets/pull/46
 [#47]: https://github.com/jerus-org/kdeets/pull/47
 [#48]: https://github.com/jerus-org/kdeets/pull/48
+[#49]: https://github.com/jerus-org/kdeets/pull/49
