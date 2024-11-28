@@ -59,11 +59,14 @@ commands:
         type: string
         default: ""
         description: "Binary to build"
+      store_results:
+        type: boolean
+        default: false
+        description: "Store results using circleci command"
     steps:
       - run:
           name: Check test <<parameters.rust_version>>
           command: |
-            set -ex
             if [ "<< parameters.cargo_all_features >>" == true ]; then
                 all_features=" --all-features "
             else
@@ -88,12 +91,24 @@ commands:
                 target=""
             fi
 
-            cargo +<<parameters.rust_version>> nextest run \
+            cargo +<<parameters.rust_version>> nextest run -P ci \
               <<parameters.cargo_args>> \
               $all_features \
               $package \
               $bin \
               $target
+
+            # Fix junit files
+            if << parameters.store_results >>; then
+                ls -R target/nextest
+                cat target/nextest/ci/junit.xml | circleci-junit-fix > target/nextest/ci/fixed-report.xml
+            fi
+
+      - when:
+          condition: << parameters.store_results >>
+          steps:
+            - store_test_results:
+                path: target/nextest/ci/fixed-report.xml
 
   cargo_audit:
     parameters:
@@ -135,6 +150,14 @@ jobs:
         type: string
         default: ""
         description: "Target to pass to cargo build"
+      cargo_nextest:
+        type: boolean
+        default: false
+        description: "Use cargo nextest to run tests"
+      store_results:
+        type: boolean
+        default: false
+        description: "Store results using circleci command"
 
     steps:
       - checkout
@@ -148,13 +171,33 @@ jobs:
             cargo fmt --all -- --check
       - run:
           name: Install cargo_nextest
-          command: cargo install cargo-nextest
-      - cargo_nextest:
-          rust_version: "<<parameters.min_rust_version>>"
-          cargo_args: <<parameters.cargo_args>>
-          cargo_all_features: <<parameters.cargo_all_features>>
-          cargo_package: << parameters.cargo_package >>
-          cargo_target: << parameters.cargo_target >>
+          command: |
+            set -ex
+            cargo install cargo-nextest
+            cargo install circleci-junit-fix --locked --version 0.2.0
+
+      - when:
+          condition: << parameters.cargo_nextest >>
+          steps:
+            - cargo_nextest:
+                rust_version: "<<parameters.min_rust_version>>"
+                cargo_args: <<parameters.cargo_args>>
+                cargo_all_features: <<parameters.cargo_all_features>>
+                cargo_package: << parameters.cargo_package >>
+                cargo_target: << parameters.cargo_target >>
+                store_results: << parameters.store_results >>
+
+      - when:
+          condition:
+            not: << parameters.cargo_nextest >>
+          steps:
+            - cargo_nextest:
+                rust_version: "<<parameters.min_rust_version>>"
+                cargo_args: <<parameters.cargo_args>>
+                cargo_all_features: <<parameters.cargo_all_features>>
+                cargo_package: << parameters.cargo_package >>
+                cargo_target: << parameters.cargo_target >>
+                store_results: << parameters.store_results >>
 
   security:
     executor: base-env
@@ -370,6 +413,8 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - common_tests:
           min_rust_version: << pipeline.parameters.min-rust-version >>
+          cargo_nextest: true
+          store_results: true
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - security:
