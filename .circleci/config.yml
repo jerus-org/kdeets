@@ -164,9 +164,9 @@ jobs:
           name: Fix junit files
           command: |
             set -ex
-            cat junit.xml | circleci-junit-fix > fixed-report.xml
+            cat target/nextest/ci/junit.xml | circleci-junit-fix > target/nextest/ci/fixed-report.xml
       - store_test_results:
-          path: fixed-report.xml
+          path: target/nextest/ci/fixed-report.xml
 
   security:
     executor: base-env
