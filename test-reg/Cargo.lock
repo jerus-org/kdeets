@@ -14,9 +14,9 @@ dependencies = [
 
 [[package]]
 name = "forestry"
-version = "1.4.1"
+version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d0fd162274396f9b49d7e3d56f303a12917e67ff7b6d8de27090dd2c720eb7b0"
+checksum = "9b0cf1187462c94b82453b001fdc295fb54064b60920c124c303ca32be1fc046"
 dependencies = [
  "colored",
 ]

@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-forestry = "1.4.1"
+forestry = "1.6.0"
 some_crate = "0.2.1"
 holochain_serialized_bytes_derive = "0.0.55"
