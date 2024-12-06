@@ -146,9 +146,6 @@ jobs:
           command: |
             rustfmt --version
             cargo fmt --all -- --check
-      - run:
-          name: Install cargo_nextest
-          command: cargo install cargo-nextest
       - cargo_nextest:
           rust_version: "<<parameters.min_rust_version>>"
           cargo_args: <<parameters.cargo_args>>
