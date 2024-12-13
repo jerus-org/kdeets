@@ -19,7 +19,7 @@ log = "0.4.22"
 semver = "1.0.24"
 smol_str = "0.3.2"
 tame-index = { version = "0.16.0", features = ["git", "local", "local-builder", "sparse"] }
-thiserror = "2.0.4"
+thiserror = "2.0.6"
 
 
 [lib]
