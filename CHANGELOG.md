@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-12-28
+
+### Security
+
+- Dependencies: update rust crate thiserror to 2.0.8(pr [#61])
+- Dependencies: update rust crate thiserror to 2.0.9(pr [#63])
+- Dependencies: update rust crate env_logger to 0.11.6(pr [#62])
+- Dependencies: update dependency toolkit to v1.23.0(pr [#64])
+
+## [0.1.1] - 2024-12-22
+
 ### Added
 
 - add host rules for CircleCI in renovate configuration(pr [#4])
@@ -22,8 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- chore-add sonar-project properties file for SonarQube integration(pr [#2])
-- Configure Renovate(pr [#1])
 - Prepare for first release(pr [#11])
 - refactor(cli)-rename Krate to Crate_ for consistency with command name(pr [#13])
 - docs-update README to remove outdated --krate flag reference(pr [#14])
@@ -66,11 +75,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update rust crate forestry to 1.6.2(pr [#56])
 - Dependencies: update rust crate thiserror to 2.0.6(pr [#58])
 - Dependencies: update dependency toolkit to v1.20.2(pr [#59])
-- Dependencies: update rust crate thiserror to 2.0.8(pr [#61])
 - Dependencies: update rust crate clap-verbosity-flag to 3.0.2(pr [#60])
-- Dependencies: update rust crate thiserror to 2.0.9(pr [#63])
-- Dependencies: update rust crate env_logger to 0.11.6(pr [#62])
-- Dependencies: update dependency toolkit to v1.23.0(pr [#64])
+
+## [0.1.0] - 2024-10-27
+
+### Changed
+
+- Configure Renovate(pr [#1])
+- chore-add sonar-project properties file for SonarQube integration(pr [#2])
 
 [#2]: https://github.com/jerus-org/kdeets/pull/2
 [#1]: https://github.com/jerus-org/kdeets/pull/1
@@ -123,3 +135,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#63]: https://github.com/jerus-org/kdeets/pull/63
 [#62]: https://github.com/jerus-org/kdeets/pull/62
 [#64]: https://github.com/jerus-org/kdeets/pull/64
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/jerus-org/kdeets/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/jerus-org/kdeets/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/jerus-org/kdeets/releases/tag/v0.1.0
