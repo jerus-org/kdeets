@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore-add release configuration file with pre-release settings(pr [#65])
+
 ## [0.1.2] - 2024-12-28
 
 ### Security
@@ -135,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#63]: https://github.com/jerus-org/kdeets/pull/63
 [#62]: https://github.com/jerus-org/kdeets/pull/62
 [#64]: https://github.com/jerus-org/kdeets/pull/64
+[#65]: https://github.com/jerus-org/kdeets/pull/65
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.2...HEAD
 [0.1.2]: https://github.com/jerus-org/kdeets/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/jerus-org/kdeets/compare/v0.1.0...v0.1.1
