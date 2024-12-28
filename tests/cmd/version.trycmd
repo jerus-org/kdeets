@@ -12,12 +12,12 @@ kdeets 0.1.2
 
 ```console
 $ kdeets crate --version
-kdeets 0.1.2
+kdeets-crate 0.1.2
 
 ```
 
 ```console
 $ kdeets crate -V
-kdeets 0.1.2
+kdeets-crate 0.1.2
 
 ```
