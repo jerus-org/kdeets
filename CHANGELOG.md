@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dependencies: update rust crate clap to 4.5.26(pr [#69])
 - Dependencies: update rust crate thiserror to 2.0.10(pr [#70])
+- Dependencies: update rust crate forestry to 1.9.3(pr [#71])
 
 ## [0.1.4] - 2025-01-04
 
@@ -160,6 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#68]: https://github.com/jerus-org/kdeets/pull/68
 [#69]: https://github.com/jerus-org/kdeets/pull/69
 [#70]: https://github.com/jerus-org/kdeets/pull/70
+[#71]: https://github.com/jerus-org/kdeets/pull/71
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.4...HEAD
 [0.1.4]: https://github.com/jerus-org/kdeets/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/jerus-org/kdeets/compare/v0.1.2...v0.1.3
