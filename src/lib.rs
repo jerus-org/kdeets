@@ -17,7 +17,7 @@ use tame_index::index::{ComboIndex, RemoteSparseIndex};
 use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
 pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, tame_index::error::Error> {
-    let index = get_sparce_index()?;
+    let index = get_sparse_index()?;
     let builder = get_client_builder();
     let client = builder.build()?;
 
@@ -26,7 +26,7 @@ pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, tame_index::error::
     Ok(ComboIndex::from(remote_index))
 }
 
-pub(crate) fn get_sparce_index() -> Result<SparseIndex, tame_index::error::Error> {
+pub(crate) fn get_sparse_index() -> Result<SparseIndex, tame_index::error::Error> {
     let il = IndexLocation::new(IndexUrl::CratesIoSparse);
     SparseIndex::new(il)
 }
@@ -48,7 +48,7 @@ mod tests {
     };
     use tempfile::TempDir;
 
-    const TEST_REGISGTRY: &str = "tests/registry";
+    const TEST_REGISTRY: &str = "tests/registry";
 
     pub(crate) fn get_temp_local_registry() -> (TempDir, String) {
         let temp_dir = tempfile::tempdir().unwrap();
@@ -58,7 +58,7 @@ mod tests {
 
         let options = fs_extra::dir::CopyOptions::new();
 
-        let from_path = vec![TEST_REGISGTRY];
+        let from_path = vec![TEST_REGISTRY];
 
         let _ = fs_extra::copy_items(&from_path, temp_dir.path().to_str().unwrap(), &options);
         let _ = fs_extra::copy_items(&from_path, "/tmp/test/", &options);
