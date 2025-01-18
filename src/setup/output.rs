@@ -79,7 +79,7 @@ impl SetupTestOutputBuilder {
         };
 
         let client = Client::build(crate::get_client_builder())?;
-        let index = crate::get_sparce_index()?;
+        let index = crate::get_sparse_index()?;
         let index_config = index.index_config()?;
 
         let mut krates = vec![];

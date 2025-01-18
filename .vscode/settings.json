@@ -10,8 +10,11 @@
         "impls",
         "insta",
         "krate",
+        "krates",
+        "mforestry",
         "mnot",
         "msome",
+        "nonexistent",
         "termcolor",
         "vers",
         "walkdir"

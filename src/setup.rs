@@ -15,7 +15,7 @@ enum SelectVersion {
     Latest,
     Highest,
     HighestNormal,
-    Earlist,
+    Earliest,
     None,
 }
 
@@ -78,7 +78,7 @@ impl Setup {
                     &combo_index,
                 )?;
             }
-            SelectVersion::Earlist => {
+            SelectVersion::Earliest => {
                 log::debug!("Adding dependencies for earliest version");
                 output.add_dependency_crates(
                     index_crate.earliest_version().dependencies(),
@@ -159,7 +159,7 @@ mod tests {
         let location = temp_dir.path().to_str().unwrap();
         let setup = Setup {
             crate_: String::from(TEST_CRATE_NAME),
-            dependencies: SelectVersion::Earlist,
+            dependencies: SelectVersion::Earliest,
             location: location.to_string(),
             ..Default::default()
         };

@@ -22,7 +22,7 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@2.0.0
-  sonarcloud: sonarsource/sonarcloud@2.0.0
+  # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
   rust-env:
@@ -95,19 +95,6 @@ commands:
               $bin \
               $target
 
-  cargo_audit:
-    parameters:
-      ignore_advisories:
-        type: string
-        default: ""
-        description: "Additional parameters to list advisories that should be ignored"
-    steps:
-      - run:
-          name: Security audit against RUSTSEC
-          command: |
-            if ! cargo audit -D warnings << parameters.ignore_advisories >> ; then
-              cargo update && cargo audit -D warnings << parameters.ignore_advisories >>
-            fi
 jobs:
   common_tests:
     executor: rust-env
@@ -152,177 +139,6 @@ jobs:
           cargo_all_features: <<parameters.cargo_all_features>>
           cargo_package: << parameters.cargo_package >>
           cargo_target: << parameters.cargo_target >>
-
-  security:
-    executor: base-env
-    parameters:
-      ignore_advisories:
-        default: ""
-        description: List of advisories to ignore each prefixed with "--ignore "
-        type: string
-      cargo_audit:
-        default: true
-        description: Don't run the cargo audit scan
-        type: boolean
-      sonarcloud:
-        default: true
-        description: Don't run the sonarcloud scan
-        type: boolean
-
-    steps:
-      - checkout
-      - when:
-          condition: << parameters.cargo_audit >>
-          steps:
-            - cargo_audit:
-                ignore_advisories: << parameters.ignore_advisories >>
-      - when:
-          condition: << parameters.sonarcloud >>
-          steps:
-            - sonarcloud/scan
-
-  make_release:
-    executor: base-env
-    parameters:
-      ssh_fingerprint:
-        type: string
-      min_rust_version:
-        type: string
-      pcu_verbosity:
-        type: string
-        default: "-vv"
-        description: "The verbosity of the pcu command"
-      version:
-        type: string
-        default: ""
-        description: |
-          Specific version number to release
-      specific_version:
-        type: boolean
-        default: false
-        description: |
-          Make a specific release, if true version must be set to the specific version number
-      first_release:
-        type: boolean
-        default: false
-        description: |
-          Request that a first release (v0.1.0) be created
-      publish:
-        type: boolean
-        default: true
-        description: |
-          Publish the release
-      when_github_release:
-        type: boolean
-        default: true
-        description: |
-          Create a github release
-      when_cargo_release:
-        type: boolean
-        default: true
-        description: |
-          Create a cargo release
-      when_update_pcu:
-        type: boolean
-        default: false
-        description: |
-          Update pcu
-      pcu_update_changelog:
-        type: boolean
-        default: false
-        description: "To update the changelog when making the github release"
-      when_pcu_push:
-        type: boolean
-        default: false
-        description: "To use the pcu push command"
-      pcu_semver:
-        type: boolean
-        default: false
-        description: "Whether or not set the semver version flag"
-      pcu_no_push:
-        type: boolean
-        default: false
-        description: "Whether or not prevent final push of commit"
-      pcu_commit_message:
-        type: string
-        default: "chore: test push"
-        description: "The commit message to use for the pcu test push"
-      pcu_prefix:
-        type: string
-        default: "v"
-        description: "The verbosity of the pcu command"
-      pcu_workspace:
-        type: boolean
-        default: false
-        description: "Whether or not to set the workspace flag of the pcu command"
-      package:
-        type: string
-        default: ""
-        description: "The package to publish"
-
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - << parameters.ssh_fingerprint >>
-      - run:
-          name: Remove original SSH key from agent
-          command: |
-            ssh-add -l
-            ssh-add -d ~/.ssh/id_rsa.pub
-            ssh-add -l
-      - toolkit/gpg_key
-      - toolkit/git_config
-      - when:
-          condition: << parameters.when_update_pcu >>
-          steps:
-            - toolkit/install_latest_pcu
-      - when:
-          condition: << parameters.when_github_release >>
-          steps:
-            - toolkit/set_env_var_semver:
-                version: << parameters.version >>
-      - when:
-          condition:
-            and:
-              - << parameters.when_cargo_release >>
-              - not: << parameters.when_pcu_push >>
-          steps:
-            - toolkit/make_cargo_release:
-                publish: << parameters.publish >>
-                first_release: << parameters.first_release >>
-                specific_version: << parameters.specific_version >>
-                version: << parameters.version >>
-                package: << parameters.package >>
-      - when:
-          condition:
-            and:
-              - << parameters.when_cargo_release >>
-              - << parameters.when_pcu_push >>
-          steps:
-            - toolkit/make_cargo_release:
-                publish: << parameters.publish >>
-                first_release: << parameters.first_release >>
-                specific_version: << parameters.specific_version >>
-                version: << parameters.version >>
-                package: << parameters.package >>
-                no_push: true
-      - when:
-          condition: << parameters.when_pcu_push >>
-          steps:
-            - toolkit/push_cmd:
-                pcu_no_push: << parameters.pcu_no_push >>
-                pcu_verbosity: << parameters.pcu_verbosity >>
-                pcu_semver: << parameters.pcu_semver >>
-      - when:
-          condition: << parameters.when_github_release >>
-          steps:
-            - toolkit/make_github_release:
-                pcu_verbosity: << parameters.pcu_verbosity >>
-                pcu_update_changelog: << parameters.pcu_update_changelog >>
-                pcu_prefix: << parameters.pcu_prefix >>
-                pcu_workspace: << parameters.pcu_workspace >>
-                pcu_package: << parameters.package >>
 
 workflows:
   check_last_commit:
@@ -369,7 +185,7 @@ workflows:
           min_rust_version: << pipeline.parameters.min-rust-version >>
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min-rust-version >>
-      - security:
+      - toolkit/security:
           context: SonarCloud
       - toolkit/update_changelog:
           requires:
@@ -377,7 +193,7 @@ workflows:
             - toolkit/required_builds
             - toolkit/idiomatic_rust
             - toolkit/code_coverage
-            - security
+            - toolkit/security
           context:
             - release
             - bot-check
@@ -407,7 +223,7 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
     jobs:
-      - make_release:
+      - toolkit/make_release:
           context:
             - release
             - bot-check
