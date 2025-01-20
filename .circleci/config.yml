@@ -233,10 +233,10 @@ workflows:
             - attach_workspace:
                 at: /tmp/workspace
             - run:
-              name: Set SEMVER based on next-version file
-              command: |
-                set +ex
-                export SEMVER=$(cat /tmp/workspace/next-version)
+                name: Set SEMVER based on next-version file
+                command: |
+                  set +ex
+                  export SEMVER=$(cat /tmp/workspace/next-version)
           context:
             - release
             - bot-check
