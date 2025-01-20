@@ -223,9 +223,20 @@ workflows:
         - not: << pipeline.parameters.success-flag >>
         - not: << pipeline.parameters.validation-flag >>
     jobs:
+      - toolkit/save_next_version:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+
       - toolkit/make_release:
+          requires:
+            - toolkit/save_next_version
           context:
             - release
             - bot-check
           ssh_fingerprint: << pipeline.parameters.fingerprint >>
           min_rust_version: << pipeline.parameters.min-rust-version >>
+
+      - toolkit/no_release:
+          min_rust_version: << pipeline.parameters.min-rust-version >>
+          requires:
+            - toolkit/save_next_version:
+                - failed
