@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 👷 ci(circleci): update circleci toolkit orb version(pr [#76])
 - 👷 ci(circleci): update release workflow dependencies(pr [#77])
 - ci(circleci)-update circleci-toolkit orb version(pr [#78])
+- ci(circleci)-update release workflow with workspace and versioning(pr [#79])
 
 ### Security
 
@@ -179,6 +180,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#76]: https://github.com/jerus-org/kdeets/pull/76
 [#77]: https://github.com/jerus-org/kdeets/pull/77
 [#78]: https://github.com/jerus-org/kdeets/pull/78
+[#79]: https://github.com/jerus-org/kdeets/pull/79
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.4...HEAD
 [0.1.4]: https://github.com/jerus-org/kdeets/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/jerus-org/kdeets/compare/v0.1.2...v0.1.3
