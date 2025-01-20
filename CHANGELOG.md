@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-update circleci-toolkit orb version(pr [#78])
 - ci(circleci)-update release workflow with workspace and versioning(pr [#79])
 - ci(circleci)-update CircleCI toolkit orb version(pr [#81])
+- ci(circleci)-persist semver in bash environment(pr [#82])
 
 ### Fixed
 
@@ -188,6 +189,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#79]: https://github.com/jerus-org/kdeets/pull/79
 [#80]: https://github.com/jerus-org/kdeets/pull/80
 [#81]: https://github.com/jerus-org/kdeets/pull/81
+[#82]: https://github.com/jerus-org/kdeets/pull/82
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.4...HEAD
 [0.1.4]: https://github.com/jerus-org/kdeets/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/jerus-org/kdeets/compare/v0.1.2...v0.1.3
