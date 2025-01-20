@@ -21,7 +21,7 @@ parameters:
     description: "If true, the release pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@2.0.2
+  toolkit: jerus-org/circleci-toolkit@2.0.3
   # sonarcloud: sonarsource/sonarcloud@2.0.0
 
 executors:
@@ -237,6 +237,7 @@ workflows:
                 command: |
                   set +ex
                   export SEMVER=$(cat /tmp/workspace/next-version)
+                  echo $SEMVER
           context:
             - release
             - bot-check
