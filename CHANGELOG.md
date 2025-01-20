@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(circleci)-update circleci-toolkit orb version(pr [#78])
 - ci(circleci)-update release workflow with workspace and versioning(pr [#79])
 
+### Fixed
+
+- ci: reformat indentation in CircleCI config(pr [#80])
+
 ### Security
 
 - Dependencies: update rust crate clap to 4.5.26(pr [#69])
@@ -181,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#77]: https://github.com/jerus-org/kdeets/pull/77
 [#78]: https://github.com/jerus-org/kdeets/pull/78
 [#79]: https://github.com/jerus-org/kdeets/pull/79
+[#80]: https://github.com/jerus-org/kdeets/pull/80
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.4...HEAD
 [0.1.4]: https://github.com/jerus-org/kdeets/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/jerus-org/kdeets/compare/v0.1.2...v0.1.3
