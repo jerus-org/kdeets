@@ -16,7 +16,7 @@ clap-verbosity-flag = "3.0.2"
 colorful = "0.3.2"
 env_logger = "0.11.6"
 log = "0.4.25"
-semver = "1.0.24"
+semver = "1.0.25"
 smol_str = "0.3.2"
 tame-index = { version = "0.16.0", features = ["git", "local", "local-builder", "sparse"] }
 thiserror = "2.0.11"
