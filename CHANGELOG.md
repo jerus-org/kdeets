@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore(config)-migrate renovate config(pr [#86])
 
+### Security
+
+- Dependencies: update rust crate clap to 4.5.27(pr [#84])
+
 ## [0.1.5] - 2025-01-20
 
 ### Changed
@@ -199,6 +203,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#82]: https://github.com/jerus-org/kdeets/pull/82
 [#83]: https://github.com/jerus-org/kdeets/pull/83
 [#86]: https://github.com/jerus-org/kdeets/pull/86
+[#84]: https://github.com/jerus-org/kdeets/pull/84
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.5...HEAD
 [0.1.5]: https://github.com/jerus-org/kdeets/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/jerus-org/kdeets/compare/v0.1.3...v0.1.4
