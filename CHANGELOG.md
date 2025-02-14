@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: update rust crate trycmd to 0.15.9(pr [#91])
+- Dependencies: update rust crate clap to 4.5.29(pr [#90])
 
 ## [0.1.8] - 2025-02-08
 
@@ -229,6 +230,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#88]: https://github.com/jerus-org/kdeets/pull/88
 [#89]: https://github.com/jerus-org/kdeets/pull/89
 [#91]: https://github.com/jerus-org/kdeets/pull/91
+[#90]: https://github.com/jerus-org/kdeets/pull/90
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.8...HEAD
 [0.1.8]: https://github.com/jerus-org/kdeets/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/jerus-org/kdeets/compare/v0.1.6...v0.1.7
