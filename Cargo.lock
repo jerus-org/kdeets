@@ -206,9 +206,9 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "325918d6fe32f23b19878fe4b34794ae41fc19ddbe53b10571a4874d44ffd39b"
+checksum = "f61dac84819c6588b558454b194026eb1f09c293b9036ae9b159e74e73ab6cf9"
 
 [[package]]
 name = "camino"
@@ -2332,6 +2332,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c7fb8039b3032c191086b10f11f319a6e99e1e82889c5cc6046f515c9db1d497"
 
 [[package]]
+name = "rustc-stable-hash"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2febf9acc5ee5e99d1ad0afcdbccc02d87aa3f857a1f01f825b80eacf8edfcd1"
+
+[[package]]
 name = "rustc_version"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2682,9 +2688,9 @@ dependencies = [
 
 [[package]]
 name = "tame-index"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1652caa3694d1e943523f689c6e1b259f9d4a90fad3b3b44f2b01dce0f4b138d"
+checksum = "3bfcad7f766f01a7bd209ac43309c99a1c0a22c641828a42e7e2ee6c0cb46646"
 dependencies = [
  "bytes",
  "camino",
@@ -2696,6 +2702,7 @@ dependencies = [
  "memchr",
  "rayon",
  "reqwest",
+ "rustc-stable-hash",
  "semver",
  "serde",
  "serde_json",
