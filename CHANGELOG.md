@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dependencies: update dependency toolkit to v2.0.13(pr [#96])
 - Dependencies: update rust crate clap to 4.5.31(pr [#97])
+- Dependencies: update rust crate tame-index to 0.18.1(pr [#98])
 
 ## [0.1.10] - 2025-02-22
 
@@ -253,6 +254,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#95]: https://github.com/jerus-org/kdeets/pull/95
 [#96]: https://github.com/jerus-org/kdeets/pull/96
 [#97]: https://github.com/jerus-org/kdeets/pull/97
+[#98]: https://github.com/jerus-org/kdeets/pull/98
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.10...HEAD
 [0.1.10]: https://github.com/jerus-org/kdeets/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/jerus-org/kdeets/compare/v0.1.8...v0.1.9
