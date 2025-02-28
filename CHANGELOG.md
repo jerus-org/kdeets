@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Security
+
+- Dependencies: update dependency toolkit to v2.0.13(pr [#96])
+
 ## [0.1.10] - 2025-02-22
 
 ### Security
@@ -244,6 +250,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#93]: https://github.com/jerus-org/kdeets/pull/93
 [#94]: https://github.com/jerus-org/kdeets/pull/94
 [#95]: https://github.com/jerus-org/kdeets/pull/95
+[#96]: https://github.com/jerus-org/kdeets/pull/96
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.10...HEAD
 [0.1.10]: https://github.com/jerus-org/kdeets/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/jerus-org/kdeets/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/jerus-org/kdeets/compare/v0.1.7...v0.1.8
