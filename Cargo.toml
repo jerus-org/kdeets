@@ -10,7 +10,7 @@ rust-version = "1.81"
 
 
 [dependencies]
-clap = { version = "4.5.31", features = ["derive"] }
+clap = { version = "4.5.32", features = ["derive"] }
 clap-verbosity = "2.1.0"
 clap-verbosity-flag = "3.0.2"
 colorful = "0.3.2"
