@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: update dependency toolkit to v2.5.1(pr [#108])
+- Dependencies: update rust crate tempfile to 3.19.1(pr [#107])
 
 ## [0.1.13] - 2025-03-15
 
@@ -288,6 +289,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#104]: https://github.com/jerus-org/kdeets/pull/104
 [#106]: https://github.com/jerus-org/kdeets/pull/106
 [#108]: https://github.com/jerus-org/kdeets/pull/108
+[#107]: https://github.com/jerus-org/kdeets/pull/107
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.13...HEAD
 [0.1.13]: https://github.com/jerus-org/kdeets/compare/v0.1.12...v0.1.13
 [0.1.12]: https://github.com/jerus-org/kdeets/compare/v0.1.11...v0.1.12
