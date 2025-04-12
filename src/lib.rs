@@ -43,8 +43,8 @@ mod tests {
 
     use crate::get_remote_combo_index;
     use tame_index::{
-        index::{ComboIndex, LocalRegistry},
         PathBuf,
+        index::{ComboIndex, LocalRegistry},
     };
     use tempfile::TempDir;
 

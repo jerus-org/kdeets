@@ -3,7 +3,7 @@ use crate::Error;
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
-use tame_index::{index::FileLock, KrateName};
+use tame_index::{KrateName, index::FileLock};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]
