@@ -2,11 +2,11 @@ use std::{fmt::Display, fs};
 
 use colorful::Colorful;
 use tame_index::{
-    index::{
-        local::{builder::Client, LocalRegistryBuilder, ValidKrate},
-        ComboIndex, FileLock,
-    },
     IndexDependency, IndexKrate, KrateName, PathBuf,
+    index::{
+        ComboIndex, FileLock,
+        local::{LocalRegistryBuilder, ValidKrate, builder::Client},
+    },
 };
 
 use crate::{Error, LINE_CHAR, SETUP_HEADER};
@@ -430,7 +430,10 @@ mod tests {
         assert!(result.is_ok());
 
         let output = result.unwrap();
-        assert_eq!(output.header, "\n  Local registry set up for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n");
+        assert_eq!(
+            output.header,
+            "\n  Local registry set up for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n"
+        );
         assert_eq!(output.crates, vec![TEST_CRATE_NAME.to_string()]);
         assert_eq!(output.total, DiskSize::new(9693));
     }
@@ -450,7 +453,10 @@ mod tests {
         let output = result.unwrap();
         println!("Output: {:?}", output);
 
-        assert_eq!(output.header, "\n  Local registry set up for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n");
+        assert_eq!(
+            output.header,
+            "\n  Local registry set up for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n"
+        );
         assert_eq!(
             output.crates,
             vec![TEST_CRATE_NAME.to_string(), "colored".to_string()]
@@ -498,7 +504,10 @@ mod tests {
         };
         let mut result = String::new();
         write!(&mut result, "{}", output).unwrap();
-        assert_eq!(result, "Test Header\n  Crates added:\n    crate1\n    crate2\n    crate3\n  Total bytes written: 200.00 B\n");
+        assert_eq!(
+            result,
+            "Test Header\n  Crates added:\n    crate1\n    crate2\n    crate3\n  Total bytes written: 200.00 B\n"
+        );
     }
 
     #[test]

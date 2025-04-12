@@ -4,7 +4,7 @@ use clap::{Parser, ValueEnum};
 use clap_verbosity::Verbosity;
 use disksize::DiskSize;
 use output::SetupTestOutputBuilder;
-use tame_index::{index::FileLock, KrateName};
+use tame_index::{KrateName, index::FileLock};
 
 mod disksize;
 mod output;
