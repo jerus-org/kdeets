@@ -1,13 +1,12 @@
 [package]
 name = "kdeets"
 version = "0.1.16"
-edition = "2021"
+edition = "2024"
 description = "Query crates.io for information about a crate."
 license = "MIT"
 documentation = "https://docs.rs/kdeets"
 repository = "https://github.com/jerus-org/kdeets"
-rust-version = "1.81"
-
+rust-version = "1.85"
 
 [dependencies]
 clap = { version = "4.5.36", features = ["derive"] }
@@ -18,9 +17,13 @@ env_logger = "0.11.8"
 log = "0.4.27"
 semver = "1.0.26"
 smol_str = "0.3.2"
-tame-index = { version = "0.18.1", features = ["git", "local", "local-builder", "sparse"] }
+tame-index = { version = "0.20.1", features = [
+    "git",
+    "local",
+    "local-builder",
+    "sparse",
+] }
 thiserror = "2.0.12"
-
 
 [lib]
 name = "kdeets_lib"
