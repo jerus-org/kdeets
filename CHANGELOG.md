@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- 👷 ci(circleci)-update circleci-toolkit orb version(pr [#116])
+
 ### Security
 
 - Dependencies: update dependency toolkit to v2.8.1(pr [#115])
@@ -320,6 +324,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#112]: https://github.com/jerus-org/kdeets/pull/112
 [#111]: https://github.com/jerus-org/kdeets/pull/111
 [#115]: https://github.com/jerus-org/kdeets/pull/115
+[#116]: https://github.com/jerus-org/kdeets/pull/116
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.17...HEAD
 [0.1.17]: https://github.com/jerus-org/kdeets/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/jerus-org/kdeets/compare/v0.1.15...v0.1.16
