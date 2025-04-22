@@ -44,7 +44,7 @@ Check program is available and the version installed.
 
 ```console
 $ kdeets --version
-kdeets 0.1.17
+kdeets 0.1.18
 
 ```
 
