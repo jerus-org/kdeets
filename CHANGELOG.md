@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.21] - 2025-05-28
 
 ### Changed
 
@@ -346,7 +346,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#117]: https://github.com/jerus-org/kdeets/pull/117
 [#118]: https://github.com/jerus-org/kdeets/pull/118
 [#119]: https://github.com/jerus-org/kdeets/pull/119
-[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.20...HEAD
+[0.1.21]: https://github.com/jerus-org/kdeets/compare/v0.1.20...v0.1.21
 [0.1.20]: https://github.com/jerus-org/kdeets/compare/v0.1.19...v0.1.20
 [0.1.19]: https://github.com/jerus-org/kdeets/compare/v0.1.18...v0.1.19
 [0.1.18]: https://github.com/jerus-org/kdeets/compare/v0.1.17...v0.1.18
