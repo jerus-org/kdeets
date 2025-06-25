@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies: update rust crate holochain_serialized_bytes_derive to 0.0.56(pr [#122])
 - Dependencies: update dependency toolkit to v2.11.0(pr [#123])
 - Dependencies: update rust crate tame-index to 0.22.0(pr [#124])
+- Dependencies: update rust crate tempfile to 3.20.0(pr [#125])
 
 ## [0.1.21] - 2025-05-28
 
@@ -361,6 +362,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#122]: https://github.com/jerus-org/kdeets/pull/122
 [#123]: https://github.com/jerus-org/kdeets/pull/123
 [#124]: https://github.com/jerus-org/kdeets/pull/124
+[#125]: https://github.com/jerus-org/kdeets/pull/125
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.21...HEAD
 [0.1.21]: https://github.com/jerus-org/kdeets/compare/v0.1.20...v0.1.21
 [0.1.20]: https://github.com/jerus-org/kdeets/compare/v0.1.19...v0.1.20
