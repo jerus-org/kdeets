@@ -17,7 +17,7 @@ env_logger = "0.11.8"
 log = "0.4.27"
 semver = "1.0.26"
 smol_str = "0.3.2"
-tame-index = { version = "0.20.1", features = [
+tame-index = { version = "0.22.0", features = [
     "git",
     "local",
     "local-builder",
