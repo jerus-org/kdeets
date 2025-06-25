@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: update rust crate clap to 4.5.40(pr [#120])
+- Dependencies: update rust crate clap-verbosity-flag to 3.0.3(pr [#121])
 
 ## [0.1.21] - 2025-05-28
 
@@ -353,6 +354,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#118]: https://github.com/jerus-org/kdeets/pull/118
 [#119]: https://github.com/jerus-org/kdeets/pull/119
 [#120]: https://github.com/jerus-org/kdeets/pull/120
+[#121]: https://github.com/jerus-org/kdeets/pull/121
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.21...HEAD
 [0.1.21]: https://github.com/jerus-org/kdeets/compare/v0.1.20...v0.1.21
 [0.1.20]: https://github.com/jerus-org/kdeets/compare/v0.1.19...v0.1.20
