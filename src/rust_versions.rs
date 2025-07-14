@@ -171,10 +171,10 @@ impl Display for RustVersionOutput {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.header)?;
         if let Some(rust_version) = &self.rust_version {
-            write!(f, "{}", rust_version)?;
+            write!(f, "{rust_version}")?;
         }
         if let Some(minimum_required_rust) = &self.minimum_required_rust {
-            write!(f, "{}", minimum_required_rust)?;
+            write!(f, "{minimum_required_rust}")?;
         }
         Ok(())
     }

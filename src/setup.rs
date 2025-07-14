@@ -63,7 +63,7 @@ impl Setup {
         } else {
             &self.location
         };
-        log::debug!("Creating registry at {}", registry);
+        log::debug!("Creating registry at {registry}");
         let mut output = SetupTestOutputBuilder::new(index_crate.clone(), registry);
 
         output.initialise_local_registry(self.no_replace)?;
@@ -129,7 +129,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
         assert!(Path::new("tests/local_registry").exists());
     }
@@ -147,7 +147,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
         assert!(Path::new(location).exists());
     }
@@ -164,7 +164,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
     }
 
@@ -180,7 +180,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
     }
 
@@ -196,7 +196,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
     }
 
@@ -212,7 +212,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(result.is_ok());
     }
 
@@ -228,7 +228,7 @@ mod tests {
             ..Default::default()
         };
         let result = setup.run();
-        log::debug!("Result: {:?}", result);
+        log::debug!("Result: {result:?}");
         assert!(matches!(result, Err(Error::CrateNotFoundOnIndex)));
     }
 
@@ -247,12 +247,12 @@ mod tests {
 
         // First run should succeed
         let result1 = setup.run();
-        log::debug!("Result1: {:?}", result1);
+        log::debug!("Result1: {result1:?}");
         assert!(result1.is_ok());
 
         // Second run with no_replace should still succeed
         let result2 = setup.run();
-        log::debug!("Result2: {:?}", result2);
+        log::debug!("Result2: {result2:?}");
         assert!(result2.is_ok());
     }
 
@@ -271,12 +271,12 @@ mod tests {
 
         // First run should succeed
         let result1 = setup.run();
-        log::debug!("Result1: {:?}", result1);
+        log::debug!("Result1: {result1:?}");
         assert!(result1.is_ok());
 
         // Second run with no_replace should not succeed
         let result2 = setup.run();
-        log::debug!("Result2: {:?}", result2);
+        log::debug!("Result2: {result2:?}");
         assert!(result2.is_err());
     }
 }

@@ -65,7 +65,7 @@ impl CrateVersions {
             i += 1;
         }
 
-        output = format!("{}\n{}\n", output, line);
+        output = format!("{output}\n{line}\n");
 
         if self.earliest | self.all | self.key {
             output = format!(
@@ -157,7 +157,7 @@ impl CrateVersions {
                 })
                 .collect::<Vec<String>>();
 
-            log::debug!("Rows: {:#?}!", rows);
+            log::debug!("Rows: {rows:#?}!");
 
             let max_row = &rows
                 .iter()
@@ -167,13 +167,13 @@ impl CrateVersions {
                 })
                 .max()
                 .unwrap_or(BASE_HEADER.len());
-            log::debug!("Max row length: {}!", max_row);
+            log::debug!("Max row length: {max_row}!");
 
             while header.len() < *max_row {
-                header = format!("{} ", header);
+                header = format!("{header} ");
             }
-            log::debug!("Output: {}!", output);
-            log::debug!("Header: {}!", header);
+            log::debug!("Output: {output}!");
+            log::debug!("Header: {header}!");
 
             let rows = format!("   {}\n", rows.join("\n   "));
 
@@ -216,7 +216,7 @@ mod tests {
             i += 1;
         }
 
-        format!("{}\n{}\n", output, line)
+        format!("{output}\n{line}\n")
     }
 
     #[fixture]

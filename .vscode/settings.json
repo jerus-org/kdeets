@@ -19,5 +19,9 @@
         "vers",
         "walkdir"
     ],
-    "rustTestExplorer.logpanel": true
+    "rustTestExplorer.logpanel": true,
+    "sonarlint.connectedMode.project": {
+        "connectionId": "jerus-org",
+        "projectKey": "jerus-org_kdeets"
+    }
 }

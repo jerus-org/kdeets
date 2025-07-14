@@ -43,7 +43,7 @@ impl Display for DiskSize {
             unit = "EiB";
         } // exbibytes
 
-        write!(f, "{:.2} {}", size, unit)
+        write!(f, "{size:.2} {unit}")
     }
 }
 
@@ -108,59 +108,59 @@ mod tests {
     #[test]
     fn test_display_bytes() {
         let size = DiskSize(500);
-        assert_eq!(format!("{}", size), "500.00 B");
+        assert_eq!(format!("{size}"), "500.00 B");
     }
 
     #[test]
     fn test_display_kibibytes() {
         let size = DiskSize(2048);
-        assert_eq!(format!("{}", size), "2.00 KiB");
+        assert_eq!(format!("{size}"), "2.00 KiB");
     }
 
     #[test]
     fn test_display_mebibytes() {
         let size = DiskSize(2097152);
-        assert_eq!(format!("{}", size), "2.00 MiB");
+        assert_eq!(format!("{size}"), "2.00 MiB");
     }
 
     #[test]
     fn test_display_gibibytes() {
         let size = DiskSize(2147483648);
-        assert_eq!(format!("{}", size), "2.00 GiB");
+        assert_eq!(format!("{size}"), "2.00 GiB");
     }
 
     #[test]
     fn test_display_tebibytes() {
         let size = DiskSize(2199023255552);
-        assert_eq!(format!("{}", size), "2.00 TiB");
+        assert_eq!(format!("{size}"), "2.00 TiB");
     }
 
     #[test]
     fn test_display_zero() {
         let size = DiskSize(0);
-        assert_eq!(format!("{}", size), "0.00 B");
+        assert_eq!(format!("{size}"), "0.00 B");
     }
 
     #[test]
     fn test_display_maximum_size() {
         let size = DiskSize(u64::MAX);
-        assert_eq!(format!("{}", size), "16.00 EiB");
+        assert_eq!(format!("{size}"), "16.00 EiB");
     }
 
     #[test]
     fn test_display_exact_boundaries() {
         let size = DiskSize(1024);
-        assert_eq!(format!("{}", size), "1.00 KiB");
+        assert_eq!(format!("{size}"), "1.00 KiB");
         let size = DiskSize(1048576);
-        assert_eq!(format!("{}", size), "1.00 MiB");
+        assert_eq!(format!("{size}"), "1.00 MiB");
         let size = DiskSize(1073741824);
-        assert_eq!(format!("{}", size), "1.00 GiB");
+        assert_eq!(format!("{size}"), "1.00 GiB");
         let size = DiskSize(1099511627776);
-        assert_eq!(format!("{}", size), "1.00 TiB");
+        assert_eq!(format!("{size}"), "1.00 TiB");
         let size = DiskSize(1125899906842624);
-        assert_eq!(format!("{}", size), "1.00 PiB");
+        assert_eq!(format!("{size}"), "1.00 PiB");
         let size = DiskSize(1152921504606846976);
-        assert_eq!(format!("{}", size), "1.00 EiB");
+        assert_eq!(format!("{size}"), "1.00 EiB");
     }
 
     #[test]
