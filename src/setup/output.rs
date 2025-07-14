@@ -68,7 +68,7 @@ impl SetupTestOutputBuilder {
                 }
             }
         };
-        log::debug!("Created registry at {}", registry_path);
+        log::debug!("Created registry at {registry_path}");
         self.registry = Some(registry_builder);
         Ok(self)
     }
@@ -110,7 +110,7 @@ impl SetupTestOutputBuilder {
             if let Some(dependency_crate) = dependency_crate {
                 self.insert_crate(&dependency_crate)?
             } else {
-                log::warn!("Could not find dependency: {}, skipping.", dependency_name);
+                log::warn!("Could not find dependency: {dependency_name}, skipping.");
             };
         }
         Ok(())
@@ -179,18 +179,15 @@ mod tests {
         let first_two = name[..2].to_string();
         let second_two = name[2..4].to_string();
 
-        let path_string = format!("{}/index/{}/{}/{}", registry, first_two, second_two, name);
-        println!("Manufactured string is: {}", path_string);
+        let path_string = format!("{registry}/index/{first_two}/{second_two}/{name}");
+        println!("Manufactured string is: {path_string}");
         path_string
     }
 
     fn get_index_crate(registry: &str, name: &str) -> IndexKrate {
-        println!(
-            "Getting index crate for `{}` on registry `{}`",
-            name, registry
-        );
+        println!("Getting index crate for `{name}` on registry `{registry}`");
         let index_path = make_index_path(registry, name);
-        println!("The path is: {}", index_path);
+        println!("The path is: {index_path}");
         IndexKrate::new(index_path).unwrap()
     }
 
@@ -228,7 +225,7 @@ mod tests {
         output.insert_crate(&index_crate).unwrap();
 
         let dependencies = index_crate.most_recent_version().dependencies();
-        println!("Dependencies: {:?}", dependencies);
+        println!("Dependencies: {dependencies:?}");
 
         let index = crate::tests::get_test_index(local_registry).unwrap();
         output.add_dependency_crates(dependencies, &index).unwrap();
@@ -261,7 +258,7 @@ mod tests {
     fn test_output_new_long_crate_name() {
         let (_temp_dir_local, local_registry) = crate::tests::get_temp_local_registry();
         let index_path = make_index_path(&local_registry, "holochain_serialized_bytes_derive");
-        println!("Index path is: {}", index_path);
+        println!("Index path is: {index_path}");
         let index_crate = IndexKrate::new(index_path).unwrap();
         let temp_dir = tempfile::tempdir().unwrap();
         let registry_path = temp_dir.path().join("registry");
@@ -365,7 +362,7 @@ mod tests {
         let index = crate::tests::get_test_index(&registry).unwrap();
         let result =
             output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
-        println!("Result: {:?}", result);
+        println!("Result: {result:?}");
 
         assert!(result.is_ok());
     }
@@ -379,7 +376,7 @@ mod tests {
         let index = crate::tests::get_test_index(&registry).unwrap();
         let result =
             output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
-        println!("Result: {:?}", result);
+        println!("Result: {result:?}");
 
         assert!(result.is_ok());
     }
@@ -395,7 +392,7 @@ mod tests {
 
         let combo_index_remote = crate::get_remote_combo_index().unwrap();
         let crate_name = KrateName::crates_io(ONLINE_TEST_CRATE_NAME).unwrap();
-        println!("Crates.io crate name: {:?}", crate_name);
+        println!("Crates.io crate name: {crate_name:?}");
 
         let index_crate = combo_index_remote
             .krate(crate_name, true, &lock)
@@ -406,7 +403,7 @@ mod tests {
 
         let result =
             output.add_dependency_crates(index_crate.most_recent_version().dependencies(), &index);
-        println!("Result: {:?}", result);
+        println!("Result: {result:?}");
 
         assert!(result.is_ok());
     }
@@ -426,7 +423,7 @@ mod tests {
         let builder = get_output_inserted(&registry, TEST_CRATE_NAME);
 
         let result = builder.finalize();
-        println!("Result: {:?}", result);
+        println!("Result: {result:?}");
         assert!(result.is_ok());
 
         let output = result.unwrap();
@@ -447,11 +444,11 @@ mod tests {
         let builder = get_output_with_dependencies(&new_registry, &local_registry, TEST_CRATE_NAME);
 
         let result = builder.finalize();
-        println!("Result: {:?}", result);
+        println!("Result: {result:?}");
         assert!(result.is_ok());
 
         let output = result.unwrap();
-        println!("Output: {:?}", output);
+        println!("Output: {output:?}");
 
         assert_eq!(
             output.header,
@@ -472,7 +469,7 @@ mod tests {
             total: DiskSize::new(100),
         };
         let mut result = String::new();
-        write!(&mut result, "{}", output).unwrap();
+        write!(&mut result, "{output}").unwrap();
         assert_eq!(result, "Test Header\n\n  Total bytes written: 100.00 B\n");
     }
 
@@ -484,7 +481,7 @@ mod tests {
             total: DiskSize::new(50),
         };
         let mut result = String::new();
-        write!(&mut result, "{}", output).unwrap();
+        write!(&mut result, "{output}").unwrap();
         assert_eq!(
             result,
             "Test Header\n  Crates added:\n    test-crate\n  Total bytes written: 50.00 B\n"
@@ -503,7 +500,7 @@ mod tests {
             total: DiskSize::new(200),
         };
         let mut result = String::new();
-        write!(&mut result, "{}", output).unwrap();
+        write!(&mut result, "{output}").unwrap();
         assert_eq!(
             result,
             "Test Header\n  Crates added:\n    crate1\n    crate2\n    crate3\n  Total bytes written: 200.00 B\n"
@@ -518,7 +515,7 @@ mod tests {
             total: DiskSize::new(75),
         };
         let mut result = String::new();
-        write!(&mut result, "{}", output).unwrap();
+        write!(&mut result, "{output}").unwrap();
         assert_eq!(
             result,
             "  Crates added:\n    test-crate\n  Total bytes written: 75.00 B\n"

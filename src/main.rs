@@ -43,15 +43,15 @@ fn main() {
 
     match result {
         Ok(output) => {
-            println!("{}", output);
+            println!("{output}");
         }
         Err(e) => {
             if let Some(src) = e.source() {
-                log::error!("{}: {}", e, src);
-                eprintln!("{}: {}", e, src);
+                log::error!("{e}: {src}");
+                eprintln!("{e}: {src}");
             } else {
-                log::error!("{}", e);
-                eprintln!("{}", e);
+                log::error!("{e}");
+                eprintln!("{e}");
             }
             std::process::exit(1);
         }

@@ -91,7 +91,7 @@ mod tests {
         let result = get_remote_combo_index();
         match result {
             Ok(_) => (),
-            Err(e) => panic!("Expected Ok, got Err: {:?}", e),
+            Err(e) => panic!("Expected Ok, got Err: {e:?}"),
         }
     }
 }
