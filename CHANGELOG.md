@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - 🔧 chore(vscode)-update settings for SonarLint(pr [#126])
+- 🔧 chore(config)-simplify renovate configuration(pr [#127])
 
 ## [0.1.22] - 2025-06-28
 
@@ -370,6 +371,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#124]: https://github.com/jerus-org/kdeets/pull/124
 [#125]: https://github.com/jerus-org/kdeets/pull/125
 [#126]: https://github.com/jerus-org/kdeets/pull/126
+[#127]: https://github.com/jerus-org/kdeets/pull/127
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.22...HEAD
 [0.1.22]: https://github.com/jerus-org/kdeets/compare/v0.1.21...v0.1.22
 [0.1.21]: https://github.com/jerus-org/kdeets/compare/v0.1.20...v0.1.21
