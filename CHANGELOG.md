@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate thiserror to 2.0.16(pr [#130])
 - deps: update rust crate trycmd to 0.15.10(pr [#131])
 - deps: update dependency toolkit to v2.12.1(pr [#132])
+- deps: update rust crate rstest to 0.26.1(pr [#133])
 
 ## [0.1.23] - 2025-07-28
 
@@ -387,6 +388,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#130]: https://github.com/jerus-org/kdeets/pull/130
 [#131]: https://github.com/jerus-org/kdeets/pull/131
 [#132]: https://github.com/jerus-org/kdeets/pull/132
+[#133]: https://github.com/jerus-org/kdeets/pull/133
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.23...HEAD
 [0.1.23]: https://github.com/jerus-org/kdeets/compare/v0.1.22...v0.1.23
 [0.1.22]: https://github.com/jerus-org/kdeets/compare/v0.1.21...v0.1.22
