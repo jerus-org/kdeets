@@ -11,7 +11,7 @@ rust-version = "1.85"
 [dependencies]
 clap = { version = "4.5.45", features = ["derive"] }
 clap-verbosity = "2.1.0"
-clap-verbosity-flag = "3.0.3"
+clap-verbosity-flag = "3.0.4"
 colorful = "0.3.2"
 env_logger = "0.11.8"
 log = "0.4.27"
