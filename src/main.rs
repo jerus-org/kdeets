@@ -1,6 +1,7 @@
 use std::error::Error;
 
 use clap::{Parser, Subcommand};
+use env_logger::Env;
 use kdeets_lib::{CrateVersions, RustVersions, Setup};
 
 #[derive(Parser, Debug)]
@@ -61,7 +62,11 @@ fn main() {
 fn get_logging(level: log::LevelFilter) -> env_logger::Builder {
     let mut builder = env_logger::Builder::new();
 
-    builder.filter(None, level);
+    builder.filter(Some("kdeets_lib"), level);
+    builder.filter(Some("kdeets"), level);
+
+    let env = Env::new().filter("KDEETS_LOG");
+    builder.parse_env(env);
 
     builder.format_timestamp_secs().format_module_path(false);
 
