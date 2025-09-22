@@ -11,4 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add release-hook.sh script for automated changelog generation(pr [#137])
 
+
+### Changed
+
+- chore-update release.toml to reference PRLOG.md instead of CHANGELOG.md(pr [#136])
+
+[#136]: https://github.com/jerus-org/kdeets/pull/136
 [#137]: https://github.com/jerus-org/kdeets/pull/137
