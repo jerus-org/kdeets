@@ -16,15 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore-update release.toml to reference PRLOG.md instead of CHANGELOG.md(pr [#136])
 
-[#136]: https://github.com/jerus-org/kdeets/pull/136
-[#137]: https://github.com/jerus-org/kdeets/pull/137
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 ## [0.1.24] - 2025-08-28
 
 ### Fixed
@@ -413,6 +404,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#133]: https://github.com/jerus-org/kdeets/pull/133
 [#135]: https://github.com/jerus-org/kdeets/pull/135
 [#134]: https://github.com/jerus-org/kdeets/pull/134
+[#136]: https://github.com/jerus-org/kdeets/pull/136
+[#137]: https://github.com/jerus-org/kdeets/pull/137
 [0.1.24]: https://github.com/jerus-org/kdeets/compare/v0.1.23...v0.1.24
 [0.1.23]: https://github.com/jerus-org/kdeets/compare/v0.1.22...v0.1.23
 [0.1.22]: https://github.com/jerus-org/kdeets/compare/v0.1.21...v0.1.22
