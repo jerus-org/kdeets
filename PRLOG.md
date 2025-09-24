@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore-update release.toml to reference PRLOG.md instead of CHANGELOG.md(pr [#136])
 
+### Fixed
+
+- deps: update rust crate clap to 4.5.48(pr [#138])
+
 ## [0.1.24] - 2025-08-28
 
 ### Fixed
@@ -405,6 +409,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#134]: https://github.com/jerus-org/kdeets/pull/134
 [#136]: https://github.com/jerus-org/kdeets/pull/136
 [#137]: https://github.com/jerus-org/kdeets/pull/137
+[#138]: https://github.com/jerus-org/kdeets/pull/138
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.24...HEAD
 [0.1.24]: https://github.com/jerus-org/kdeets/compare/v0.1.23...v0.1.24
 [0.1.23]: https://github.com/jerus-org/kdeets/compare/v0.1.22...v0.1.23
