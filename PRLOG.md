@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: update rust crate clap to 4.5.48(pr [#138])
+- deps: update rust crate log to 0.4.28(pr [#139])
 
 ## [0.1.24] - 2025-08-28
 
@@ -410,6 +411,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#136]: https://github.com/jerus-org/kdeets/pull/136
 [#137]: https://github.com/jerus-org/kdeets/pull/137
 [#138]: https://github.com/jerus-org/kdeets/pull/138
+[#139]: https://github.com/jerus-org/kdeets/pull/139
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.24...HEAD
 [0.1.24]: https://github.com/jerus-org/kdeets/compare/v0.1.23...v0.1.24
 [0.1.23]: https://github.com/jerus-org/kdeets/compare/v0.1.22...v0.1.23
