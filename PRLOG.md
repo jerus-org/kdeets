@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate smol_str to 0.3.4(pr [#144])
 - deps: update rust crate thiserror to 2.0.17(pr [#145])
 - deps: update rust crate simple_logger to 5.1.0(pr [#146])
+- deps: update rust crate tame-index to 0.24.1(pr [#147])
 
 ## [0.1.25] - 2025-09-28
 
@@ -431,6 +432,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#144]: https://github.com/jerus-org/kdeets/pull/144
 [#145]: https://github.com/jerus-org/kdeets/pull/145
 [#146]: https://github.com/jerus-org/kdeets/pull/146
+[#147]: https://github.com/jerus-org/kdeets/pull/147
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.25...HEAD
 [0.1.25]: https://github.com/jerus-org/kdeets/compare/v0.1.24...v0.1.25
 [0.1.24]: https://github.com/jerus-org/kdeets/compare/v0.1.23...v0.1.24
