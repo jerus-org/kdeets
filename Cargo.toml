@@ -23,7 +23,7 @@ tame-index = { version = "0.23.0", features = [
     "local-builder",
     "sparse",
 ] }
-thiserror = "2.0.16"
+thiserror = "2.0.17"
 
 [lib]
 name = "kdeets_lib"
