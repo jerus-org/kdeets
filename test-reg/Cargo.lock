@@ -14,11 +14,12 @@ dependencies = [
 
 [[package]]
 name = "forestry"
-version = "1.9.3"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "666a0ec4f1c13947c0f6e5fb94095c3ea7d2e2ac70d254e0caacd90ad83e8034"
+checksum = "841a056ad05b7d5eaf5eaceb83134888aad799beab29ac211f0e015134580178"
 dependencies = [
  "colored",
+ "supports-color",
 ]
 
 [[package]]
@@ -30,6 +31,12 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "is_ci"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7655c9839580ee829dfacba1d1278c2b7883e50a277ff7541299489d6bdfdc45"
 
 [[package]]
 name = "lazy_static"
@@ -60,6 +67,15 @@ name = "some_crate"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29467b36d575693635d079fa6d3ef443338232d631c944d7c0040e6e6e34d750"
+
+[[package]]
+name = "supports-color"
+version = "3.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c64fc7232dd8d2e4ac5ce4ef302b1d81e0b80d055b9d77c7c4f51f6aa4c867d6"
+dependencies = [
+ "is_ci",
+]
 
 [[package]]
 name = "syn"
