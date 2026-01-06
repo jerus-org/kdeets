@@ -1,10 +1,11 @@
 use std::{fmt::Display, fs};
 
+use crate::ComboIndex;
 use colorful::Colorful;
 use tame_index::{
     IndexDependency, IndexKrate, KrateName, PathBuf,
     index::{
-        ComboIndex, FileLock,
+        FileLock,
         local::{LocalRegistryBuilder, ValidKrate, builder::Client},
     },
 };

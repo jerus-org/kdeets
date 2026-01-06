@@ -2,15 +2,13 @@ use std::fmt::Display;
 
 use crate::{Error, HEADER, LINE_CHAR};
 
+use crate::ComboIndex;
 use clap::Parser;
 use clap_verbosity::Verbosity;
 use colorful::Colorful;
 use semver::{Version, VersionReq};
 use smol_str::SmolStr;
-use tame_index::{
-    IndexKrate, KrateName,
-    index::{ComboIndex, FileLock},
-};
+use tame_index::{IndexKrate, KrateName, index::FileLock};
 
 #[derive(Parser, Debug, Default)]
 #[clap(author, version, about, long_about = None)]

@@ -18,7 +18,6 @@ log = "0.4.29"
 semver = "1.0.27"
 smol_str = "0.3.4"
 tame-index = { version = "0.25.0", features = [
-    "git",
     "local",
     "local-builder",
     "sparse",
