@@ -2,6 +2,7 @@ const HEADER: &str = "Crate versions for";
 const SETUP_HEADER: &str = "Local registry set up for";
 const LINE_CHAR: char = '🭶';
 
+mod combo;
 mod crate_versions;
 mod error;
 mod rust_versions;
@@ -12,8 +13,10 @@ pub use error::Error;
 pub use rust_versions::RustVersions;
 pub use setup::Setup;
 
+pub(crate) use combo::ComboIndex;
+
 use tame_index::external::reqwest::blocking::ClientBuilder;
-use tame_index::index::{ComboIndex, RemoteSparseIndex};
+use tame_index::index::RemoteSparseIndex;
 use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
 pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, tame_index::error::Error> {
@@ -41,11 +44,9 @@ mod tests {
 
     use std::vec;
 
+    use crate::ComboIndex;
     use crate::get_remote_combo_index;
-    use tame_index::{
-        PathBuf,
-        index::{ComboIndex, LocalRegistry},
-    };
+    use tame_index::{PathBuf, index::LocalRegistry};
     use tempfile::TempDir;
 
     const TEST_REGISTRY: &str = "tests/registry";
