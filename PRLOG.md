@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore-add standard config files(pr [#159])
+
 ### Fixed
 
 - deps: update dependency toolkit to v3(pr [#156])
@@ -461,6 +465,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#154]: https://github.com/jerus-org/kdeets/pull/154
 [#155]: https://github.com/jerus-org/kdeets/pull/155
 [#158]: https://github.com/jerus-org/kdeets/pull/158
+[#159]: https://github.com/jerus-org/kdeets/pull/159
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
