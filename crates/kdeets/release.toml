@@ -1,0 +1,9 @@
+pre-release-commit-message = "chore: Release kdeets v{{version}}"
+tag-message = "{{tag_name}}"
+tag-name = "kdeets-v{{version}}"
+pre-release-hook = ["./release-hook.sh"]
+pre-release-replacements = [
+    { file = "README.md", search = "kdeets 0.*", replace = "{{crate_name}} {{version}}" },
+    { file = "tests/cmd/version.trycmd", search = "kdeets 0.*", replace = "{{crate_name}} {{version}}" },
+    { file = "tests/cmd/version.trycmd", search = "kdeets-crate 0.*", replace = "{{crate_name}}-crate {{version}}" },
+]
