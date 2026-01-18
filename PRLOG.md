@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - chore-add standard config files(pr [#159])
+- refactor-convert to workspace structure(pr [#160])
 
 ### Fixed
 
@@ -466,6 +467,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#155]: https://github.com/jerus-org/kdeets/pull/155
 [#158]: https://github.com/jerus-org/kdeets/pull/158
 [#159]: https://github.com/jerus-org/kdeets/pull/159
+[#160]: https://github.com/jerus-org/kdeets/pull/160
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26

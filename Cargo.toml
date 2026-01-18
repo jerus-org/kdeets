@@ -1,14 +1,14 @@
-[package]
-name = "kdeets"
-version = "0.1.27"
-edition = "2024"
-description = "Query crates.io for information about a crate."
-license = "MIT"
-documentation = "https://docs.rs/kdeets"
-repository = "https://github.com/jerus-org/kdeets"
-rust-version = "1.89"
+[workspace]
+members = ["crates/kdeets"]
+resolver = "3"
 
-[dependencies]
+[workspace.package]
+edition = "2024"
+license = "MIT"
+rust-version = "1.89"
+repository = "https://github.com/jerus-org/kdeets"
+
+[workspace.dependencies]
 clap = { version = "4.5.53", features = ["derive"] }
 clap-verbosity = "2.1.0"
 clap-verbosity-flag = "3.0.4"
@@ -24,13 +24,12 @@ tame-index = { version = "0.25.0", features = [
 ] }
 thiserror = "2.0.17"
 
-[lib]
-name = "kdeets_lib"
-path = "src/lib.rs"
-
-[dev-dependencies]
+# dev dependencies
 fs_extra = "1.3.0"
 rstest = "0.26.1"
 simple_logger = "5.1.0"
 tempfile = "3.24.0"
 trycmd = "0.15.11"
+
+[workspace.lints.clippy]
+uninlined-format-args = "warn"
