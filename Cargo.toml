@@ -22,7 +22,7 @@ tame-index = { version = "0.25.0", features = [
     "local-builder",
     "sparse",
 ] }
-thiserror = "2.0.17"
+thiserror = "2.0.18"
 
 # dev dependencies
 fs_extra = "1.3.0"
