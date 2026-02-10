@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Dependencies: bump bytes from 1.11.0 to 1.11.1 in the cargo group across 1 directory(pr [#166])
+- Dependencies: bump time from 0.3.44 to 0.3.47 in the cargo group across 1 directory(pr [#167])
 
 ## [0.1.27] - 2025-11-28
 
@@ -481,6 +482,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#163]: https://github.com/jerus-org/kdeets/pull/163
 [#164]: https://github.com/jerus-org/kdeets/pull/164
 [#166]: https://github.com/jerus-org/kdeets/pull/166
+[#167]: https://github.com/jerus-org/kdeets/pull/167
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
