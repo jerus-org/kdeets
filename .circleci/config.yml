@@ -22,6 +22,93 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@4.2.1
+  codecov: codecov/codecov@5.4.3
+
+jobs:
+  code_coverage:
+    description: >
+      Calculate code coverage and report summary in the terminal.
+      If flag set to true upload to codecov.io using the codecov orb.
+
+    executor:
+      name: toolkit/rust_env_rolling
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      docker_tag_suffix:
+        type: string
+        default: ""
+        description: "The suffix to append to the docker tag"
+      codecov:
+        type: boolean
+        default: true
+        description: "If true, upload code coverage to codecov.io"
+      package:
+        type: string
+        default: ""
+        description: "The package to publish"
+      cache_version:
+        type: string
+        default: "v1"
+        description: "Cache version identifier"
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore dependency cache
+          keys:
+            - >
+              deps-<< parameters.cache_version >>-{{ arch }}-{{
+              checksum "Cargo.lock" }}
+            - deps-<< parameters.cache_version >>-{{ arch }}-
+
+      - restore_cache:
+          name: Restore build cache
+          keys:
+            - >
+              coverage-<< parameters.cache_version >>-{{ arch }}-{{
+              checksum "Cargo.lock" }}
+            - coverage-<< parameters.cache_version >>-{{ arch }}-
+      - run:
+          name: Code coverage
+          command: |
+            set -exo pipefail
+
+            if [ << parameters.package >> != "" ] ; then
+              package="--package << parameters.package >>"
+            else
+              package=""
+            fi
+
+            mkdir -p coverage
+            cargo llvm-cov nextest --lcov --output-path coverage/lcov.info --all-features $package
+      - run:
+          name: Code Coverage Summary
+          command: |
+            cargo llvm-cov report --summary-only
+      - when:
+          condition: << parameters.codecov >>
+          steps:
+            - codecov/upload
+
+      - save_cache:
+          name: Save dependency cache
+          key: >
+            deps-<< parameters.cache_version >>-{{ arch }}-{{
+            checksum "Cargo.lock" }}
+          paths:
+            - ~/.cargo/registry
+            - ~/.cargo/git
+
+      - save_cache:
+          name: Save build cache
+          key: >
+            coverage-<< parameters.cache_version >>-{{ arch }}-{{
+            checksum "Cargo.lock" }}
+          paths:
+            - target
 
 workflows:
   check_last_commit:
@@ -47,6 +134,25 @@ workflows:
         - not: << pipeline.parameters.release_flag >>
         - << pipeline.parameters.validation_flag >>
     jobs:
+      # Signature verification for trusted PRs (with write access for comments)
+      - toolkit/verify_commit_signatures:
+          name: verify_commit_signatures_trusted
+          context: bot-check
+          post_comment: true
+          update_pcu: false
+          filters:
+            branches:
+              ignore:
+                - main
+                - /pull\/[0-9]+/
+      # Signature verification for forked PRs (read-only, no comments)
+      - toolkit/verify_commit_signatures:
+          name: verify_commit_signatures_forked
+          post_comment: false
+          update_pcu: false
+          filters:
+            branches:
+              only: /pull\/[0-9]+/
       - toolkit/label:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           context: pcu-app
@@ -54,12 +160,15 @@ workflows:
             branches:
               only:
                 - main
-      - toolkit/code_coverage:
+      - code_coverage:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           filters:
             branches:
               ignore:
+                - /pull\/[0-9]+/
                 - main
+          requires:
+            - security with sonarcloud
       - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/optional_builds:
@@ -71,14 +180,32 @@ workflows:
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/security:
+          name: security audit only
+          sonarcloud: false
+          filters:
+            branches:
+              only: /pull\/[0-9]+/
+      - toolkit/security:
+          name: security with sonarcloud
           context: SonarCloud
+          filters:
+            branches:
+              ignore:
+                - /pull\/[0-9]+/
+                - main
       - toolkit/update_prlog:
+          filters:
+            branches:
+              ignore:
+                - /pull\/[0-9]+/
+                - main
           requires:
+            - verify_commit_signatures_trusted
             - toolkit/common_tests_rolling
             - toolkit/required_builds
             - toolkit/idiomatic_rust
-            - toolkit/code_coverage
-            - toolkit/security
+            - code_coverage
+            - security with sonarcloud
           context:
             - release
             - bot-check

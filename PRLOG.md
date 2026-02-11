@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- add security improvements to CI(pr [#168])
+
 ### Changed
 
 - chore-add standard config files(pr [#159])
@@ -483,6 +487,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#164]: https://github.com/jerus-org/kdeets/pull/164
 [#166]: https://github.com/jerus-org/kdeets/pull/166
 [#167]: https://github.com/jerus-org/kdeets/pull/167
+[#168]: https://github.com/jerus-org/kdeets/pull/168
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
