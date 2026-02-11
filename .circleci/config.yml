@@ -22,6 +22,95 @@ parameters:
 
 orbs:
   toolkit: jerus-org/circleci-toolkit@4.2.1
+  codecov: codecov/codecov@5.4.3
+
+jobs:
+  code_coverage:
+    description: >
+      Calculate code coverage and report summary in the terminal.
+      If flag set to true upload to codecov.io using the codecov orb.
+
+    executor:
+      name: toolkit/rust_env_rolling
+      min_rust_version: <<parameters.min_rust_version>>
+      docker_tag_suffix: <<parameters.docker_tag_suffix>>
+
+    parameters:
+      min_rust_version:
+        type: string
+        description: "Required: The minimum version of the rust compiler to use"
+      docker_tag_suffix:
+        type: string
+        default: ""
+        description: "The suffix to append to the docker tag"
+      codecov:
+        type: boolean
+        default: true
+        description: "If true, upload code coverage to codecov.io"
+      package:
+        type: string
+        default: ""
+        description: "The package to publish"
+      cache_version:
+        type: string
+        default: "v1"
+        description: "Cache version identifier"
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore dependency cache
+          keys:
+            - >
+              deps-<< parameters.cache_version >>-{{ arch }}-{{
+              checksum "Cargo.lock" }}
+            - deps-<< parameters.cache_version >>-{{ arch }}-
+
+      - restore_cache:
+          name: Restore build cache
+          keys:
+            - >
+              coverage-<< parameters.cache_version >>-{{ arch }}-{{
+              checksum "Cargo.lock" }}
+            - coverage-<< parameters.cache_version >>-{{ arch }}-
+      - run:
+          name: Code coverage
+          command: |
+            set -exo pipefail
+
+            if [ << parameters.package >> != "" ] ; then
+              package="--package << parameters.package >>"
+            else
+              package=""
+            fi
+
+            mkdir -p coverage
+            cargo llvm-cov nextest --lcov --output-path coverage/lcov.info --all-features $package
+      - run:
+          name: Code Coverage Summary
+          command: |
+            cargo llvm-cov report --summary-only
+      - when:
+          condition: << parameters.codecov >>
+          steps:
+            - codecov/upload
+
+      - save_cache:
+          name: Save dependency cache
+          key: >
+            deps-<< parameters.cache_version >>-{{ arch }}-{{
+            checksum "Cargo.lock" }}
+          paths:
+            - ~/.cargo/registry
+            - ~/.cargo/git
+
+      - save_cache:
+          name: Save build cache
+          key: >
+            coverage-<< parameters.cache_version >>-{{ arch }}-{{
+            checksum "Cargo.lock" }}
+          paths:
+            - target
 
 workflows:
   check_last_commit:
@@ -73,7 +162,7 @@ workflows:
             branches:
               only:
                 - main
-      - toolkit/code_coverage:
+      - code_coverage:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           filters:
             branches:
@@ -117,7 +206,7 @@ workflows:
             - toolkit/common_tests_rolling
             - toolkit/required_builds
             - toolkit/idiomatic_rust
-            - toolkit/code_coverage
+            - code_coverage
             - security with sonarcloud
           context:
             - release
