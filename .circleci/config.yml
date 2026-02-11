@@ -32,8 +32,6 @@ jobs:
 
     executor:
       name: toolkit/rust_env_rolling
-      min_rust_version: <<parameters.min_rust_version>>
-      docker_tag_suffix: <<parameters.docker_tag_suffix>>
 
     parameters:
       min_rust_version:
