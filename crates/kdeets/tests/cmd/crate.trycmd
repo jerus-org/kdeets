@@ -33,7 +33,6 @@ $ kdeets crate -e some_crate
 $ kdeets crate -be some_crate
 0.1.0
 
-
 ```
 
 ```console
@@ -49,7 +48,6 @@ $ kdeets crate -n some_crate
 ```console
 $ kdeets crate -bn some_crate
 0.2.1
-
 
 ```
 
@@ -67,13 +65,11 @@ $ kdeets crate -t some_crate
 $ kdeets crate -bt some_crate
 0.2.1
 
-
 ```
 
 ```console
 $ kdeets crate -br some_crate
 0.2.1
-
 
 ```
 
