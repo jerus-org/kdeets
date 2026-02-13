@@ -150,9 +150,9 @@ impl CrateVersions {
         version: &SmolStr,
         colour: TextColour,
     ) {
-        let addition = format!("   {description}: {version}\n");
+        let addition = format!("{description}: {version}");
         let addition = colour.paint(addition);
-        self.output = format!("{}{}", self.output, addition)
+        self.output = format!("{}   {}\n", self.output, addition)
     }
 
     fn append_list(&mut self, index_crate: IndexKrate, no_colour: bool) {
@@ -276,7 +276,8 @@ mod tests {
 
     #[fixture]
     fn list() -> String {
-        "   \u{1b}[4m Yanked  Version \u{1b}[0m\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.0\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.1\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.3\n      \u{1b}[38;5;2m No\u{1b}[0m     0.2.1\n".to_string()
+        "   \u{1b}[4m Yanked  Version \u{1b}[0m\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.0\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.1\n      \u{1b}[38;5;2m No\u{1b}[0m     0.1.3\n      \u{1b}[38;5;2m No\u{1b}[0m     0.2.1\n"
+        .to_string()
     }
 
     #[test]
@@ -395,6 +396,7 @@ mod tests {
         let result = crate_versions.run(false);
         assert!(result.is_ok());
         let output = result.unwrap();
+        println!("Expected:\n`{expected}`\n\nGot:\n`{output}`");
         assert_eq!(output, expected);
     }
 
