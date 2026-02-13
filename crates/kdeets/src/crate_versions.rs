@@ -13,7 +13,7 @@ pub struct CrateVersions {
     logging: Verbosity,
     /// The name of the crate
     crate_: String,
-    /// Display bare version number without text for earliest, highest normal, higest or recent version.
+    /// Display bare version number without text for recent, highest normal, higest or earliest version.
     #[clap(short = 'b', long = "bare")]
     bare: bool,
     /// First version ever published. May be yanked.
