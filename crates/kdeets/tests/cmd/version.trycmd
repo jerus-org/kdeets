@@ -1,23 +1,23 @@
 ```console
 $ kdeets --version
-kdeets 0.1.27
+kdeets 0.1.28
 
 ```
 
 ```console
 $ kdeets -V
-kdeets 0.1.27
+kdeets 0.1.28
 
 ```
 
 ```console
 $ kdeets crate --version
-kdeets-crate 0.1.27
+kdeets-crate 0.1.28
 
 ```
 
 ```console
 $ kdeets crate -V
-kdeets-crate 0.1.27
+kdeets-crate 0.1.28
 
 ```

@@ -1,6 +1,6 @@
 [package]
 name = "kdeets"
-version = "0.1.27"
+version = "0.1.28"
 description = "Query crates.io for information about a crate."
 documentation = "https://docs.rs/kdeets"
 readme = "README.md"
