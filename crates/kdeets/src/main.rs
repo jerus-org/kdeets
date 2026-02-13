@@ -37,7 +37,7 @@ fn main() {
     builder.init();
 
     let result = match args.command {
-        Commands::CrateVersions(crate_versions) => crate_versions.run(args.no_colour),
+        Commands::CrateVersions(mut crate_versions) => crate_versions.run(args.no_colour),
         Commands::RustVersions(rust_versions) => rust_versions.run(),
         Commands::Setup(setup) => setup.run(),
     };
