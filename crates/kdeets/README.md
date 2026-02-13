@@ -88,6 +88,7 @@ Arguments:
 Options:
   -v, --verbose...  More output per occurrence
   -q, --quiet...    Less output per occurrence
+  -b, --bare        Display bare version number without text for recent, highest normal, higest or earliest version
   -e, --earliest    First version ever published. May be yanked
   -n, --normal      Returns crate version with the highest version number according to semver, but excludes pre-release and yanked versions
   -t, --top         The highest version as per semantic versioning specification

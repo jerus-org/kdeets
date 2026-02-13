@@ -30,12 +30,24 @@ $ kdeets crate -e some_crate
 ```
 
 ```console
+$ kdeets crate -be some_crate
+0.1.0
+
+```
+
+```console
 $ kdeets crate -n some_crate
 
  [1mCrate versions for [38;5;6msome_crate[0m.[0m
  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
    [38;5;4mHighest normal version: 0.2.1[0m
 
+
+```
+
+```console
+$ kdeets crate -bn some_crate
+0.2.1
 
 ```
 
@@ -50,12 +62,14 @@ $ kdeets crate -t some_crate
 ```
 
 ```console
-$ kdeets crate -r some_crate
+$ kdeets crate -bt some_crate
+0.2.1
 
- [1mCrate versions for [38;5;6msome_crate[0m.[0m
- 🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶
-   [38;5;3mMost recent version: 0.2.1[0m
+```
 
+```console
+$ kdeets crate -br some_crate
+0.2.1
 
 ```
 
