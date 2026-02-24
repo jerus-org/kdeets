@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate tame-index to 0.26.0(pr [#165])
 - deps: update rust crate clap to 4.5.60(pr [#171])
 - deps: update rust crate env_logger to 0.11.9(pr [#172])
+- deps: update dependency toolkit to v4.4.3(pr [#173])
 
 ### Security
 
@@ -496,6 +497,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#169]: https://github.com/jerus-org/kdeets/pull/169
 [#171]: https://github.com/jerus-org/kdeets/pull/171
 [#172]: https://github.com/jerus-org/kdeets/pull/172
+[#173]: https://github.com/jerus-org/kdeets/pull/173
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
