@@ -21,7 +21,7 @@ parameters:
     description: "If true, the release pipeline will be executed."
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.2.1
+  toolkit: jerus-org/circleci-toolkit@4.4.3
   codecov: codecov/codecov@5.4.3
 
 jobs:
