@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate clap to 4.5.60(pr [#171])
 - deps: update rust crate env_logger to 0.11.9(pr [#172])
 - align CI with nextsv reference pattern(pr [#178])
+- deps: update rust crate simple_logger to 5.2.0(pr [#174])
 
 ### Security
 
@@ -500,6 +501,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#172]: https://github.com/jerus-org/kdeets/pull/172
 [#177]: https://github.com/jerus-org/kdeets/pull/177
 [#178]: https://github.com/jerus-org/kdeets/pull/178
+[#174]: https://github.com/jerus-org/kdeets/pull/174
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
