@@ -1,0 +1,79 @@
+version: 2.1
+
+# Triggered manually via CircleCI UI or API (configured in CircleCI project
+# settings under "Triggers"). Runs independently of the push-triggered config.yml.
+#
+# Workflow:
+#   tools             - verify required tools are present and log versions
+#   calculate-versions - calculate next versions for crate and workspace
+#                        BEFORE the approval gate so the reviewer knows exactly
+#                        what will be released; versions are persisted to workspace
+#   approve-release   - manual gate: review calculated versions before approving
+#   release-kdeets    - release kdeets crate and binary
+#   toolkit/release_prlog - create workspace v* release and update PRLOG.md
+
+parameters:
+  kdeets_version:
+    type: string
+    default: ""
+    description: "Override kdeets crate version (empty = nextsv auto-detect)"
+  workspace_version:
+    type: string
+    default: ""
+    description: "Override workspace v* version (empty = nextsv auto-detect)"
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.7.0
+
+jobs:
+  tools:
+    executor:
+      name: toolkit/rust_env_rolling
+    steps:
+      - run:
+          name: Verify tools
+          command: |
+            set -ex
+            nextsv --version
+            pcu --version
+            cargo release --version
+            jq --version
+            rsign --version
+
+workflows:
+  release:
+    jobs:
+      - tools
+
+      # Calculate versions BEFORE the approval gate so the reviewer knows
+      # exactly what will be released. The approved versions are persisted to
+      # the workspace and used unchanged by the release jobs after approval.
+      - toolkit/calculate_versions:
+          name: calculate-versions
+          requires: [tools]
+          crates: "kdeets:kdeets-v"
+          crate_version_overrides: "kdeets:<< pipeline.parameters.kdeets_version >>"
+          workspace_version_override: << pipeline.parameters.workspace_version >>
+
+      - approve-release:
+          type: approval
+          requires: [calculate-versions]
+
+      - toolkit/release_crate:
+          name: release-kdeets
+          requires: [approve-release]
+          package: kdeets
+          crate_tag_prefix: kdeets-v
+          build_binary: true
+          binary_name: kdeets
+          context:
+            - release
+            - bot-check
+            - pcu-app
+
+      - toolkit/release_prlog:
+          requires: [release-kdeets]
+          context:
+            - release
+            - bot-check
+            - pcu-app
