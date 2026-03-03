@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-add standard config files(pr [#159])
 - refactor-convert to workspace structure(pr [#160])
 - Add-bare-version-output-option(pr [#169])
+- chore-modernise CI to 3-file pipeline model(pr [#177])
 
 ### Fixed
 
@@ -496,6 +497,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#169]: https://github.com/jerus-org/kdeets/pull/169
 [#171]: https://github.com/jerus-org/kdeets/pull/171
 [#172]: https://github.com/jerus-org/kdeets/pull/172
+[#177]: https://github.com/jerus-org/kdeets/pull/177
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
