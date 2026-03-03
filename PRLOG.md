@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor-convert to workspace structure(pr [#160])
 - Add-bare-version-output-option(pr [#169])
 - chore-modernise CI to 3-file pipeline model(pr [#177])
+- chore-update toolkit to 4.7.1(pr [#180])
 
 ### Fixed
 
@@ -502,6 +503,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#177]: https://github.com/jerus-org/kdeets/pull/177
 [#178]: https://github.com/jerus-org/kdeets/pull/178
 [#174]: https://github.com/jerus-org/kdeets/pull/174
+[#180]: https://github.com/jerus-org/kdeets/pull/180
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
