@@ -29,7 +29,7 @@ fs_extra = "1.3.0"
 rstest = "0.26.1"
 simple_logger = "5.2.0"
 tempfile = "3.26.0"
-trycmd = "0.15.11"
+trycmd = "1.0.0"
 
 [workspace.lints.clippy]
 uninlined-format-args = "warn"
