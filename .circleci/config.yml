@@ -117,13 +117,6 @@ workflows:
           filters:
             branches:
               only: /pull\/[0-9]+/
-      - toolkit/label:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
-          context: pcu-app
-          filters:
-            branches:
-              only:
-                - main
       - toolkit/required_builds_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/optional_builds:
