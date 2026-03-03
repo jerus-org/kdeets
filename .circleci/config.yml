@@ -117,23 +117,22 @@ workflows:
           filters:
             branches:
               only: /pull\/[0-9]+/
-      - toolkit/label:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
-          context: pcu-app
-          filters:
-            branches:
-              only:
-                - main
       - toolkit/required_builds_rolling:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/optional_builds:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          filters:
+            branches:
+              ignore: main
       - toolkit/common_tests_rolling:
           test_runner: nextest
           nextest_profile: ci
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/idiomatic_rust:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          filters:
+            branches:
+              ignore: main
       # security audit only: runs on forked PRs (no secrets exposure) and main
       - toolkit/security:
           name: security audit only
