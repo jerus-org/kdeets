@@ -1,0 +1,38 @@
+version: 2.1
+
+# Triggered by GitHub "pull_request merged" event (configured in CircleCI project
+# settings under "Triggers"). Runs independently of the push-triggered config.yml,
+# so the PRLOG update commit does not re-trigger this workflow.
+#
+# Workflow:
+#   update_prlog  - adds merged PR entry to PRLOG.md, commits and pushes to main
+#   label         - labels the next queued Renovate PR so it is rebased and runs
+
+parameters:
+  update_pcu:
+    type: boolean
+    default: true
+    description: "If true, pcu is updated from its main github branch before running."
+
+orbs:
+  toolkit: jerus-org/circleci-toolkit@4.7.0
+
+workflows:
+  update_prlog:
+    jobs:
+      - toolkit/update_prlog:
+          name: update-prlog-on-main
+          context:
+            - release
+            - bot-check
+            - pcu-app
+          min_rust_version: "1.89"
+          target_branch: "main"
+          pcu_from_merge: --from-merge
+          update_pcu: << pipeline.parameters.update_pcu >>
+          pcu_verbosity: "-vvv"
+      - toolkit/label:
+          min_rust_version: "1.89"
+          context: pcu-app
+          requires:
+            - update-prlog-on-main
