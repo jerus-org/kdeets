@@ -6,7 +6,7 @@ parameters:
     default: "1.89"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.7.0
+  toolkit: jerus-org/circleci-toolkit@4.7.1
   codecov: codecov/codecov@5.4.3
 
 jobs:
