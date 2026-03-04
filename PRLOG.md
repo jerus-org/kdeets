@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore-modernise CI to 3-file pipeline model(pr [#177])
 - chore-update toolkit to 4.7.1(pr [#180])
+- docs-split PRLOG unreleased into v0.1.28 and unreleased(pr [#183])
 
 ### Fixed
 
@@ -522,6 +523,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#179]: https://github.com/jerus-org/kdeets/pull/179
 [#181]: https://github.com/jerus-org/kdeets/pull/181
 [#182]: https://github.com/jerus-org/kdeets/pull/182
+[#183]: https://github.com/jerus-org/kdeets/pull/183
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.28...HEAD
 [0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
