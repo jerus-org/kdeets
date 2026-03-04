@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate trycmd to v1(pr [#176])
 - deps: update rust crate rustls to 0.23.37(pr [#179])
 - deps: update rust crate trycmd to 1.0.1(pr [#181])
+- deps: update rust crate smol_str to 0.3.6(pr [#182])
 
 ### Security
 
@@ -512,6 +513,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#176]: https://github.com/jerus-org/kdeets/pull/176
 [#179]: https://github.com/jerus-org/kdeets/pull/179
 [#181]: https://github.com/jerus-org/kdeets/pull/181
+[#182]: https://github.com/jerus-org/kdeets/pull/182
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
