@@ -203,6 +203,27 @@ mod tests {
     // version_exists / list_versions → get_remote_combo_index → _in_index helper
 
     #[test]
+    fn test_version_exists_crate_not_on_index() {
+        // A crate that does not exist on crates.io causes the sparse index to
+        // return Ok(None), exercising the CrateNotFoundOnIndex branch inside
+        // version_exists_in_index (the `let Some(...) else` path).
+        let result = crate::version_exists("kdeets-nonexistent-crate-xyzabc123", "1.0.0");
+        assert!(
+            matches!(result, Err(crate::Error::CrateNotFoundOnIndex)),
+            "Expected CrateNotFoundOnIndex, got {result:?}"
+        );
+    }
+
+    #[test]
+    fn test_list_versions_crate_not_on_index() {
+        let result = crate::list_versions("kdeets-nonexistent-crate-xyzabc123");
+        assert!(
+            matches!(result, Err(crate::Error::CrateNotFoundOnIndex)),
+            "Expected CrateNotFoundOnIndex, got {result:?}"
+        );
+    }
+
+    #[test]
     fn test_version_exists_real_crate_known_version() {
         let result = crate::version_exists("serde", "1.0.0");
         assert!(result.is_ok(), "Expected Ok, got {result:?}");
