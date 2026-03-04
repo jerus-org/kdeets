@@ -61,7 +61,7 @@ jobs:
           command: |
             set -exo pipefail
 
-            if [ << parameters.package >> != "" ] ; then
+            if [ "<< parameters.package >>" != "" ] ; then
               package="--package << parameters.package >>"
             else
               package=""
@@ -153,6 +153,7 @@ workflows:
                 - main
       - code_coverage:
           min_rust_version: << pipeline.parameters.min_rust_version >>
+          package: kdeets
           filters:
             branches:
               ignore:
