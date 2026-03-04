@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- chore-modernise CI to 3-file pipeline model(pr [#177])
+- chore-update toolkit to 4.7.1(pr [#180])
+
+### Fixed
+
+- deps: update rust crate clap to 4.5.60(pr [#171])
+- deps: update rust crate env_logger to 0.11.9(pr [#172])
+- align CI with nextsv reference pattern(pr [#178])
+- deps: update rust crate simple_logger to 5.2.0(pr [#174])
+- deps: update rust crate tempfile to 3.26.0(pr [#175])
+- deps: update rust crate trycmd to v1(pr [#176])
+- deps: update rust crate rustls to 0.23.37(pr [#179])
+- deps: update rust crate trycmd to 1.0.1(pr [#181])
+- deps: update rust crate smol_str to 0.3.6(pr [#182])
+
+## [0.1.28] - 2026-02-13
+
 ### Added
 
 - add security improvements to CI(pr [#168])
@@ -16,8 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore-add standard config files(pr [#159])
 - refactor-convert to workspace structure(pr [#160])
 - Add-bare-version-output-option(pr [#169])
-- chore-modernise CI to 3-file pipeline model(pr [#177])
-- chore-update toolkit to 4.7.1(pr [#180])
 
 ### Fixed
 
@@ -31,15 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate thiserror to 2.0.18(pr [#163])
 - deps: update dependency toolkit to v4.2.1(pr [#164])
 - deps: update rust crate tame-index to 0.26.0(pr [#165])
-- deps: update rust crate clap to 4.5.60(pr [#171])
-- deps: update rust crate env_logger to 0.11.9(pr [#172])
-- align CI with nextsv reference pattern(pr [#178])
-- deps: update rust crate simple_logger to 5.2.0(pr [#174])
-- deps: update rust crate tempfile to 3.26.0(pr [#175])
-- deps: update rust crate trycmd to v1(pr [#176])
-- deps: update rust crate rustls to 0.23.37(pr [#179])
-- deps: update rust crate trycmd to 1.0.1(pr [#181])
-- deps: update rust crate smol_str to 0.3.6(pr [#182])
 
 ### Security
 
@@ -514,7 +522,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#179]: https://github.com/jerus-org/kdeets/pull/179
 [#181]: https://github.com/jerus-org/kdeets/pull/181
 [#182]: https://github.com/jerus-org/kdeets/pull/182
-[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.27...HEAD
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.28...HEAD
+[0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
 [0.1.27]: https://github.com/jerus-org/kdeets/compare/v0.1.26...v0.1.27
 [0.1.26]: https://github.com/jerus-org/kdeets/compare/v0.1.25...v0.1.26
 [0.1.25]: https://github.com/jerus-org/kdeets/compare/v0.1.24...v0.1.25
