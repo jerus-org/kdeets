@@ -152,7 +152,7 @@ mod tests {
     use tame_index::{PathBuf, index::LocalRegistry};
     use tempfile::TempDir;
 
-    const TEST_REGISTRY: &str = "tests/registry";
+    const TEST_REGISTRY: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/registry");
 
     pub(crate) fn get_temp_local_registry() -> (TempDir, String) {
         let temp_dir = tempfile::tempdir().unwrap();
@@ -199,8 +199,35 @@ mod tests {
         }
     }
 
-    // RED phase: tests for the public library API (version_exists, list_versions)
-    // These tests call functions that do not exist yet and must fail to compile.
+    // Network tests for the public API — exercise the full call chain:
+    // version_exists / list_versions → get_remote_combo_index → _in_index helper
+
+    #[test]
+    fn test_version_exists_real_crate_known_version() {
+        let result = crate::version_exists("serde", "1.0.0");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        assert!(result.unwrap(), "Expected serde 1.0.0 to exist on crates.io");
+    }
+
+    #[test]
+    fn test_version_exists_real_crate_nonexistent_version() {
+        let result = crate::version_exists("serde", "99.99.99");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        assert!(!result.unwrap(), "Expected serde 99.99.99 to not exist");
+    }
+
+    #[test]
+    fn test_list_versions_real_crate() {
+        let result = crate::list_versions("serde");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        let versions = result.unwrap();
+        assert!(
+            versions.contains(&"1.0.0".to_string()),
+            "Expected serde versions to contain 1.0.0"
+        );
+    }
+
+    // Local-registry tests for the internal helpers
 
     #[test]
     fn test_version_exists_known_version_returns_true() {
