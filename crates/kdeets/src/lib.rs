@@ -108,4 +108,53 @@ mod tests {
             Err(e) => panic!("Expected Ok, got Err: {e:?}"),
         }
     }
+
+    // RED phase: tests for the public library API (version_exists, list_versions)
+    // These tests call functions that do not exist yet and must fail to compile.
+
+    #[test]
+    fn test_version_exists_known_version_returns_true() {
+        let (_temp_dir, registry) = get_temp_local_registry();
+        let index = get_test_index(&registry).unwrap();
+        // some_crate 0.2.1 is present in the local test registry
+        let result = crate::version_exists_in_index(&index, "some_crate", "0.2.1");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        assert!(result.unwrap(), "Expected version 0.2.1 to exist");
+    }
+
+    #[test]
+    fn test_version_exists_unknown_version_returns_false() {
+        let (_temp_dir, registry) = get_temp_local_registry();
+        let index = get_test_index(&registry).unwrap();
+        // 99.99.99 does not exist for some_crate
+        let result = crate::version_exists_in_index(&index, "some_crate", "99.99.99");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        assert!(!result.unwrap(), "Expected version 99.99.99 to not exist");
+    }
+
+    #[test]
+    fn test_list_versions_contains_known_version() {
+        let (_temp_dir, registry) = get_temp_local_registry();
+        let index = get_test_index(&registry).unwrap();
+        // some_crate 0.2.1 is present in the local test registry
+        let result = crate::list_versions_in_index(&index, "some_crate");
+        assert!(result.is_ok(), "Expected Ok, got {result:?}");
+        let versions = result.unwrap();
+        assert!(
+            versions.contains(&"0.2.1".to_string()),
+            "Expected versions to contain 0.2.1, got {versions:?}"
+        );
+    }
+
+    #[test]
+    fn test_version_exists_nonexistent_crate_returns_error() {
+        let (_temp_dir, registry) = get_temp_local_registry();
+        let index = get_test_index(&registry).unwrap();
+        // nonexistent-crate-xyz is not in the local test registry
+        let result = crate::version_exists_in_index(&index, "nonexistent-crate-xyz", "1.0.0");
+        assert!(
+            result.is_err(),
+            "Expected Err for nonexistent crate, got {result:?}"
+        );
+    }
 }
