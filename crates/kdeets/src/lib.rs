@@ -19,6 +19,96 @@ use reqwest::blocking::ClientBuilder;
 use tame_index::index::RemoteSparseIndex;
 use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
+/// Returns `true` if the given version of a crate exists in the crates.io index,
+/// or `false` if the crate is found but the version is absent.
+///
+/// Returns an error if the crate is not found on the index or if the index
+/// cannot be queried.
+///
+/// # Errors
+///
+/// Returns [`Error::CrateNotFoundOnIndex`] when the crate is absent from the index.
+/// Returns other [`Error`] variants on index access failures.
+///
+/// # Examples
+///
+/// ```no_run
+/// use kdeets_lib::version_exists;
+///
+/// # fn main() -> Result<(), kdeets_lib::Error> {
+/// let exists = version_exists("serde", "1.0.0")?;
+/// assert!(exists);
+/// # Ok(())
+/// # }
+/// ```
+pub fn version_exists(crate_name: &str, version: &str) -> Result<bool, Error> {
+    let index = get_remote_combo_index()?;
+    version_exists_in_index(&index, crate_name, version)
+}
+
+/// Returns all published version strings for a crate from the crates.io index.
+///
+/// # Errors
+///
+/// Returns [`Error::CrateNotFoundOnIndex`] when the crate is absent from the index.
+/// Returns other [`Error`] variants on index access failures.
+///
+/// # Examples
+///
+/// ```no_run
+/// use kdeets_lib::list_versions;
+///
+/// # fn main() -> Result<(), kdeets_lib::Error> {
+/// let versions = list_versions("serde")?;
+/// assert!(versions.contains(&"1.0.0".to_string()));
+/// # Ok(())
+/// # }
+/// ```
+pub fn list_versions(crate_name: &str) -> Result<Vec<String>, Error> {
+    let index = get_remote_combo_index()?;
+    list_versions_in_index(&index, crate_name)
+}
+
+pub(crate) fn version_exists_in_index(
+    index: &ComboIndex,
+    crate_name: &str,
+    version: &str,
+) -> Result<bool, Error> {
+    use tame_index::{KrateName, index::FileLock};
+
+    let lock = FileLock::unlocked();
+    let index_krate = index.krate(KrateName::crates_io(crate_name)?, true, &lock)?;
+
+    let Some(index_krate) = index_krate else {
+        return Err(Error::CrateNotFoundOnIndex);
+    };
+
+    Ok(index_krate
+        .versions
+        .iter()
+        .any(|v| v.version.as_str() == version))
+}
+
+pub(crate) fn list_versions_in_index(
+    index: &ComboIndex,
+    crate_name: &str,
+) -> Result<Vec<String>, Error> {
+    use tame_index::{KrateName, index::FileLock};
+
+    let lock = FileLock::unlocked();
+    let index_krate = index.krate(KrateName::crates_io(crate_name)?, true, &lock)?;
+
+    let Some(index_krate) = index_krate else {
+        return Err(Error::CrateNotFoundOnIndex);
+    };
+
+    Ok(index_krate
+        .versions
+        .iter()
+        .map(|v| v.version.to_string())
+        .collect())
+}
+
 pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, tame_index::error::Error> {
     let index = get_sparse_index()?;
     let builder = get_client_builder();
