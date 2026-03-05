@@ -134,6 +134,51 @@ $ kdeets --no-colour crate -entrl some_crate
 
 ```
 
+## Library API
+
+`kdeets` also exposes a public Rust library (`kdeets_lib`) for use in other crates. The library provides two free functions that query the crates.io sparse index directly, without spawning a subprocess.
+
+Add `kdeets` as a dependency in your `Cargo.toml`:
+
+```toml
+[dependencies]
+kdeets = "0.1.29"
+```
+
+### Check whether a specific version exists
+
+```rust
+use kdeets_lib::{version_exists, Error};
+
+fn main() -> Result<(), Error> {
+    if version_exists("serde", "1.0.0")? {
+        println!("serde 1.0.0 is published");
+    }
+    Ok(())
+}
+```
+
+`version_exists` returns:
+- `Ok(true)` — the crate and version exist in the index
+- `Ok(false)` — the crate exists but that version does not
+- `Err(Error::CrateNotFoundOnIndex)` — the crate is not in the index at all
+
+### List all published versions
+
+```rust
+use kdeets_lib::{list_versions, Error};
+
+fn main() -> Result<(), Error> {
+    let versions = list_versions("serde")?;
+    for v in &versions {
+        println!("{v}");
+    }
+    Ok(())
+}
+```
+
+`list_versions` returns all version strings in the order they appear in the index. It returns `Err(Error::CrateNotFoundOnIndex)` when the crate does not exist.
+
 ## License
 
 Licensed under the MIT license (LICENSE-MIT or <http://opensource.org/licenses/MIT>).
