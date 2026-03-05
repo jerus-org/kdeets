@@ -227,7 +227,10 @@ mod tests {
     fn test_version_exists_real_crate_known_version() {
         let result = crate::version_exists("serde", "1.0.0");
         assert!(result.is_ok(), "Expected Ok, got {result:?}");
-        assert!(result.unwrap(), "Expected serde 1.0.0 to exist on crates.io");
+        assert!(
+            result.unwrap(),
+            "Expected serde 1.0.0 to exist on crates.io"
+        );
     }
 
     #[test]
