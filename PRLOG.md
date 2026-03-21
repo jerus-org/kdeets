@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add package param and quote shell check in code_coverage(pr [#185])
 
+### Security
+
+- Dependencies: bump rustls-webpki from 0.103.9 to 0.103.10 in the cargo group across 1 directory(pr [#186])
+
 ## [0.1.29] - 2026-03-04
 
 ### Changed
@@ -536,6 +540,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#183]: https://github.com/jerus-org/kdeets/pull/183
 [#185]: https://github.com/jerus-org/kdeets/pull/185
 [#184]: https://github.com/jerus-org/kdeets/pull/184
+[#186]: https://github.com/jerus-org/kdeets/pull/186
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.29...HEAD
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
 [0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
