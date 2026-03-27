@@ -28,7 +28,7 @@ thiserror = "2.0.18"
 fs_extra = "1.3.0"
 rstest = "0.26.1"
 simple_logger = "5.2.0"
-tempfile = "3.26.0"
+tempfile = "3.27.0"
 trycmd = "1.0.1"
 
 [workspace.lints.clippy]
