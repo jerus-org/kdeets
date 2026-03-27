@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add package param and quote shell check in code_coverage(pr [#185])
 - deps: update rust crate env_logger to 0.11.10(pr [#187])
+- deps: update rust crate tame-index to 0.26.1(pr [#188])
 
 ### Security
 
@@ -548,6 +549,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#186]: https://github.com/jerus-org/kdeets/pull/186
 [#193]: https://github.com/jerus-org/kdeets/pull/193
 [#187]: https://github.com/jerus-org/kdeets/pull/187
+[#188]: https://github.com/jerus-org/kdeets/pull/188
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.29...HEAD
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
 [0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
