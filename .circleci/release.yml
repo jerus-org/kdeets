@@ -37,7 +37,6 @@ jobs:
             nextsv --version
             pcu --version
             cargo release --version
-            jq --version
             rsign --version
 
 workflows:
