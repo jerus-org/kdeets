@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - expose version_exists and list_versions as public library API(pr [#184])
 
+### Changed
+
+- chore-migrate CI to circleci-toolkit 6.0.0(pr [#193])
+
 ### Fixed
 
 - add package param and quote shell check in code_coverage(pr [#185])
@@ -541,6 +545,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#185]: https://github.com/jerus-org/kdeets/pull/185
 [#184]: https://github.com/jerus-org/kdeets/pull/184
 [#186]: https://github.com/jerus-org/kdeets/pull/186
+[#193]: https://github.com/jerus-org/kdeets/pull/193
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.29...HEAD
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
 [0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
