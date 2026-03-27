@@ -6,7 +6,7 @@ parameters:
     default: "1.89"
 
 orbs:
-  toolkit: jerus-org/circleci-toolkit@4.7.1
+  toolkit: jerus-org/circleci-toolkit@6.0.0
   codecov: codecov/codecov@5.4.3
 
 jobs:
@@ -117,19 +117,17 @@ workflows:
           filters:
             branches:
               only: /pull\/[0-9]+/
-      - toolkit/required_builds_rolling:
+      - toolkit/required_builds:
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/optional_builds:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           filters:
             branches:
               ignore: main
-      - toolkit/common_tests_rolling:
+      - toolkit/common_tests:
           test_runner: nextest
           nextest_profile: ci
           min_rust_version: << pipeline.parameters.min_rust_version >>
       - toolkit/idiomatic_rust:
-          min_rust_version: << pipeline.parameters.min_rust_version >>
           filters:
             branches:
               ignore: main
