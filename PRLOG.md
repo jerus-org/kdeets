@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- docs: correct crates badge URLs in README(pr [#195])
+
 ## [0.1.30] - 2026-03-28
 
 ### Added
@@ -558,6 +564,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#190]: https://github.com/jerus-org/kdeets/pull/190
 [#191]: https://github.com/jerus-org/kdeets/pull/191
 [#194]: https://github.com/jerus-org/kdeets/pull/194
+[#195]: https://github.com/jerus-org/kdeets/pull/195
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.30...HEAD
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
 [0.1.28]: https://github.com/jerus-org/kdeets/compare/v0.1.27...v0.1.28
