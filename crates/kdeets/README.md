@@ -8,10 +8,10 @@
 [![BuyMeaCoffee][bmac-badge]][bmac-url]
 [![GitHubSponsors][ghub-badge]][ghub-url]
 
-[crates-badge]: https://img.shields.io/crates/v/nextsv.svg
-[crates-url]: https://crates.io/crates/nextsv
+[crates-badge]: https://img.shields.io/crates/v/kdeets.svg
+[crates-url]: https://crates.io/crates/kdeets
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-url]: https://github.com/jerusdp/nextsv/blob/main/LICENSE
+[mit-url]: https://github.com/jerus-org/kdeets/blob/main/LICENSE
 [circleci-badge]: https://dl.circleci.com/status-badge/img/gh/jerus-org/kdeets/tree/main.svg?style=svg
 [circleci-url]: https://dl.circleci.com/status-badge/redirect/gh/jerus-org/kdeets/tree/main
 [version-badge]: https://img.shields.io/badge/rust-1.89+-orange.svg
