@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update dependency toolkit to v6.2.0(pr [#202])
 - deps: update rust crate clap to 4.6.1(pr [#196])
 - exclude test-reg from workspace(pr [#203])
+- deps: update rust crate holochain_serialized_bytes_derive to 0.0.57(pr [#197])
 
 ## [0.1.30] - 2026-03-28
 
@@ -571,6 +572,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#202]: https://github.com/jerus-org/kdeets/pull/202
 [#196]: https://github.com/jerus-org/kdeets/pull/196
 [#203]: https://github.com/jerus-org/kdeets/pull/203
+[#197]: https://github.com/jerus-org/kdeets/pull/197
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.30...HEAD
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
