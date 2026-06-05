@@ -56,7 +56,7 @@ fn main() {
             }
             std::process::exit(1);
         }
-    };
+    }
 }
 
 fn get_logging(level: log::LevelFilter) -> env_logger::Builder {

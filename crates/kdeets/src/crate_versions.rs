@@ -75,7 +75,7 @@ impl CrateVersions {
                 let version = &index_crate.earliest_version().version;
                 let colour = TextColour::None;
                 self.append_specific_version(description, version, colour);
-            };
+            }
 
             if self.normal | self.all | self.key {
                 let description = "Highest normal version";
@@ -89,7 +89,7 @@ impl CrateVersions {
                     TextColour::Blue
                 };
                 self.append_specific_version(description, version, colour);
-            };
+            }
 
             if self.highest | self.all | self.key {
                 let description = "Highest version";
@@ -100,7 +100,7 @@ impl CrateVersions {
                     TextColour::Green
                 };
                 self.append_specific_version(description, version, colour);
-            };
+            }
 
             if self.recent | self.all | self.key {
                 let description = "Most recent version";
@@ -111,7 +111,7 @@ impl CrateVersions {
                     TextColour::Yellow
                 };
                 self.append_specific_version(description, version, colour);
-            };
+            }
 
             if self.list | self.all {
                 self.append_list(index_crate, no_colour);
