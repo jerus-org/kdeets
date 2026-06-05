@@ -138,7 +138,6 @@ workflows:
           filters:
             branches:
               only:
-                - main
                 - /pull\/[0-9]+/
       # security with sonarcloud: runs on trusted feature branches only
       - toolkit/security:
@@ -148,7 +147,6 @@ workflows:
             branches:
               ignore:
                 - /pull\/[0-9]+/
-                - main
       - code_coverage:
           min_rust_version: << pipeline.parameters.min_rust_version >>
           package: kdeets
