@@ -21,7 +21,7 @@ impl Display for DiskSize {
         if size >= 1024.0 {
             size /= 1024.0;
             unit = "KiB";
-        }; // kibibytes
+        } // kibibytes
         if size >= 1024.0 {
             size /= 1024.0;
             unit = "MiB";

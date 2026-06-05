@@ -112,7 +112,7 @@ impl SetupTestOutputBuilder {
                 self.insert_crate(&dependency_crate)?
             } else {
                 log::warn!("Could not find dependency: {dependency_name}, skipping.");
-            };
+            }
         }
         Ok(())
     }
@@ -147,7 +147,7 @@ impl Display for SetupTestOutput {
         if !self.crates.is_empty() {
             write!(f, "  Crates added:\n    ")?;
             self.crates.join("\n    ").fmt(f)?;
-        };
+        }
         write!(f, "\n  Total bytes written: {}\n", self.total)?;
         Ok(())
     }

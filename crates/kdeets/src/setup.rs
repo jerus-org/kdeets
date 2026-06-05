@@ -99,10 +99,10 @@ impl Setup {
                     output.add_dependency_crates(index_version.dependencies(), &combo_index)?;
                 } else {
                     log::warn!("No normal version found for crate: {}", self.crate_);
-                };
+                }
             }
             SelectVersion::None => (),
-        };
+        }
         log::debug!("Finalizing registry");
         let final_output = output.finalize()?;
         log::debug!("Registry setup complete");
