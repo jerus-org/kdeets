@@ -54,19 +54,7 @@ impl CrateVersions {
         };
 
         if self.bare {
-            self.output = if self.recent {
-                index_crate.most_recent_version().version.to_string()
-            } else if self.highest {
-                index_crate.highest_version().version.to_string()
-            } else if self.normal {
-                index_crate
-                    .highest_normal_version()
-                    .unwrap_or_else(|| index_crate.highest_version())
-                    .version
-                    .to_string()
-            } else {
-                index_crate.earliest_version().version.to_string()
-            }
+            self.bare_output(&index_crate);
         } else {
             self.append_header(no_colour, index_crate.name());
 
@@ -83,33 +71,21 @@ impl CrateVersions {
                     .highest_normal_version()
                     .unwrap_or_else(|| index_crate.highest_version())
                     .version;
-                let colour = if no_colour {
-                    TextColour::None
-                } else {
-                    TextColour::Blue
-                };
+                let colour = set_colour(no_colour, TextColour::Blue);
                 self.append_specific_version(description, version, colour);
             }
 
             if self.highest | self.all | self.key {
                 let description = "Highest version";
                 let version = &index_crate.highest_version().version;
-                let colour = if no_colour {
-                    TextColour::None
-                } else {
-                    TextColour::Green
-                };
+                let colour = set_colour(no_colour, TextColour::Green);
                 self.append_specific_version(description, version, colour);
             }
 
             if self.recent | self.all | self.key {
                 let description = "Most recent version";
                 let version = &index_crate.most_recent_version().version;
-                let colour = if no_colour {
-                    TextColour::None
-                } else {
-                    TextColour::Yellow
-                };
+                let colour = set_colour(no_colour, TextColour::Yellow);
                 self.append_specific_version(description, version, colour);
             }
 
@@ -121,6 +97,24 @@ impl CrateVersions {
         Ok(self.output.to_string())
     }
 
+    /// Sets the output to the bare version string.
+    fn bare_output(&mut self, index_crate: &IndexKrate) {
+        self.output = if self.recent {
+            index_crate.most_recent_version().version.to_string()
+        } else if self.highest {
+            index_crate.highest_version().version.to_string()
+        } else if self.normal {
+            index_crate
+                .highest_normal_version()
+                .unwrap_or_else(|| index_crate.highest_version())
+                .version
+                .to_string()
+        } else {
+            index_crate.earliest_version().version.to_string()
+        };
+    }
+
+    /// Appends the header to the output.
     fn append_header(&mut self, no_colour: bool, crate_name: &str) {
         let output = format!(
             "\n {}",
@@ -208,6 +202,10 @@ impl CrateVersions {
             rows
         );
     }
+}
+
+fn set_colour(no_colour: bool, colour: TextColour) -> TextColour {
+    if no_colour { TextColour::None } else { colour }
 }
 
 enum TextColour {
