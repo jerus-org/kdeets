@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- refactor-use toolkit/code_coverage (nextest)(pr [#208])
+
 ### Fixed
 
 - docs: correct crates badge URLs in README(pr [#195])
@@ -589,6 +593,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#205]: https://github.com/jerus-org/kdeets/pull/205
 [#206]: https://github.com/jerus-org/kdeets/pull/206
 [#207]: https://github.com/jerus-org/kdeets/pull/207
+[#208]: https://github.com/jerus-org/kdeets/pull/208
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.30...HEAD
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
