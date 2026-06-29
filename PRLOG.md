@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate log to 0.4.33(pr [#210])
 - deps: update rust crate rustls to 0.23.41(pr [#211])
 - deps: update rust crate webpki-roots to 1.0.8(pr [#212])
+- deps: update rust crate env_logger to 0.11.11(pr [#214])
 
 ## [0.1.30] - 2026-03-28
 
@@ -604,6 +605,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#210]: https://github.com/jerus-org/kdeets/pull/210
 [#211]: https://github.com/jerus-org/kdeets/pull/211
 [#212]: https://github.com/jerus-org/kdeets/pull/212
+[#214]: https://github.com/jerus-org/kdeets/pull/214
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.30...HEAD
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
