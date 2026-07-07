@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- deps: bump crossbeam-epoch to 0.9.20 (RUSTSEC-2026-0204)(pr [#215])
+
 ## [0.1.31] - 2026-06-29
 
 ### Changed
@@ -606,6 +612,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#211]: https://github.com/jerus-org/kdeets/pull/211
 [#212]: https://github.com/jerus-org/kdeets/pull/212
 [#214]: https://github.com/jerus-org/kdeets/pull/214
+[#215]: https://github.com/jerus-org/kdeets/pull/215
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.31...HEAD
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
 [0.1.29]: https://github.com/jerus-org/kdeets/compare/v0.1.28...v0.1.29
