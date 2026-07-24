@@ -281,7 +281,7 @@ mod tests {
     #[test]
     fn test_run_earliest() {
         let name = "some_crate";
-        let expected = format!("{}{}", header(name), &earliest());
+        let expected = format!("{}{}", header(name), earliest());
 
         let mut crate_versions = CrateVersions {
             crate_: "some_crate".to_string(),
@@ -307,7 +307,7 @@ mod tests {
     #[test]
     fn test_run_normal() {
         let name = "some_crate";
-        let expected = format!("{}{}", header(name), &highest_normal());
+        let expected = format!("{}{}", header(name), highest_normal());
 
         let mut crate_versions = CrateVersions {
             crate_: "some_crate".to_string(),
@@ -324,7 +324,7 @@ mod tests {
     #[test]
     fn test_run_top() {
         let name = "some_crate";
-        let expected = format!("{}{}", header(name), &highest());
+        let expected = format!("{}{}", header(name), highest());
 
         let mut crate_versions = CrateVersions {
             crate_: "some_crate".to_string(),
@@ -341,7 +341,7 @@ mod tests {
     #[test]
     fn test_run_recent() {
         let name = "some_crate";
-        let expected = format!("{}{}", header(name), &recent());
+        let expected = format!("{}{}", header(name), recent());
 
         let mut crate_versions = CrateVersions {
             crate_: "some_crate".to_string(),
@@ -358,7 +358,7 @@ mod tests {
     #[test]
     fn test_run_list() {
         let name = "some_crate";
-        let expected = format!("{}{}", header(name), &list());
+        let expected = format!("{}{}", header(name), list());
 
         let mut crate_versions = CrateVersions {
             crate_: "some_crate".to_string(),
@@ -378,11 +378,11 @@ mod tests {
         let expected = format!(
             "{}{}{}{}{}{}",
             header(name),
-            &earliest(),
-            &highest_normal(),
-            &highest(),
-            &recent(),
-            &list()
+            earliest(),
+            highest_normal(),
+            highest(),
+            recent(),
+            list()
         );
 
         let mut crate_versions = CrateVersions {
@@ -404,10 +404,10 @@ mod tests {
         let expected = format!(
             "{}{}{}{}{}",
             header(name),
-            &earliest(),
-            &highest_normal(),
-            &highest(),
-            &recent(),
+            earliest(),
+            highest_normal(),
+            highest(),
+            recent(),
         );
 
         let mut crate_versions = CrateVersions {
