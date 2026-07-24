@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - deps: bump crossbeam-epoch to 0.9.20 (RUSTSEC-2026-0204)(pr [#215])
+- deps: update dependency toolkit to v6.6.2(pr [#222])
 
 ## [0.1.31] - 2026-06-29
 
@@ -613,6 +614,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#212]: https://github.com/jerus-org/kdeets/pull/212
 [#214]: https://github.com/jerus-org/kdeets/pull/214
 [#215]: https://github.com/jerus-org/kdeets/pull/215
+[#222]: https://github.com/jerus-org/kdeets/pull/222
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.31...HEAD
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
