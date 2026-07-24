@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- chore-remove redundant toolkit/label job(pr [#223])
+
 ## [0.1.32] - 2026-07-24
 
 ### Fixed
@@ -627,6 +633,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#219]: https://github.com/jerus-org/kdeets/pull/219
 [#220]: https://github.com/jerus-org/kdeets/pull/220
 [#221]: https://github.com/jerus-org/kdeets/pull/221
+[#223]: https://github.com/jerus-org/kdeets/pull/223
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.32...HEAD
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
