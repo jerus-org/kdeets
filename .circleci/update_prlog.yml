@@ -5,8 +5,8 @@ version: 2.1
 # so the PRLOG update commit does not re-trigger this workflow.
 #
 # Workflow:
-#   update_prlog  - adds merged PR entry to PRLOG.md, commits and pushes to main
-#   label         - labels the next queued Renovate PR so it is rebased and runs
+#   update_prlog  - adds merged PR entry to PRLOG.md, commits and pushes to main,
+#                   then labels the next queued Renovate PR (run_label: true default)
 
 parameters:
   update_pcu:
@@ -30,7 +30,3 @@ workflows:
           pcu_from_merge: --from-merge
           update_pcu: << pipeline.parameters.update_pcu >>
           pcu_verbosity: "-vvv"
-      - toolkit/label:
-          context: pcu-app
-          requires:
-            - update-prlog-on-main
