@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: update dependency toolkit to v7(pr [#229])
 - deps: lock file maintenance(pr [#224])
+- deps: update rust crate clap to 4.6.6(pr [#225])
 
 ## [0.1.32] - 2026-07-24
 
@@ -641,6 +642,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#223]: https://github.com/jerus-org/kdeets/pull/223
 [#229]: https://github.com/jerus-org/kdeets/pull/229
 [#224]: https://github.com/jerus-org/kdeets/pull/224
+[#225]: https://github.com/jerus-org/kdeets/pull/225
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.32...HEAD
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
