@@ -10,12 +10,12 @@ rust-version = "1.89"
 repository = "https://github.com/jerus-org/kdeets"
 
 [workspace.dependencies]
-clap = { version = "4.6.4", features = ["derive"] }
+clap = { version = "4.6.6", features = ["derive"] }
 clap-verbosity = "2.1.0"
 clap-verbosity-flag = "3.0.4"
 colorful = "0.3.2"
 env_logger = "0.11.11"
-log = "0.4.33"
+log = "0.4.34"
 semver = "1.0.28"
 smol_str = "0.3.6"
 tame-index = { version = "0.26.3", features = [
