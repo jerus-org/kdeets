@@ -1,4 +1,4 @@
-pre-release-commit-message = "chore: Release kdeets v{{version}}"
+pre-release-commit-message = "chore: Release kdeets v{{version}} [skip ci]"
 tag-message = "{{tag_name}}"
 tag-name = "kdeets-v{{version}}"
 pre-release-hook = ["./release-hook.sh"]
