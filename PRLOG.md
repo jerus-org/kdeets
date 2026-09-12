@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - chore-remove redundant toolkit/label job(pr [#223])
+- chore-add ci-skip marker to release commit(pr [#231])
 
 ### Fixed
 
@@ -651,6 +652,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#227]: https://github.com/jerus-org/kdeets/pull/227
 [#228]: https://github.com/jerus-org/kdeets/pull/228
 [#230]: https://github.com/jerus-org/kdeets/pull/230
+[#231]: https://github.com/jerus-org/kdeets/pull/231
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.32...HEAD
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
