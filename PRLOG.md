@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate rustls to v0.23.45 [security](pr [#232])
 - deps: lock file maintenance(pr [#233])
 - deps: update dependency toolkit to v8(pr [#241])
+- deps: lock file maintenance(pr [#234])
 
 ## [0.1.32] - 2026-07-24
 
@@ -659,6 +660,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#232]: https://github.com/jerus-org/kdeets/pull/232
 [#233]: https://github.com/jerus-org/kdeets/pull/233
 [#241]: https://github.com/jerus-org/kdeets/pull/241
+[#234]: https://github.com/jerus-org/kdeets/pull/234
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.32...HEAD
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
