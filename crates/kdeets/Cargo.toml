@@ -1,6 +1,6 @@
 [package]
 name = "kdeets"
-version = "0.1.32"
+version = "0.1.33"
 description = "Query crates.io for information about a crate."
 documentation = "https://docs.rs/kdeets"
 readme = "README.md"
@@ -26,7 +26,7 @@ bin-dir = "{ bin }{ binary-ext }"
 # pcu has nothing to replace and the release fails at the inject step.
 [package.metadata.binstall.signing]
 algorithm = "minisign"
-pubkey = "RWPLACEHOLDER0000000000000000000000000000000"
+pubkey = "RWSA8+ltobDRbP8RFTrKpHjujA4U8mUuV4vBlL6jwA+AG3zIh+P2zl2q"
 
 [dependencies]
 clap.workspace = true
