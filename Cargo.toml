@@ -17,7 +17,7 @@ colorful = "0.3.2"
 env_logger = "0.11.11"
 log = "0.4.34"
 semver = "1.0.28"
-smol_str = "0.3.6"
+smol_str = "0.3.7"
 tame-index = { version = "0.27.0", features = ["local-builder"] }
 thiserror = "2.0.21"
 
