@@ -30,20 +30,6 @@ impl ComboIndex {
             Self::Local(lr) => local_krate(lr, name, lock),
         }
     }
-
-    /// Retrieves the cached crate metadata if it exists
-    #[inline]
-    #[allow(dead_code)]
-    pub fn cached_krate(
-        &self,
-        name: KrateName<'_>,
-        lock: &FileLock,
-    ) -> Result<Option<IndexKrate>, Error> {
-        match self {
-            Self::Sparse(index) => index.cached_krate(name, lock),
-            Self::Local(lr) => local_krate(lr, name, lock),
-        }
-    }
 }
 
 fn local_krate(

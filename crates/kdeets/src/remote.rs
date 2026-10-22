@@ -30,16 +30,6 @@ impl RemoteSparseIndex {
         let response = execute(&self.client, request)?;
         parse_response(&self.index, name, &response, write_cache_entry, lock)
     }
-
-    /// Reads the index entry for the crate from the local cache only.
-    pub(crate) fn cached_krate(
-        &self,
-        name: KrateName<'_>,
-        lock: &FileLock,
-    ) -> Result<Option<IndexKrate>, Error> {
-        let entry = self.index.cached_krate(name, lock)?;
-        Ok(entry.map(|entry| entry.deserialize()).transpose()?)
-    }
 }
 
 fn execute(client: &Client, request: http::Request<()>) -> Result<http::Response<Vec<u8>>, Error> {
@@ -50,15 +40,15 @@ fn execute(client: &Client, request: http::Request<()>) -> Result<http::Response
         .headers(parts.headers)
         .send()?;
 
-    let mut builder = http::Response::builder()
-        .status(res.status())
-        .version(res.version());
-    if let Some(headers) = builder.headers_mut() {
-        headers.extend(res.headers().iter().map(|(k, v)| (k.clone(), v.clone())));
-    }
-
+    let (status, version, headers) = (res.status(), res.version(), res.headers().clone());
     let body = res.bytes()?;
-    Ok(builder.body(body.to_vec())?)
+
+    let mut response = http::Response::builder()
+        .status(status)
+        .version(version)
+        .body(body.to_vec())?;
+    *response.headers_mut() = headers;
+    Ok(response)
 }
 
 fn parse_response(
@@ -108,19 +98,17 @@ mod tests {
 
     /// Serves one canned `200 OK` response and returns the server's base URL.
     fn serve_once(extra_headers: &'static str, body: Vec<u8>) -> String {
-        use std::io::{Read, Write};
+        use std::io::{BufRead, Write};
 
         let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
         let addr = listener.local_addr().unwrap();
         std::thread::spawn(move || {
             let (mut stream, _) = listener.accept().unwrap();
-            let mut request = Vec::new();
-            let mut chunk = [0u8; 1024];
-            while !request.windows(4).any(|w| w == b"\r\n\r\n") {
-                match stream.read(&mut chunk) {
-                    Ok(0) | Err(_) => break,
-                    Ok(n) => request.extend_from_slice(&chunk[..n]),
-                }
+            // Read the request head (up to the blank line) before answering.
+            let mut reader = std::io::BufReader::new(&stream);
+            let mut line = String::new();
+            while reader.read_line(&mut line).unwrap_or(0) > 2 {
+                line.clear();
             }
             let head = format!(
                 "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n{extra_headers}\r\n",
