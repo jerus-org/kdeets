@@ -14,7 +14,7 @@ pub enum Error {
     TameIndex(#[from] tame_index::Error),
     /// Error passed up from reqwest
     #[error("reqwest error says: {0:?}")]
-    Reqwest(#[from] tame_index::external::reqwest::Error),
+    Reqwest(#[from] reqwest::Error),
     /// Error passed up from http
     #[error("http error says: {0:?}")]
     Http(#[from] tame_index::external::http::Error),
