@@ -5,9 +5,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.34] - 2026-10-22
+
+Summary: Changed[1], Fixed[5]
+
+### Fixed
+
+ - fix(deps): update rust crate rstest to 0.28.0
+ - fix(deps): update rust crate webpki-roots to 1.0.10
+ - fix(deps): update rust crate smol_str to 0.3.7
+ - fix(deps): port to tame-index 0.27 sans-IO API
+ - fix(deps): update rust crate tame-index to 0.27.0
+
+### Changed
+
+ - refactor: remove unused cached_krate wrappers
+
 ## [0.1.33] - 2026-10-16
 
-Summary: Chore[1], Fixed[13]
+Summary: Chore[2], Fixed[13]
 
 ### Fixed
 
@@ -189,7 +205,8 @@ Summary: Added[2], Build[1], Changed[2], Chore[1], Documentation[2], Fixed[25], 
  - chore(deps): update rust crate thiserror to 1.0.68
  - chore(deps): update rust crate thiserror to 1.0.67
 
-[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.32...HEAD
+[Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.33...HEAD
+[0.1.33]: https://github.com/jerus-org/kdeets/compare/v0.1.32...v0.1.33
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
 [0.1.31]: https://github.com/jerus-org/kdeets/compare/v0.1.30...v0.1.31
 [0.1.30]: https://github.com/jerus-org/kdeets/compare/v0.1.29...v0.1.30
