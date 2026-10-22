@@ -46,7 +46,7 @@ semver.workspace = true
 smol_str.workspace = true
 tame-index.workspace = true
 thiserror.workspace = true
-webpki-roots = "1.0.9"
+webpki-roots = "1.0.10"
 
 [dev-dependencies]
 fs_extra.workspace = true
