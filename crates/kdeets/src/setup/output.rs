@@ -4,10 +4,7 @@ use crate::ComboIndex;
 use colorful::Colorful;
 use tame_index::{
     IndexDependency, IndexKrate, KrateName, PathBuf,
-    index::{
-        FileLock,
-        local::{LocalRegistryBuilder, ValidKrate, builder::Client},
-    },
+    index::{FileLock, local::builder::LocalRegistryBuilder},
 };
 
 use crate::{Error, LINE_CHAR, SETUP_HEADER};
@@ -79,7 +76,7 @@ impl SetupTestOutputBuilder {
             return Err(Error::LocalRegistryBuilderNotSet);
         };
 
-        let client = Client::build(crate::get_client_builder())?;
+        let client = crate::remote::download_client(crate::get_client_builder())?;
         let index = crate::get_sparse_index()?;
         let index_config = index.index_config()?;
 
@@ -87,7 +84,7 @@ impl SetupTestOutputBuilder {
 
         for version in &index_crate.versions {
             log::debug!("Downloaded for version {}", version.version);
-            let krate = ValidKrate::download(&client, &index_config, version)?;
+            let krate = crate::remote::download_krate(&client, &index_config, version)?;
             krates.push(krate);
         }
 
@@ -433,7 +430,7 @@ mod tests {
             "\n  Local registry set up for \u{1b}[38;5;6mforestry\u{1b}[0m.\n  🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶🭶\n"
         );
         assert_eq!(output.crates, vec![TEST_CRATE_NAME.to_string()]);
-        assert_eq!(output.total, DiskSize::new(9693));
+        assert_eq!(output.total, DiskSize::new(9709));
     }
 
     #[test]
@@ -459,7 +456,7 @@ mod tests {
             output.crates,
             vec![TEST_CRATE_NAME.to_string(), "colored".to_string()]
         );
-        assert_eq!(output.total, DiskSize::new(33699));
+        assert_eq!(output.total, DiskSize::new(33747));
     }
 
     #[test]

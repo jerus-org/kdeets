@@ -5,6 +5,7 @@ const LINE_CHAR: char = '🭶';
 mod combo;
 mod crate_versions;
 mod error;
+mod remote;
 mod rust_versions;
 mod setup;
 
@@ -15,8 +16,8 @@ pub use setup::Setup;
 
 pub(crate) use combo::ComboIndex;
 
+use remote::RemoteSparseIndex;
 use reqwest::blocking::ClientBuilder;
-use tame_index::index::RemoteSparseIndex;
 use tame_index::{IndexLocation, IndexUrl, SparseIndex};
 
 /// Returns `true` if the given version of a crate exists in the crates.io index,
@@ -109,7 +110,7 @@ pub(crate) fn list_versions_in_index(
         .collect())
 }
 
-pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, tame_index::error::Error> {
+pub(crate) fn get_remote_combo_index() -> Result<ComboIndex, Error> {
     let index = get_sparse_index()?;
     let builder = get_client_builder();
     let client = builder.build()?;

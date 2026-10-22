@@ -1,10 +1,9 @@
+use crate::Error;
+use crate::remote::RemoteSparseIndex;
 use tame_index::index::LocalRegistry;
-use tame_index::{
-    Error, IndexKrate, KrateName,
-    index::{FileLock, RemoteSparseIndex},
-};
+use tame_index::{IndexKrate, KrateName, index::FileLock};
 
-/// A wrapper around either a [`RemoteGitIndex`] or [`RemoteSparseIndex`]
+/// A wrapper around either a [`RemoteSparseIndex`] or a [`LocalRegistry`]
 #[non_exhaustive]
 pub enum ComboIndex {
     /// An HTTP sparse index
@@ -28,7 +27,7 @@ impl ComboIndex {
     ) -> Result<Option<IndexKrate>, Error> {
         match self {
             Self::Sparse(index) => index.krate(name, write_cache_entry, lock),
-            Self::Local(lr) => lr.cached_krate(name, lock),
+            Self::Local(lr) => local_krate(lr, name, lock),
         }
     }
 
@@ -42,9 +41,18 @@ impl ComboIndex {
     ) -> Result<Option<IndexKrate>, Error> {
         match self {
             Self::Sparse(index) => index.cached_krate(name, lock),
-            Self::Local(lr) => lr.cached_krate(name, lock),
+            Self::Local(lr) => local_krate(lr, name, lock),
         }
     }
+}
+
+fn local_krate(
+    registry: &LocalRegistry,
+    name: KrateName<'_>,
+    lock: &FileLock,
+) -> Result<Option<IndexKrate>, Error> {
+    let entry = registry.index().krate(name, lock)?;
+    Ok(entry.map(|entry| entry.deserialize()).transpose()?)
 }
 
 impl From<RemoteSparseIndex> for ComboIndex {
