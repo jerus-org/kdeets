@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - deps: lock file maintenance(pr [#250])
 - deps: lock file maintenance(pr [#254])
+- deps: update rust crate tame-index to 0.27.0(pr [#249])
 
 ## [0.1.33] - 2026-10-16
 
@@ -692,6 +693,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#247]: https://github.com/jerus-org/kdeets/pull/247
 [#250]: https://github.com/jerus-org/kdeets/pull/250
 [#254]: https://github.com/jerus-org/kdeets/pull/254
+[#249]: https://github.com/jerus-org/kdeets/pull/249
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.33...HEAD
 [0.1.33]: https://github.com/jerus-org/kdeets/compare/v0.1.32...v0.1.33
 [0.1.32]: https://github.com/jerus-org/kdeets/compare/v0.1.31...v0.1.32
