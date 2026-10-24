@@ -126,21 +126,8 @@ pub(crate) fn get_sparse_index() -> Result<SparseIndex, tame_index::error::Error
 }
 
 pub(crate) fn get_client_builder() -> ClientBuilder {
-    // Create a certificate store using webpki_roots, which packages
-    let rcs: rustls::RootCertStore = webpki_roots::TLS_SERVER_ROOTS.iter().cloned().collect();
-    let client_config = rustls::ClientConfig::builder_with_provider(std::sync::Arc::new(
-        // Use `ring` as the crypto provider
-        rustls::crypto::ring::default_provider(),
-    ))
-    .with_protocol_versions(rustls::DEFAULT_VERSIONS)
-    .unwrap()
-    .with_root_certificates(rcs)
-    .with_no_client_auth();
-
     reqwest::blocking::Client::builder()
-        // Set the TLS backend. Note that this *requires* that the version of
-        // rustls is the same as the one reqwest is using
-        .tls_backend_preconfigured(client_config)
+        .tls_backend_rustls()
 }
 
 #[cfg(test)]

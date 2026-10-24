@@ -35,18 +35,12 @@ clap-verbosity-flag.workspace = true
 colorful.workspace = true
 env_logger.workspace = true
 log.workspace = true
-reqwest = { version = "0.13.5", default-features = false, features = [
-    "blocking",
-    "gzip",
-    "http2",
-    "rustls-no-provider",
-] }
-rustls = { version = "0.23.46", default-features = false, features = ["ring"] }
+reqwest.workspace = true
+rustls.workspace = true
 semver.workspace = true
 smol_str.workspace = true
 tame-index.workspace = true
 thiserror.workspace = true
-webpki-roots = "1.0.11"
 
 [dev-dependencies]
 fs_extra.workspace = true
