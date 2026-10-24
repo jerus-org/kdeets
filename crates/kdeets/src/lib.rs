@@ -126,8 +126,7 @@ pub(crate) fn get_sparse_index() -> Result<SparseIndex, tame_index::error::Error
 }
 
 pub(crate) fn get_client_builder() -> ClientBuilder {
-    reqwest::blocking::Client::builder()
-        .tls_backend_rustls()
+    reqwest::blocking::Client::builder().tls_backend_rustls()
 }
 
 #[cfg(test)]
