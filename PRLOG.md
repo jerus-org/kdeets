@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - deps: update rust crate webpki-roots to 1.0.11(pr [#256])
 - deps: lock file maintenance(pr [#257])
 - deps: lock file maintenance(pr [#258])
+- deps: lock file maintenance(pr [#259])
 
 ## [0.1.34] - 2026-10-22
 
@@ -713,6 +714,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#256]: https://github.com/jerus-org/kdeets/pull/256
 [#257]: https://github.com/jerus-org/kdeets/pull/257
 [#258]: https://github.com/jerus-org/kdeets/pull/258
+[#259]: https://github.com/jerus-org/kdeets/pull/259
 [Unreleased]: https://github.com/jerus-org/kdeets/compare/v0.1.34...HEAD
 [0.1.34]: https://github.com/jerus-org/kdeets/compare/v0.1.33...v0.1.34
 [0.1.33]: https://github.com/jerus-org/kdeets/compare/v0.1.32...v0.1.33
