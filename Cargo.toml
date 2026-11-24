@@ -25,7 +25,7 @@ reqwest = { version = "0.13.5", default-features = false, features = [
 rustls = { version = "0.23.46", default-features = false, features = ["ring"] }
 semver = "1.0.28"
 smol_str = "0.3.7"
-tame-index = { version = "0.27.1", features = ["local-builder"] }
+tame-index = { version = "0.27.2", features = ["local-builder"] }
 thiserror = "2.0.21"
 
 
